@@ -11,7 +11,7 @@ class Game:
         # Wait for user events and react
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.running = False
+                self.running = False # TEST
 
     # The game loop that continuously runs until the `self.running` flag equals false.
     def game_loop(self):
