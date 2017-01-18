@@ -4,8 +4,8 @@ from main_menu import MainScreen
 from game import Game
 
 # The resolution of the application frame
-width = 1024
-height = 700
+width = 800
+height = 600
 
 # The title of the application frame
 title = "Boat Wars"
