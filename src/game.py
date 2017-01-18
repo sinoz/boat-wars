@@ -6,11 +6,14 @@ class Game:
         self.running = running
         self.screen = screen
 
-    # Polls events from the event queue to deal with
+    # Polls events from the event queue to deal with. Should only be used for global events
+    # that apply for all types of screens.
     def poll_events(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 self.quitGame()
+            else:
+                self.screen.on_event(event)
 
     # The game loop that continuously runs until the `self.running` flag equals false.
     def game_loop(self):
