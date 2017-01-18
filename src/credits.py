@@ -10,6 +10,10 @@ class CreditsScreen:
     def update(self):
         pass
 
+    # Handles an event.
+    def on_event(self, event):
+        pass
+
     # Draws the components of this 'getting started' screen.
     def draw(self):
         label = self.font.render("Hello World", 1, (255, 0, 0))
