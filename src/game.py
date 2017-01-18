@@ -29,7 +29,7 @@ class Game:
 
     # Draws all of the recent updates
     def draw(self):
-        self.surface.fill((0, 255, 0))  # Black background
+        self.surface.fill((0, 0, 0))  # Black background
         self.screen.draw()
 
         pygame.display.flip()  # Flips the graphics buffers to draw what's on the `screen`
