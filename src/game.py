@@ -13,6 +13,7 @@ class Game:
         self.running = running
         self.screen = None
         self.language = English
+        self.volume = 100
 
         # NOTE: if you're working on a separate screen (such as hiscores, you can simply
         # change the MainScreen() to your own implementation. Ensure however that your
@@ -27,6 +28,12 @@ class Game:
                 self.set_screen(ExitScreen(self))
             else:
                 self.screen.on_event(event)
+
+    # Updates the current volume
+    def set_volume(self, volume):
+        if volume < 0 or volume > 100:
+            return
+        self.volume = volume
 
     # Updates the language
     def change_language(self, language):
