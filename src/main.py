@@ -17,6 +17,11 @@ pygame.display.set_caption(app.title)
 # We create a surface that will be set to the specified resolution
 surface = pygame.display.set_mode((app.width, app.height))
 
+# The initial music playing code, subject to change
+pygame.mixer.music.load('resources/mp3/intro.mp3')
+pygame.mixer.music.play(-1, 0.0)
+pygame.mixer.music.set_volume(0.3)
+
 # Creates the game and ignites the game loop
 game = Game(app, surface)
 game.game_loop()
