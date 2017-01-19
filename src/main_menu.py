@@ -3,11 +3,12 @@ import pygame
 from getting_started import GettingStartedScreen
 from highscores import HighscoresScreen
 from settings import SettingsScreen
+from credits import CreditsScreen
 
 class MainScreen:
     def __init__(self, game):
         self.game = game
-        self.image = pygame.image.load('resources/screens/main_menu.jpg')
+        self.image = pygame.image.load('resources/screens/' + game.language + '/main_menu.jpg')
 
     # Draws the components of this main menu screen.
     def draw(self):
@@ -31,6 +32,8 @@ class MainScreen:
                 self.game.set_screen(SettingsScreen(self.game))
             elif x >= 356 and y >= 458 and x <= 667 and y <= 538:
                 self.game.set_screen(HighscoresScreen(self.game))
+            elif x >= 914 and y >= 603 and x <= 1001 and y <= 679:
+                self.game.set_screen(CreditsScreen(self.game))
 
     # Updates this main menu screen.
     def update(self):

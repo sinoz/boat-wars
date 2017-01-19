@@ -5,4 +5,12 @@ A 2D game written in Python using PyGame that revolves around wars between boats
 The game is written in Python 3.5 and makes usage of PyGame 1.9.
 
 ## Media
-COMING SOON
+
+### Main Menu
+![alt text](https://i.gyazo.com/433d85fd6271dbe7e8bc13868320000c.png "Main Menu")
+
+### Options (With language switching)
+![alt text](https://i.gyazo.com/1d4e95348494e0eb5c62d9f85cb610bd.png "Option Menu")
+
+### Highscores
+![alt text](https://i.gyazo.com/8a358597610fc1a84e5b5b66b6d75784.png "Highscores")

@@ -5,7 +5,7 @@ from main_menu import MainScreen
 class ExitScreen:
     def __init__(self, game):
         self.game = game
-        self.image = pygame.image.load('resources/screens/exit_menu.jpg')
+        self.image = pygame.image.load('resources/screens/' + game.language + '/exit_menu.jpg')
 
     # Updates this 'getting started' screen.
     def update(self):
