@@ -33,8 +33,8 @@ class MainScreen:
             y = mouse_pos[1]
 
             if x >= 350 and y >= 140 and x <= 670 and y <= 214:
-                from exp import ExperienceInstructionsScreen
-                self.game.set_screen(ExperienceInstructionsScreen(self.game))
+                from exp import ExperienceScreen
+                self.game.set_screen(ExperienceScreen(self.game))
                 click_sound()
             elif x >= 354 and y >= 250 and x <= 668 and y <= 320:
                 from instructions import InstructionsScreen
