@@ -1,6 +1,6 @@
 class HighscoresScreen:
-    def __init__(self, surface):
-        self.surface = surface
+    def __init__(self, game):
+        self.game = game
 
     # Draws the components of this hiscores screen.
     def draw(self):
