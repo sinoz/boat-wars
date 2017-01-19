@@ -1,7 +1,7 @@
 import pygame
 
-from main_menu import MainScreen
 from exit import ExitScreen
+from main_menu import MainScreen
 
 Dutch = "nl"
 English = "eng"
