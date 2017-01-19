@@ -10,6 +10,11 @@ class HighscoresScreen:
         self.font = pygame.font.SysFont("monospace", 42)
         self.scores = db_service.query(HighscoresFetchQuery)
 
+        # The high scores music playing code
+        pygame.mixer.music.load('resources/mp3/High_scores.mp3')
+        pygame.mixer.music.play(-1, 0.0)
+        pygame.mixer.music.set_volume(self.game.volume)
+
     # Draws the components of this hiscores screen.
     def draw(self):
         self.game.surface.blit(self.image, (0, 0))
@@ -26,12 +31,19 @@ class HighscoresScreen:
             mouse_cursor = pygame.mouse.get_cursor()
             mouse_pos = pygame.mouse.get_pos()
 
+            # Plays click sound
+            def click_sound():
+                Click = pygame.mixer.Sound('resources/mp3/Click.ogg')
+                pygame.mixer.Sound.play(Click)
+                Click.set_volume(0.8)
+
             x = mouse_pos[0]
             y = mouse_pos[1]
 
             if x >= 413 and y >= 594 and x <= 646 and y <= 670:
                 from main_menu import MainScreen
                 self.game.set_screen(MainScreen(self.game))
+                click_sound()
 
     # Updates this hiscores screen.
     def update(self):
