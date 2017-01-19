@@ -17,13 +17,21 @@ class ExitScreen:
             mouse_cursor = pygame.mouse.get_cursor()
             mouse_pos = pygame.mouse.get_pos()
 
+            # Plays click sound
+            def click_sound():
+                Click = pygame.mixer.Sound('resources/mp3/Click.ogg')
+                pygame.mixer.Sound.play(Click)
+                Click.set_volume(0.8)
+
             x = mouse_pos[0]
             y = mouse_pos[1]
 
             if x >= 340 and x <= 424 and y >= 350 and y <= 430:
                 self.game.quitGame()
+                click_sound()
             elif x >= 599 and x <= 686 and y >= 351 and y <= 427:
                 self.game.set_screen(MainScreen(self.game))
+                click_sound()
 
             print(x, y)
 

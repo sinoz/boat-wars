@@ -17,6 +17,12 @@ class SettingsScreen:
             mouse_cursor = pygame.mouse.get_cursor()
             mouse_pos = pygame.mouse.get_pos()
 
+            # Plays click sound
+            def click_sound():
+                Click = pygame.mixer.Sound('resources/mp3/Click.ogg')
+                pygame.mixer.Sound.play(Click)
+                Click.set_volume(0.8)
+
             x = mouse_pos[0]
             y = mouse_pos[1]
 
@@ -25,16 +31,21 @@ class SettingsScreen:
             if x >= 406 and x <= 654 and y >= 555 and y <= 649:
                 from main_menu import MainScreen
                 self.game.set_screen(MainScreen(self.game))
+                click_sound()
             elif x >= 618 and x <= 691 and y >= 185 and y <= 266: #TODO
                 self.game.set_volume(self.game.volume - 25)
+                click_sound()
             elif x >= 809 and x <= 865 and y >= 163 and y <= 238: #TODO
                 self.game.set_volume(self.game.volume + 25)
+                click_sound()
             elif x >= 629 and x <= 725 and y >= 313 and y <= 406:
                 self.game.change_language(game.English)
                 self.game.set_screen(SettingsScreen(self.game))
+                click_sound()
             elif x >= 801 and x <= 896 and y >= 312 and y <= 397:
                 self.game.change_language(game.Dutch)
                 self.game.set_screen(SettingsScreen(self.game))
+                click_sound()
 
     # Draws the components of this 'settings' screen.
     def draw(self):

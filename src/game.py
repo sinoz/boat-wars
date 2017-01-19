@@ -34,6 +34,7 @@ class Game:
         if volume < 0 or volume > 100:
             return
         self.volume = volume
+        pygame.mixer.music.set_volume(volume)
 
     # Updates the language
     def change_language(self, language):
