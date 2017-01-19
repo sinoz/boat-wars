@@ -1,6 +1,5 @@
 import pygame
 
-from getting_started import GettingStartedScreen
 from highscores import HighscoresScreen
 from settings import SettingsScreen
 from credits import CreditsScreen
@@ -34,11 +33,12 @@ class MainScreen:
             y = mouse_pos[1]
 
             if x >= 350 and y >= 140 and x <= 670 and y <= 214:
-                from game import GameScreen
-                self.game.set_screen(GameScreen(self.game))
+                from exp import ExperienceInstructionsScreen
+                self.game.set_screen(ExperienceInstructionsScreen(self.game))
                 click_sound()
             elif x >= 354 and y >= 250 and x <= 668 and y <= 320:
-                self.game.set_screen(GettingStartedScreen(self.game))
+                from instructions import InstructionsScreen
+                self.game.set_screen(InstructionsScreen(self.game))
                 click_sound()
             elif x >= 359 and y >= 355 and x <= 670 and y <= 428:
                 self.game.set_screen(SettingsScreen(self.game))
