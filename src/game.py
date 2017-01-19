@@ -1,19 +1,32 @@
 import pygame
 
+from main_menu import MainScreen
+from exit import ExitScreen
+
 class Game:
-    def __init__(self, surface, screen, running=True):
+    def __init__(self, app, surface, running=True):
+        self.app = app
         self.surface = surface
         self.running = running
-        self.screen = screen
+        self.screen = None
+
+        # NOTE: if you're working on a separate screen (such as hiscores, you can simply
+        # change the MainScreen() to your own implementation. Ensure however that your
+        # implementation contains the `update()` and `draw()` methods
+        self.set_screen(MainScreen(self))
 
     # Polls events from the event queue to deal with. Should only be used for global events
     # that apply for all types of screens.
     def poll_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                self.quitGame()
+                self.set_screen(ExitScreen(self))
             else:
                 self.screen.on_event(event)
+
+    # Updates the current screen
+    def set_screen(self, screen):
+        self.screen = screen
 
     # The game loop that continuously runs until the `self.running` flag equals false.
     def game_loop(self):
@@ -36,3 +49,19 @@ class Game:
         self.screen.draw()
 
         pygame.display.flip()  # Flips the graphics buffers to draw what's on the `screen`
+
+class GameScreen:
+    def __init__(self, game):
+        self.game = game
+
+    # Updates this 'getting started' screen.
+    def update(self):
+        pass
+
+    # Handles an event.
+    def on_event(self, event):
+        pass
+
+    # Draws the components of this 'getting started' screen.
+    def draw(self):
+        pass
