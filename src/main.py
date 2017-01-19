@@ -20,7 +20,7 @@ surface = pygame.display.set_mode((app.width, app.height))
 # The initial music playing code, subject to change
 pygame.mixer.music.load('resources/mp3/intro.mp3')
 pygame.mixer.music.play(-1, 0.0)
-pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.set_volume(0)
 
 # Creates the game and ignites the game loop
 game = Game(app, surface)
