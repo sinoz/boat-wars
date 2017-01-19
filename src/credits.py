@@ -2,7 +2,7 @@ import pygame.sysfont
 
 class CreditsScreen:
     def __init__(self, game):
-        self.image = pygame.image.load('resources/screens/credits.jpg')
+        self.image = pygame.image.load('resources/screens/' + game.language + '/credits.jpg')
         self.game = game
 
     # Updates this 'credits' screen.

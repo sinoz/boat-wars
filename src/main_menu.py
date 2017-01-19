@@ -8,7 +8,7 @@ from credits import CreditsScreen
 class MainScreen:
     def __init__(self, game):
         self.game = game
-        self.image = pygame.image.load('resources/screens/main_menu.jpg')
+        self.image = pygame.image.load('resources/screens/' + game.language + '/main_menu.jpg')
 
     # Draws the components of this main menu screen.
     def draw(self):

@@ -3,12 +3,16 @@ import pygame
 from main_menu import MainScreen
 from exit import ExitScreen
 
+Dutch = "nl"
+English = "eng"
+
 class Game:
     def __init__(self, app, surface, running=True):
         self.app = app
         self.surface = surface
         self.running = running
         self.screen = None
+        self.language = English
 
         # NOTE: if you're working on a separate screen (such as hiscores, you can simply
         # change the MainScreen() to your own implementation. Ensure however that your
@@ -23,6 +27,10 @@ class Game:
                 self.set_screen(ExitScreen(self))
             else:
                 self.screen.on_event(event)
+
+    # Updates the language
+    def change_language(self, language):
+        self.language = language
 
     # Updates the current screen
     def set_screen(self, screen):
