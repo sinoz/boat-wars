@@ -1,6 +1,6 @@
 class GettingStartedScreen:
-    def __init__(self, surface):
-        self.surface = surface
+    def __init__(self, game):
+        self.game = game
 
     # Updates this 'getting started' screen.
     def update(self):
