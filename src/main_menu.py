@@ -1,9 +1,10 @@
 import pygame
 
-from getting_started import GettingStartedScreen
 from highscores import HighscoresScreen
 from settings import SettingsScreen
 from credits import CreditsScreen
+from exp import ExperienceScreen
+from instructions import InstructionsScreen
 
 class MainScreen:
     def __init__(self, game):
@@ -24,10 +25,9 @@ class MainScreen:
             y = mouse_pos[1]
 
             if x >= 350 and y >= 140 and x <= 670 and y <= 214:
-                from game import GameScreen
-                self.game.set_screen(GameScreen(self.game))
+                self.game.set_screen(ExperienceScreen(self.game))
             elif x >= 354 and y >= 250 and x <= 668 and y <= 320:
-                self.game.set_screen(GettingStartedScreen(self.game))
+                self.game.set_screen(InstructionsScreen(self.game))
             elif x >= 359 and y >= 355 and x <= 670 and y <= 428:
                 self.game.set_screen(SettingsScreen(self.game))
             elif x >= 356 and y >= 458 and x <= 667 and y <= 538:

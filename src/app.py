@@ -4,4 +4,4 @@ class AppContext:
     def __init__(self):
         self.title = "Boat Wars"
         self.width = 1024
-        self.height = 680
+        self.height = 690
