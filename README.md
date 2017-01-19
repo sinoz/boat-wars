@@ -13,4 +13,4 @@ The game is written in Python 3.5 and makes usage of PyGame 1.9.
 ![alt text](https://i.gyazo.com/1d4e95348494e0eb5c62d9f85cb610bd.png "Option Menu")
 
 ### Highscores
-COMING SOON
+![alt text](https://i.gyazo.com/8a358597610fc1a84e5b5b66b6d75784.png "Highscores")
