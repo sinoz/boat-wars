@@ -18,7 +18,7 @@ class MainScreen:
         self.game.surface.blit(self.image, (0, 0))
 
     # Handles an event.
-    def on_event(self, event):
+    def on_event(self, event): # TODO use widget.button instead of hardcoding
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_cursor = pygame.mouse.get_cursor()
             mouse_pos = pygame.mouse.get_pos()

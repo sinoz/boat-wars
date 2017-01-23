@@ -11,7 +11,7 @@ class GameScreen:
         self.cards_button = widget.button.Button((890, 98), (113, 178), self.display_cards)
         self.attack_mode_button = widget.button.Button((887, 350), (119, 65), self.set_attack_mode)
         self.defense_mode_button = widget.button.Button((885, 432), (122, 68), self.set_defense_mode)
-        self.end_turn_button = widget.button.Button((), (), self.end_turn)
+        self.end_turn_button = widget.button.Button((885, 608), (126, 79), self.end_turn)
 
     # Updates this 'game' screen.
     def update(self):

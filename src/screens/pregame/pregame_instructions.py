@@ -1,5 +1,6 @@
 import pygame
 import screens.sound as sound
+import screens.game.session
 
 class PreGameInstructionsScreen:
     def __init__(self, game):
@@ -12,7 +13,7 @@ class PreGameInstructionsScreen:
         pass
 
     # Handles an event.
-    def on_event(self, event):
+    def on_event(self, event): # TODO use widget.button instead of hardcoding
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_cursor = pygame.mouse.get_cursor()
             mouse_pos = pygame.mouse.get_pos()
@@ -36,8 +37,7 @@ class PreGameInstructionsScreen:
                 self.game.set_screen(RulesScreen(self.game))
             elif x >= 593 and y >= 523 and x <= 887 and y <= 604:
                 sound.Plopperdeplop.tune(self, 'click')
-                from screens.game.game import GameScreen
-                self.game.set_screen(GameScreen(self.game))
+                self.game.set_screen(screens.game.session.SessionScreen(self.game))
 
     # Draws the components of this 'pregame instructions' screen.
     def draw(self):

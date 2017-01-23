@@ -1,6 +1,7 @@
 import pygame
 
 import play.grid
+import screens.main_menu
 import screens.game.game
 from screens.termination import ExitScreen
 
@@ -20,7 +21,7 @@ class Canvas:
         # NOTE: if you're working on a separate screen (such as hiscores, you can simply
         # change the MainScreen() to your own implementation. Ensure however that your
         # implementation contains the `update()` and `draw()` methods
-        self.set_screen(screens.game.game.GameScreen(self))
+        self.set_screen(screens.main_menu.MainScreen(self))
 
     # Polls events from the event queue to deal with. Should only be used for global events
     # that apply for all types of screens.

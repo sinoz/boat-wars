@@ -3,10 +3,13 @@ import pygame
 import screens.pregame.pregame_instructions
 import screens.sound as sound
 
+import widget.button
+
 class PreGameIntroductionScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/pregame/pregame_introduction.jpg')
+        self.button1 = widget.button.Button((684, 542), (319, 77), self.xd)
         sound.Plopperdeplop.music(self, 'intro')
 
     # Updates this 'pregame introduction' screen.
@@ -15,18 +18,12 @@ class PreGameIntroductionScreen:
 
     # Handles an event.
     def on_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_cursor = pygame.mouse.get_cursor()
-            mouse_pos = pygame.mouse.get_pos()
+        self.button1.on_event(event)
 
-            x = mouse_pos[0]
-            y = mouse_pos[1]
-
-            print(x, y)
-
-            if x >= 684 and y >= 542 and x <= 1003 and y <= 619:
-                sound.Plopperdeplop.tune(self, 'click')
-                self.game.set_screen(screens.pregame.pregame_instructions.PreGameInstructionsScreen(self.game))
+    # TODO
+    def xd(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
+        self.game.set_screen(screens.pregame.pregame_instructions.PreGameInstructionsScreen(self.game))
 
     # Draws the components of this 'pregame introduction' screen.
     def draw(self):
