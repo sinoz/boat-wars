@@ -1,4 +1,5 @@
 import pygame
+import screens.sound as sound
 
 class ExitScreen:
     def __init__(self, game, prev=None):
@@ -20,20 +21,14 @@ class ExitScreen:
             y = mouse_pos[1]
 
             if x >= 340 and x <= 424 and y >= 350 and y <= 430:
+                sound.Plopperdeplop.tune(self, 'click')
                 self.game.quitGame()
-                self.click_sound()
             elif x >= 599 and x <= 686 and y >= 351 and y <= 427:
+                sound.Plopperdeplop.tune(self, 'click')
                 self.game.set_screen(self.prev)
-                self.click_sound()
 
             print(x, y)
 
     # Draws the components of this 'termination' screen.
     def draw(self):
         self.game.surface.blit(self.image, (0, 0))
-
-    # Plays click sound
-    def click_sound(self):
-        Click = pygame.mixer.Sound('resources/mp3/Click.ogg')
-        pygame.mixer.Sound.play(Click)
-        Click.set_volume(0.8)
