@@ -13,6 +13,7 @@ class CreditsScreen:
         self.image = pygame.image.load('resources/screens/' + game.language + '/credits.jpg')
         self.game = game
         self.return_button = widget.button.Button((20, 604), (88, 72), self.return_to_main)
+        sound.Plopperdeplop.music(self, 'credits')
 
     # Updates this 'credits' screen.
     def update(self):

@@ -11,7 +11,6 @@ class RulesScreen:
         self.prev = prev
         self.image = pygame.image.load('resources/screens/' + game.language + '/pregame/pregame_rules.jpg')
         self.return_to_prev = widget.button.Button((17, 595), (91, 75), self.xd)
-        sound.Plopperdeplop.music(self, 'intro')
 
     # Updates this 'pregame rules' screen.
     def update(self):

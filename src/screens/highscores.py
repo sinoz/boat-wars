@@ -15,10 +15,6 @@ class HighscoresScreen:
         self.font = pygame.font.SysFont("monospace", 42)
         self.return_button = widget.button.Button((16, 600), (93, 77), self.return_to_main)
         self.scores = db.db_service.query(HighscoresFetchQuery)
-        self.play_music()
-
-    # Plays the appropriate music for this screen
-    def play_music(self):
         sound.Plopperdeplop.music(self, 'high_scores')
 
     # Draws the components of this highscores screen.

@@ -27,13 +27,9 @@ class Plopperdeplop:
         elif song == 'victory':
             pygame.mixer.music.load('resources/mp3/Victory.mp3')
         elif song == 'battle_music':
-            pygame.mixer.Channel.queue('resources/mp3/Battle_music.mp3')
-            pygame.mixer.Channel.queue('resources/mp3/Battle_music2.mp3')
-            pygame.mixer.Channel.queue('resources/mp3/Battle_music3.mp3')
-            pygame.mixer.Channel.play(-1, 0.0)
-        if song != 'battle_music':
-            pygame.mixer.music.play(-1, 0.0)
+            pygame.mixer.music.load('resources/mp3/Battle_music.mp3')
 
+        pygame.mixer.music.play(-1)
         global current_song
         current_song = song
         pygame.mixer.music.set_volume(self.game.volume)
