@@ -7,7 +7,6 @@ class PreGameIntroductionScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/pregame/pregame_introduction.jpg')
-        sound.Plopperdeplop.music(self, 'intro')
 
     # Updates this 'pregame introduction' screen.
     def update(self):

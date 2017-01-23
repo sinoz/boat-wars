@@ -11,7 +11,6 @@ class SettingsScreen:
         self.game = game
         self.font = pygame.font.SysFont("monospace", 45)
         self.image = pygame.image.load('resources/screens/' + game.language + '/options_menu.jpg')
-        sound.Plopperdeplop.music(self, 'intro')
 
         # Return button
         self.return_button = widget.button.Button((406, 555), (248, 94), self.return_to_main)

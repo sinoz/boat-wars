@@ -10,7 +10,6 @@ class InstructionsScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/instructions.jpg')
-        sound.Plopperdeplop.music(self, 'intro')
 
     # Updates this 'settings' screen.
     def update(self):

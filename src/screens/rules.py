@@ -7,7 +7,6 @@ class RulesScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/rules.jpg')
-        sound.Plopperdeplop.music(self, 'intro')
 
     # Updates this 'rules' screen.
     def update(self):
