@@ -1,12 +1,12 @@
 import pygame
 
 class TextField:
-    def __init__(self, game, point, dimension, color, maxLength, text=""):
+    def __init__(self, game, point, dimension, color, fontSize, maxLength, text=""):
         self.game = game
         self.point = point
         self.dimension = dimension
         self.color = color
-        self.font = pygame.font.SysFont("monospace", 30)
+        self.font = pygame.font.SysFont("monospace", fontSize)
         self.maxLength = maxLength
         self.text = text
 
@@ -24,10 +24,10 @@ class TextField:
             end_x = offset_x + self.dimension[0]
             end_y = offset_y + self.dimension[1]
 
+            # TODO if clicked outside, reset keyboard focus without ruining the order text field click events are polled
+            # TODO (which causes keyboard focus to stop working because text field 2 is not inside of text field 1
             if click_x >= offset_x and click_y >= offset_y and click_x <= end_x and click_y <= end_y:
                 self.game.activeTextField = self
-            else:
-                self.game.activeTextField = None
         elif event.type == pygame.KEYDOWN and self.game.activeTextField is self:
             if event.key != pygame.K_BACKSPACE:
                self.add_character(chr(event.key))
