@@ -1,9 +1,12 @@
 import pygame
+import widget.button
 
 class ExitScreen:
     def __init__(self, game, prev=None):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/termination.jpg')
+        self.close_app = widget.button.Button((340, 350), (84, 80), self.close_app)
+        self.return_button = widget.button.Button((599, 351), (87, 76), self.return_to_prev)
         self.prev = prev
 
     # Updates this 'termination' screen.
@@ -12,21 +15,18 @@ class ExitScreen:
 
     # Handles an event.
     def on_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_cursor = pygame.mouse.get_cursor()
-            mouse_pos = pygame.mouse.get_pos()
+        self.close_app.on_event(event)
+        self.return_button.on_event(event)
 
-            x = mouse_pos[0]
-            y = mouse_pos[1]
+    # Reacts to the user confirming to close the application
+    def close_app(self, x, y, cursor):
+        self.game.quitGame()
+        self.click_sound()
 
-            if x >= 340 and x <= 424 and y >= 350 and y <= 430:
-                self.game.quitGame()
-                self.click_sound()
-            elif x >= 599 and x <= 686 and y >= 351 and y <= 427:
-                self.game.set_screen(self.prev)
-                self.click_sound()
-
-            print(x, y)
+    # Reacts to the user confirming to return to the previous screen
+    def return_to_prev(self, x, y, cursor):
+        self.game.set_screen(self.prev)
+        self.click_sound()
 
     # Draws the components of this 'termination' screen.
     def draw(self):

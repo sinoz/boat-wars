@@ -4,13 +4,15 @@ import pygame.sysfont
 import screens.main_menu
 import screens.sound as sound
 
+import widget.button
+
 pygame.init()
 
 class CreditsScreen:
     def __init__(self, game):
         self.image = pygame.image.load('resources/screens/' + game.language + '/credits.jpg')
         self.game = game
-        sound.Plopperdeplop.music(self, 'credits')
+        self.return_button = widget.button.Button((20, 604), (88, 72), self.return_to_main)
 
     # Updates this 'credits' screen.
     def update(self):
@@ -18,18 +20,12 @@ class CreditsScreen:
 
     # Handles an event.
     def on_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_cursor = pygame.mouse.get_cursor()
-            mouse_pos = pygame.mouse.get_pos()
+        self.return_button.on_event(event)
 
-            x = mouse_pos[0]
-            y = mouse_pos[1]
-
-            print(x, y)
-
-            if x >= 421 and y >= 536 and x <= 642 and y <= 628:
-                sound.Plopperdeplop.tune(self, 'click')
-                self.game.set_screen(screens.main_menu.MainScreen(self.game))
+    # Reacts to the user pressing on the return button
+    def return_to_main(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
+        self.game.set_screen(screens.main_menu.MainScreen(self.game))
 
     # Draws the components of this 'credits' screen.
     def draw(self):

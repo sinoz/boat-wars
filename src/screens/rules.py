@@ -1,7 +1,5 @@
 import pygame
 
-import screens.instructions
-
 class RulesScreen:
     def __init__(self, game, prev=None):
         self.game = game

@@ -1,11 +1,13 @@
 import pygame
 
-import screens.instructions
+import widget.button
 
 class IntroductionScreen:
-    def __init__(self, game):
+    def __init__(self, game, prev=None):
         self.game = game
+        self.prev = prev
         self.image = pygame.image.load('resources/screens/' + game.language + '/introduction.jpg')
+        self.button1 = widget.button.Button((685, 539), (316, 79), lambda x, y, cursor: game.set_screen(prev))
 
     # Updates this 'introduction' screen.
     def update(self):
@@ -13,18 +15,7 @@ class IntroductionScreen:
 
     # Handles an event.
     def on_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_cursor = pygame.mouse.get_cursor()
-            mouse_pos = pygame.mouse.get_pos()
-
-            x = mouse_pos[0]
-            y = mouse_pos[1]
-
-            print(x, y)
-
-            print("topkek")
-            if x >= 685 and y >= 539 and x <= 1001 and y <= 618:
-                self.game.set_screen(screens.instructions.InstructionsScreen(self.game))
+        self.button1.on_event(event)
 
     # Draws the components of this 'introduction' screen.
     def draw(self):

@@ -1,31 +1,27 @@
 import pygame
 
-<<<<<<< HEAD
-from db import db_service
 import screens.sound as sound
-=======
-import db.db_service
-import screens.main_menu
->>>>>>> 3326d3a413de3779ded884cd238299ae09b5dad8
+import widget.button
+from db import db_service
 
 HighscoresFetchQuery = 'SELECT name, score FROM players ORDER BY score DESC LIMIT 10;'
 
 class HighscoresScreen:
-    def __init__(self, game):
+    def __init__(self, game, prev=None):
         self.image = pygame.image.load('resources/screens/' + game.language + '/highscores.jpg')
         self.game = game
+        self.prev = prev
+
+        self.button = widget.button.Button((20, 604), (88, 72), self.return_to_prev)
         self.font = pygame.font.SysFont("monospace", 42)
-<<<<<<< HEAD
         self.scores = db_service.query(HighscoresFetchQuery)
+
         sound.Plopperdeplop.music(self, 'high_scores')
-=======
-        self.scores = db.db_service.query(HighscoresFetchQuery)
 
         # The high scores music playing code
         pygame.mixer.music.load('resources/mp3/High_scores.mp3')
         pygame.mixer.music.play(-1, 0.0)
         pygame.mixer.music.set_volume(self.game.volume)
->>>>>>> 3326d3a413de3779ded884cd238299ae09b5dad8
 
     # Draws the components of this highscores screen.
     def draw(self):
@@ -37,24 +33,14 @@ class HighscoresScreen:
             self.game.surface.blit(label, (480, 190 + offset))
             offset += 78
 
+    # Reacts to the user pressing on the return button
+    def return_to_prev(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
+        self.game.set_screen(self.prev)
+
     # Handles an event.
     def on_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_cursor = pygame.mouse.get_cursor()
-            mouse_pos = pygame.mouse.get_pos()
-
-            x = mouse_pos[0]
-            y = mouse_pos[1]
-
-            if x >= 413 and y >= 594 and x <= 646 and y <= 670:
-<<<<<<< HEAD
-                sound.Plopperdeplop.tune(self, 'click')
-                from screens.main_menu import MainScreen
-                self.game.set_screen(MainScreen(self.game))
-=======
-                self.game.set_screen(screens.main_menu.MainScreen(self.game))
-                click_sound()
->>>>>>> 3326d3a413de3779ded884cd238299ae09b5dad8
+        self.button.on_event(event)
 
     # Updates this highscores screen.
     def update(self):

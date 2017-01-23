@@ -23,6 +23,8 @@ class Button:
             end_x = offset_x + self.dimension[0]
             end_y = offset_y + self.dimension[1]
 
+            print(click_x, click_y)
+
             if click_x >= offset_x and click_y >= offset_y and click_x <= end_x and click_y <= end_y:
                 self.listener(click_x, click_y, mouse_cursor)
 

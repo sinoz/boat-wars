@@ -1,7 +1,6 @@
 import pygame
 
 import screens
-
 import screens.introduction
 import screens.rules
 import screens.sound as sound
@@ -28,7 +27,7 @@ class InstructionsScreen:
             print(x, y)
 
             if x >= 106 and y >= 223 and x <= 400 and x <= 304:
-                self.game.set_screen(screens.introduction.IntroductionScreen(self.game))
+                self.game.set_screen(screens.introduction.IntroductionScreen(self.game, self))
             elif x >= 623 and y >= 218 and x <= 916 and y <= 298:
                 self.game.set_screen(screens.rules.RulesScreen(self.game, self))
             elif x >= 395 and y >= 530 and x <= 652 and y <= 614:

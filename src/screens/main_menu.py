@@ -37,7 +37,7 @@ class MainScreen:
                 self.game.set_screen(settings.SettingsScreen(self.game))
             elif x >= 356 and y >= 458 and x <= 667 and y <= 538:
                 sound.Plopperdeplop.tune(self, 'click')
-                self.game.set_screen(highscores.HighscoresScreen(self.game))
+                self.game.set_screen(highscores.HighscoresScreen(self.game, self))
             elif x >= 914 and y >= 603 and x <= 1001 and y <= 679:
                 sound.Plopperdeplop.tune(self, 'click')
                 self.game.set_screen(credits.CreditsScreen(self.game))

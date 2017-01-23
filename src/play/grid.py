@@ -22,13 +22,9 @@ class Grid:
         pass
 
     # Handles an event
-    def on_events(self, event):
+    def on_event(self, event):
         pass
 
     # Draws the components of this grid
     def draw(self):
-        for tile_y in range(0, self.grid_height):
-            for tile_x in range(0, self.grid_width):
-                for pixel_y in range(0, self.tile_height):
-                    for pixel_x in range(0, self.tile_width):
-                        self.surface.set_at(((tile_x * pixel_x) + 100, (tile_y + pixel_y) + 100), pygame.Color(0, 255, 0))
+        pass # TODO

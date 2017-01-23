@@ -35,12 +35,8 @@ class PreGameInstructionsScreen:
                 from screens.pregame.pregame_rules import RulesScreen
                 self.game.set_screen(RulesScreen(self.game))
             elif x >= 593 and y >= 523 and x <= 887 and y <= 604:
-<<<<<<< HEAD
                 sound.Plopperdeplop.tune(self, 'click')
-                from screens.game import GameScreen
-=======
                 from screens.game.game import GameScreen
->>>>>>> 3326d3a413de3779ded884cd238299ae09b5dad8
                 self.game.set_screen(GameScreen(self.game))
 
     # Draws the components of this 'pregame instructions' screen.
