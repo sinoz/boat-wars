@@ -3,8 +3,9 @@ import widget.text_field
 class SessionScreen:
     def __init__(self, game):
         self.game = game
-        self.p1_name = widget.text_field.TextField(game, (100, 100), (250, 250), (0, 255, 0), "Naam van speler 1")
-        self.p2_name = widget.text_field.TextField(game, (100, 300), (250, 250), (0, 255, 0), "Naam van speler 2")
+        self.p1_name = widget.text_field.TextField(game, (100, 100), (250, 250), (0, 255, 0), 10, "Naam van speler 1")
+        self.p2_name = widget.text_field.TextField(game, (100, 300), (250, 250), (0, 255, 0), 10, "Naam van speler 2")
+        self.game.apply_keyboard_focus(self.p1_name)
 
     # Updates this 'session' screen.
     def update(self):

@@ -7,7 +7,7 @@ class IntroductionScreen:
         self.game = game
         self.prev = prev
         self.image = pygame.image.load('resources/screens/' + game.language + '/introduction.jpg')
-        self.return_button = widget.button.Button((685, 539), (316, 79), lambda x, y, cursor: game.set_screen(prev))
+        self.return_button = widget.button.Button((17, 595), (91, 75), lambda x, y, cursor: game.set_screen(prev))
 
     # Updates this 'introduction' screen.
     def update(self):

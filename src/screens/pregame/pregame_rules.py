@@ -6,10 +6,11 @@ import screens.sound as sound
 import widget.button
 
 class RulesScreen:
-    def __init__(self, game):
+    def __init__(self, game, prev=None):
         self.game = game
+        self.prev = prev
         self.image = pygame.image.load('resources/screens/' + game.language + '/pregame/pregame_rules.jpg')
-        self.to_rules = widget.button.Button((385, 587), (296, 80), lambda x, y, cursor: self.xd)
+        self.return_to_prev = widget.button.Button((17, 595), (91, 75), self.xd)
         sound.Plopperdeplop.music(self, 'intro')
 
     # Updates this 'pregame rules' screen.
@@ -18,12 +19,12 @@ class RulesScreen:
 
     # Handles an event.
     def on_event(self, event):
-        self.to_rules.on_event(event)
+        self.return_to_prev.on_event(event)
 
     # TODO
     def xd(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
-        self.game.set_screen(screens.pregame.pregame_instructions.PreGameInstructionsScreen(self.game))
+        self.game.set_screen(self.prev)
 
     # Draws the components of this 'pregame rules' screen.
     def draw(self):

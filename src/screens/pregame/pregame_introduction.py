@@ -9,7 +9,7 @@ class PreGameIntroductionScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/pregame/pregame_introduction.jpg')
-        self.button1 = widget.button.Button((684, 542), (319, 77), self.xd)
+        self.button1 = widget.button.Button((17, 595), (91, 75), self.xd)
 
     # Updates this 'pregame introduction' screen.
     def update(self):

@@ -22,19 +22,19 @@ class PreGameInstructionsScreen:
 
             print(x, y)
 
-            if x >= 175 and y >= 526 and x <= 452 and y <= 611:
+            if x >= 17 and y >= 595 and x <= 17 + 91 and y <= 75 + 595:
                 sound.Plopperdeplop.tune(self, 'click')
                 from screens.main_menu import MainScreen
                 self.game.set_screen(MainScreen(self.game))
-            elif x >= 106 and y >= 225 and x <= 402 and y <= 306:
+            elif x >= 106 and y >= 226 and x <= 400 and y <= 310:
                 sound.Plopperdeplop.tune(self, 'click')
                 from screens.pregame.pregame_introduction import PreGameIntroductionScreen
                 self.game.set_screen(PreGameIntroductionScreen(self.game))
-            elif x >= 623 and y >= 219 and x <= 925 and y <= 303:
+            elif x >= 623 and y >= 221 and x <= 923 and y <= 305:
                 sound.Plopperdeplop.tune(self, 'click')
                 from screens.pregame.pregame_rules import RulesScreen
-                self.game.set_screen(RulesScreen(self.game))
-            elif x >= 593 and y >= 523 and x <= 887 and y <= 604:
+                self.game.set_screen(RulesScreen(self.game, self))
+            elif x >= 726 and y >= 586 and x <= 994 and y <= 670:
                 sound.Plopperdeplop.tune(self, 'click')
                 self.game.set_screen(screens.game.session.SessionScreen(self.game))
 

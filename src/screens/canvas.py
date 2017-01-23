@@ -48,6 +48,10 @@ class Canvas:
     def set_screen(self, screen):
         self.screen = screen
 
+    # Applies a keyboard focus on the specified widget
+    def apply_keyboard_focus(self, widget):
+        self.activeTextField = widget
+
     # The play loop that continuously runs until the `self.running` flag equals false.
     def game_loop(self):
         while self.running:

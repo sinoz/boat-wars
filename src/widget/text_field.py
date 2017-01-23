@@ -1,12 +1,13 @@
 import pygame
 
 class TextField:
-    def __init__(self, game, point, dimension, color, text=""):
+    def __init__(self, game, point, dimension, color, maxLength, text=""):
         self.game = game
         self.point = point
         self.dimension = dimension
         self.color = color
         self.font = pygame.font.SysFont("monospace", 30)
+        self.maxLength = maxLength
         self.text = text
 
     def on_event(self, event):
@@ -25,6 +26,8 @@ class TextField:
 
             if click_x >= offset_x and click_y >= offset_y and click_x <= end_x and click_y <= end_y:
                 self.game.activeTextField = self
+            else:
+                self.game.activeTextField = None
         elif event.type == pygame.KEYDOWN and self.game.activeTextField is self:
             if event.key != pygame.K_BACKSPACE:
                self.add_character(chr(event.key))
@@ -36,7 +39,8 @@ class TextField:
         self.game.surface.blit(label, self.point)
 
     def add_character(self, character):
-        self.text += character
+        if len(self.text) < self.maxLength:
+            self.text += character
 
     def remove_character(self):
         if len(self.text) > 0:
