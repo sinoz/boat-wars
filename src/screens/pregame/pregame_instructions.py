@@ -1,11 +1,11 @@
 import pygame
 
-class ExperienceInstructionsScreen:
+class PreGameInstructionsScreen:
     def __init__(self, game):
         self.game = game
-        self.image = pygame.image.load('resources/screens/' + game.language + '/exp_instr.jpg')
+        self.image = pygame.image.load('resources/screens/' + game.language + '/pregame/pregame_instructions.jpg')
 
-    # Updates this 'settings' screen.
+    # Updates this 'pregame instructions' screen.
     def update(self):
         pass
 
@@ -21,18 +21,18 @@ class ExperienceInstructionsScreen:
             print(x, y)
 
             if x >= 175 and y >= 526 and x <= 452 and y <= 611:
-                from main_menu import MainScreen
+                from screens.main_menu import MainScreen
                 self.game.set_screen(MainScreen(self.game))
             elif x >= 106 and y >= 225 and x <= 402 and y <= 306:
-                from intro_exp import IntroductionScreen
-                self.game.set_screen(IntroductionScreen(self.game))
+                from screens.pregame.pregame_introduction import PreGameIntroductionScreen
+                self.game.set_screen(PreGameIntroductionScreen(self.game))
             elif x >= 623 and y >= 219 and x <= 925 and y <= 303:
-                from rules_exp import RulesScreen
+                from screens.pregame.pregame_rules import RulesScreen
                 self.game.set_screen(RulesScreen(self.game))
             elif x >= 593 and y >= 523 and x <= 887 and y <= 604:
-                from game import GameScreen
+                from screens.game import GameScreen
                 self.game.set_screen(GameScreen(self.game))
 
-    # Draws the components of this 'settings' screen.
+    # Draws the components of this 'pregame instructions' screen.
     def draw(self):
         self.game.surface.blit(self.image, (0, 0))

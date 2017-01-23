@@ -1,11 +1,13 @@
 import pygame
 
-class RulesScreen:
+import screens.instructions
+
+class IntroductionScreen:
     def __init__(self, game):
         self.game = game
-        self.image = pygame.image.load('resources/screens/' + game.language + '/rules.jpg')
+        self.image = pygame.image.load('resources/screens/' + game.language + '/introduction.jpg')
 
-    # Updates this 'settings' screen.
+    # Updates this 'introduction' screen.
     def update(self):
         pass
 
@@ -20,10 +22,10 @@ class RulesScreen:
 
             print(x, y)
 
-            if x >= 384 and y >= 587 and x <= 683 and y <= 667:
-                from instructions import InstructionsScreen
-                self.game.set_screen(InstructionsScreen(self.game))
+            print("topkek")
+            if x >= 685 and y >= 539 and x <= 1001 and y <= 618:
+                self.game.set_screen(screens.instructions.InstructionsScreen(self.game))
 
-    # Draws the components of this 'settings' screen.
+    # Draws the components of this 'introduction' screen.
     def draw(self):
         self.game.surface.blit(self.image, (0, 0))

@@ -1,13 +1,14 @@
 import pygame
 
-from exp_instr import ExperienceInstructionsScreen
+import screens.pregame.pregame_instructions
+import screens.game
 
 class ExperienceScreen:
     def __init__(self, game):
         self.game = game
-        self.image = pygame.image.load('resources/screens/' + game.language + '/exp.jpg')
+        self.image = pygame.image.load('resources/screens/' + game.language + '/experience.jpg')
 
-    # Updates this 'settings' screen.
+    # Updates this 'experience' screen.
     def update(self):
         pass
 
@@ -23,11 +24,10 @@ class ExperienceScreen:
             print(x, y)
 
             if x >= 311 and y >= 378 and x <= 395 and y <= 456:
-                from game import GameScreen
-                self.game.set_screen(GameScreen(self.game))
+                self.game.set_screen(screens.game.GameScreen(self.game))
             elif x >= 619 and y >= 379 and x <= 708 and y <= 454:
-                self.game.set_screen(ExperienceInstructionsScreen(self.game))
+                self.game.set_screen(screens.pregame.pregame_instructions.PreGameInstructionsScreen(self.game))
 
-    # Draws the components of this 'settings' screen.
+    # Draws the components of this 'experience' screen.
     def draw(self):
         self.game.surface.blit(self.image, (0, 0))

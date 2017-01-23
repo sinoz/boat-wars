@@ -1,7 +1,8 @@
 import pygame
-import db_service
 
-HighscoresFetchQuery = 'SELECT name, score FROM players ORDER BY score DESC LIMIT 5;'
+from db import db_service
+
+HighscoresFetchQuery = 'SELECT name, score FROM players ORDER BY score DESC LIMIT 10;'
 
 class HighscoresScreen:
     def __init__(self, game):
@@ -15,7 +16,7 @@ class HighscoresScreen:
         pygame.mixer.music.play(-1, 0.0)
         pygame.mixer.music.set_volume(self.game.volume)
 
-    # Draws the components of this hiscores screen.
+    # Draws the components of this highscores screen.
     def draw(self):
         self.game.surface.blit(self.image, (0, 0))
 
@@ -41,10 +42,10 @@ class HighscoresScreen:
             y = mouse_pos[1]
 
             if x >= 413 and y >= 594 and x <= 646 and y <= 670:
-                from main_menu import MainScreen
+                from screens.main_menu import MainScreen
                 self.game.set_screen(MainScreen(self.game))
                 click_sound()
 
-    # Updates this hiscores screen.
+    # Updates this highscores screen.
     def update(self):
         pass

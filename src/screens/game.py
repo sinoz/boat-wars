@@ -1,7 +1,7 @@
 import pygame
 
-from exit import ExitScreen
-from main_menu import MainScreen
+from screens.main_menu import MainScreen
+from screens.termination import ExitScreen
 
 Dutch = "nl"
 English = "eng"
@@ -25,7 +25,7 @@ class Game:
     def poll_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                self.set_screen(ExitScreen(self))
+                self.set_screen(ExitScreen(self, self.screen))
             else:
                 self.screen.on_event(event)
 

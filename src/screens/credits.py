@@ -1,5 +1,8 @@
-import pygame.sysfont
 import pygame.mixer
+import pygame.sysfont
+
+import screens.main_menu
+
 pygame.init()
 
 class CreditsScreen:
@@ -22,22 +25,21 @@ class CreditsScreen:
             mouse_cursor = pygame.mouse.get_cursor()
             mouse_pos = pygame.mouse.get_pos()
 
-            # Plays click sound
-            def click_sound():
-                Click = pygame.mixer.Sound('resources/mp3/Click.ogg')
-                pygame.mixer.Sound.play(Click)
-                Click.set_volume(0.8)
-
             x = mouse_pos[0]
             y = mouse_pos[1]
 
             print(x, y)
 
             if x >= 421 and y >= 536 and x <= 642 and y <= 628:
-                from main_menu import MainScreen
-                self.game.set_screen(MainScreen(self.game))
-                click_sound()
+                self.game.set_screen(screens.main_menu.MainScreen(self.game))
+                self.click_sound()
 
     # Draws the components of this 'credits' screen.
     def draw(self):
         self.game.surface.blit(self.image, (0, 0))
+
+    # Plays click sound
+    def click_sound(self):
+        Click = pygame.mixer.Sound('resources/mp3/Click.ogg')
+        pygame.mixer.Sound.play(Click)
+        Click.set_volume(0.8)

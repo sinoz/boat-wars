@@ -1,5 +1,7 @@
 import pygame
-import game
+
+import screens.main_menu
+import screens.game
 
 class SettingsScreen:
     def __init__(self, game):
@@ -29,21 +31,20 @@ class SettingsScreen:
             print(x, y)
 
             if x >= 406 and x <= 654 and y >= 555 and y <= 649:
-                from main_menu import MainScreen
-                self.game.set_screen(MainScreen(self.game))
+                self.game.set_screen(screens.main_menu.MainScreen(self.game))
                 click_sound()
-            elif x >= 618 and x <= 691 and y >= 185 and y <= 266: #TODO
+            elif x >= 618 and x <= 691 and y >= 185 and y <= 266:
                 self.game.set_volume(self.game.volume - 25)
                 click_sound()
-            elif x >= 809 and x <= 865 and y >= 163 and y <= 238: #TODO
+            elif x >= 809 and x <= 865 and y >= 163 and y <= 238:
                 self.game.set_volume(self.game.volume + 25)
                 click_sound()
             elif x >= 629 and x <= 725 and y >= 313 and y <= 406:
-                self.game.change_language(game.English)
+                self.game.change_language(screens.game.English)
                 self.game.set_screen(SettingsScreen(self.game))
                 click_sound()
             elif x >= 801 and x <= 896 and y >= 312 and y <= 397:
-                self.game.change_language(game.Dutch)
+                self.game.change_language(screens.game.Dutch)
                 self.game.set_screen(SettingsScreen(self.game))
                 click_sound()
 

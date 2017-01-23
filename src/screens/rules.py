@@ -1,11 +1,13 @@
 import pygame
 
+import screens.instructions
+
 class RulesScreen:
     def __init__(self, game):
         self.game = game
-        self.image = pygame.image.load('resources/screens/' + game.language + '/rules_exp.jpg')
+        self.image = pygame.image.load('resources/screens/' + game.language + '/rules.jpg')
 
-    # Updates this 'settings' screen.
+    # Updates this 'rules' screen.
     def update(self):
         pass
 
@@ -20,10 +22,9 @@ class RulesScreen:
 
             print(x, y)
 
-            if x >= 385 and y >= 587 and x <= 681 and y <= 667:
-                from exp_instr import ExperienceInstructionsScreen
-                self.game.set_screen(ExperienceInstructionsScreen(self.game))
+            if x >= 384 and y >= 587 and x <= 683 and y <= 667:
+                self.game.set_screen(screens.instructions.InstructionsScreen(self.game))
 
-    # Draws the components of this 'settings' screen.
+    # Draws the components of this 'rules' screen.
     def draw(self):
         self.game.surface.blit(self.image, (0, 0))
