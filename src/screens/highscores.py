@@ -1,6 +1,7 @@
 import pygame
 
-from db import db_service
+import db.db_service
+import screens.main_menu
 
 HighscoresFetchQuery = 'SELECT name, score FROM players ORDER BY score DESC LIMIT 10;'
 
@@ -9,7 +10,7 @@ class HighscoresScreen:
         self.image = pygame.image.load('resources/screens/' + game.language + '/highscores.jpg')
         self.game = game
         self.font = pygame.font.SysFont("monospace", 42)
-        self.scores = db_service.query(HighscoresFetchQuery)
+        self.scores = db.db_service.query(HighscoresFetchQuery)
 
         # The high scores music playing code
         pygame.mixer.music.load('resources/mp3/High_scores.mp3')
@@ -42,8 +43,7 @@ class HighscoresScreen:
             y = mouse_pos[1]
 
             if x >= 413 and y >= 594 and x <= 646 and y <= 670:
-                from screens.main_menu import MainScreen
-                self.game.set_screen(MainScreen(self.game))
+                self.game.set_screen(screens.main_menu.MainScreen(self.game))
                 click_sound()
 
     # Updates this highscores screen.

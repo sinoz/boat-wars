@@ -30,7 +30,7 @@ class PreGameInstructionsScreen:
                 from screens.pregame.pregame_rules import RulesScreen
                 self.game.set_screen(RulesScreen(self.game))
             elif x >= 593 and y >= 523 and x <= 887 and y <= 604:
-                from screens.game import GameScreen
+                from screens.game.game import GameScreen
                 self.game.set_screen(GameScreen(self.game))
 
     # Draws the components of this 'pregame instructions' screen.
