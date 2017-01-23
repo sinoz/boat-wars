@@ -3,8 +3,9 @@ import pygame
 import screens.instructions
 
 class RulesScreen:
-    def __init__(self, game):
+    def __init__(self, game, prev=None):
         self.game = game
+        self.prev = prev
         self.image = pygame.image.load('resources/screens/' + game.language + '/rules.jpg')
 
     # Updates this 'rules' screen.
@@ -19,11 +20,8 @@ class RulesScreen:
 
             x = mouse_pos[0]
             y = mouse_pos[1]
-
-            print(x, y)
-
             if x >= 384 and y >= 587 and x <= 683 and y <= 667:
-                self.game.set_screen(screens.instructions.InstructionsScreen(self.game))
+                self.game.set_screen(self.prev)
 
     # Draws the components of this 'rules' screen.
     def draw(self):
