@@ -1,11 +1,13 @@
 import pygame
 
 import screens.instructions
+import screens.sound as sound
 
 class RulesScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/rules.jpg')
+        sound.Plopperdeplop.music(self, 'intro')
 
     # Updates this 'rules' screen.
     def update(self):
@@ -23,6 +25,7 @@ class RulesScreen:
             print(x, y)
 
             if x >= 384 and y >= 587 and x <= 683 and y <= 667:
+                sound.Plopperdeplop.tune(self, 'click')
                 self.game.set_screen(screens.instructions.InstructionsScreen(self.game))
 
     # Draws the components of this 'rules' screen.

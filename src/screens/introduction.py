@@ -1,11 +1,13 @@
 import pygame
 
 import screens.instructions
+import screens.sound as sound
 
 class IntroductionScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/introduction.jpg')
+        sound.Plopperdeplop.music(self, 'intro')
 
     # Updates this 'introduction' screen.
     def update(self):
@@ -24,6 +26,7 @@ class IntroductionScreen:
 
             print("topkek")
             if x >= 685 and y >= 539 and x <= 1001 and y <= 618:
+                sound.Plopperdeplop.tune(self, 'click')
                 self.game.set_screen(screens.instructions.InstructionsScreen(self.game))
 
     # Draws the components of this 'introduction' screen.
