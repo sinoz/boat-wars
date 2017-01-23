@@ -11,7 +11,8 @@ class MainScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/main_menu.jpg')
-        sound.Plopperdeplop.music(self, 'intro')
+        if sound.current_song != 'intro':
+            sound.Plopperdeplop.music(self, 'intro')
 
     # Draws the components of this main menu screen.
     def draw(self):

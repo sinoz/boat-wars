@@ -1,5 +1,6 @@
 import pygame
 import widget.button
+import screens.sound as sound
 
 class ExitScreen:
     def __init__(self, game, prev=None):
@@ -20,20 +21,14 @@ class ExitScreen:
 
     # Reacts to the user confirming to close the application
     def close_app(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
         self.game.quitGame()
-        self.click_sound()
 
     # Reacts to the user confirming to return to the previous screen
     def return_to_prev(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
         self.game.set_screen(self.prev)
-        self.click_sound()
 
     # Draws the components of this 'termination' screen.
     def draw(self):
         self.game.surface.blit(self.image, (0, 0))
-
-    # Plays click sound
-    def click_sound(self):
-        Click = pygame.mixer.Sound('resources/mp3/Click.ogg')
-        pygame.mixer.Sound.play(Click)
-        Click.set_volume(0.8)

@@ -9,7 +9,6 @@ class InstructionsScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/instructions.jpg')
-        sound.Plopperdeplop.music(self, 'intro')
 
     # Updates this 'settings' screen.
     def update(self):
@@ -26,11 +25,14 @@ class InstructionsScreen:
 
             print(x, y)
 
-            if x >= 106 and y >= 223 and x <= 400 and x <= 304:
+            if x >= 79 and y >= 290 and x <= 395 and x <= 363:
+                sound.Plopperdeplop.tune(self, 'click')
                 self.game.set_screen(screens.introduction.IntroductionScreen(self.game, self))
-            elif x >= 623 and y >= 218 and x <= 916 and y <= 298:
-                self.game.set_screen(screens.rules.RulesScreen(self.game, self))
-            elif x >= 395 and y >= 530 and x <= 652 and y <= 614:
+            elif x >= 622 and y >= 284 and x <= 935 and y <= 362:
+                sound.Plopperdeplop.tune(self, 'click')
+                self.game.set_screen(screens.rules.RulesScreen(self.game))
+            elif x >= 20 and y >= 598 and x <= 105 and y <= 664:
+                sound.Plopperdeplop.tune(self, 'click')
                 self.game.set_screen(screens.main_menu.MainScreen(self.game))
 
     # Draws the components of this 'instructions' screen.

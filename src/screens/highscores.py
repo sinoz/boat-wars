@@ -1,8 +1,9 @@
 import pygame
 
+import db.db_service
 import screens.sound as sound
+
 import widget.button
-from db import db_service
 
 HighscoresFetchQuery = 'SELECT name, score FROM players ORDER BY score DESC LIMIT 10;'
 
@@ -11,17 +12,14 @@ class HighscoresScreen:
         self.image = pygame.image.load('resources/screens/' + game.language + '/highscores.jpg')
         self.game = game
         self.prev = prev
-
-        self.button = widget.button.Button((20, 604), (88, 72), self.return_to_prev)
         self.font = pygame.font.SysFont("monospace", 42)
-        self.scores = db_service.query(HighscoresFetchQuery)
+        self.return_button = widget.button.Button((16, 600), (93, 77), self.return_to_main)
+        self.scores = db.db_service.query(HighscoresFetchQuery)
+        self.play_music()
 
+    # Plays the appropriate music for this screen
+    def play_music(self):
         sound.Plopperdeplop.music(self, 'high_scores')
-
-        # The high scores music playing code
-        pygame.mixer.music.load('resources/mp3/High_scores.mp3')
-        pygame.mixer.music.play(-1, 0.0)
-        pygame.mixer.music.set_volume(self.game.volume)
 
     # Draws the components of this highscores screen.
     def draw(self):
@@ -33,14 +31,14 @@ class HighscoresScreen:
             self.game.surface.blit(label, (480, 190 + offset))
             offset += 78
 
-    # Reacts to the user pressing on the return button
-    def return_to_prev(self, x, y, cursor):
-        sound.Plopperdeplop.tune(self, 'click')
+    # TODO
+    def return_to_main(self, x, y, cursor):
+        sound.Plopperdeplop.music(self, 'intro')
         self.game.set_screen(self.prev)
 
     # Handles an event.
     def on_event(self, event):
-        self.button.on_event(event)
+        self.return_button.on_event(event)
 
     # Updates this highscores screen.
     def update(self):

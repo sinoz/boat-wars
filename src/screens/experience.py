@@ -3,7 +3,6 @@ import pygame
 import screens.game.game
 import screens.game.session
 import screens.pregame.pregame_instructions
-
 import screens.game
 import screens.sound as sound
 import screens.canvas

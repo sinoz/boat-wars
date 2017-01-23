@@ -4,6 +4,7 @@ import widget.button
 
 import screens.main_menu
 import screens.canvas
+import screens.sound as sound
 
 class SettingsScreen:
     def __init__(self, game):
@@ -12,7 +13,7 @@ class SettingsScreen:
         self.image = pygame.image.load('resources/screens/' + game.language + '/options_menu.jpg')
 
         # Return button
-        self.return_button = widget.button.Button((406, 555), (248, 94), self.return_to_main)
+        self.return_button = widget.button.Button((17, 595), (91, 75), self.return_to_main)
 
         # Language buttons
         self.change_lang_dutch = widget.button.Button((801, 312), (95, 85), self.change_lang_to_dutch)
@@ -36,31 +37,31 @@ class SettingsScreen:
         self.dec_volume.on_event(event)
 
     # Reacts to the user pressing on the 'increase volume' button
-    def increase_volume(self):
+    def increase_volume(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
         self.game.set_volume(self.game.volume + 25)
-        self.click_sound()
 
     # Reacts to the user pressing on the 'decrease volume' button
-    def decrease_volume(self):
+    def decrease_volume(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
         self.game.set_volume(self.game.volume - 25)
-        self.click_sound()
 
     # Reacts to the user pressing on the english language toggling button
     def change_lang_to_english(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
         self.game.change_language(screens.canvas.English)
         self.game.set_screen(SettingsScreen(self.game))
-        self.click_sound()
 
     # Reacts to the user pressing on the dutch language toggling button
     def change_lang_to_dutch(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
         self.game.change_language(screens.canvas.Dutch)
         self.game.set_screen(SettingsScreen(self.game))
-        self.click_sound()
 
     # Reacts to the user pressing the 'return' button
     def return_to_main(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
         self.game.set_screen(screens.main_menu.MainScreen(self.game))
-        self.click_sound()
 
     # Draws the components of this 'settings' screen.
     def draw(self):
@@ -68,9 +69,3 @@ class SettingsScreen:
 
         label = self.font.render(str(self.game.volume), 1, (0, 0, 0))
         self.game.surface.blit(label, (715, 201))
-
-    # Plays click sound
-    def click_sound(self):
-        Click = pygame.mixer.Sound('resources/mp3/Click.ogg')
-        pygame.mixer.Sound.play(Click)
-        Click.set_volume(0.8)

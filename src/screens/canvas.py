@@ -15,7 +15,8 @@ class Canvas:
         self.running = running
         self.screen = None
         self.language = English
-        self.volume = 0
+        self.volume = 100
+        self.activeTextField = None
         self.grid = play.grid.Grid(surface, 20, 20)
 
         # NOTE: if you're working on a separate screen (such as hiscores, you can simply

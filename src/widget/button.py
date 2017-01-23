@@ -1,4 +1,5 @@
 import pygame
+import screens.sound as sound
 
 class Button:
     def __init__(self, point, dimension, listener):
@@ -26,6 +27,7 @@ class Button:
             print(click_x, click_y)
 
             if click_x >= offset_x and click_y >= offset_y and click_x <= end_x and click_y <= end_y:
+                sound.Plopperdeplop.tune(self, 'click')
                 self.listener(click_x, click_y, mouse_cursor)
 
     def draw(self):

@@ -1,5 +1,8 @@
 import pygame
 
+import screens.instructions
+import screens.sound as sound
+
 class RulesScreen:
     def __init__(self, game, prev=None):
         self.game = game
@@ -20,6 +23,8 @@ class RulesScreen:
             y = mouse_pos[1]
             if x >= 384 and y >= 587 and x <= 683 and y <= 667:
                 self.game.set_screen(self.prev)
+                sound.Plopperdeplop.tune(self, 'click')
+                self.game.set_screen(screens.instructions.InstructionsScreen(self.game))
 
     # Draws the components of this 'rules' screen.
     def draw(self):
