@@ -40,12 +40,12 @@ class SettingsScreen:
     # Reacts to the user pressing on the 'increase volume' button
     def increase_volume(self):
         sound.Plopperdeplop.tune(self, 'click')
-        self.game.set_volume(self.game.volume + 25)
+        self.canvas.set_volume(self.game.volume + 25)
 
     # Reacts to the user pressing on the 'decrease volume' button
     def decrease_volume(self):
         sound.Plopperdeplop.tune(self, 'click')
-        self.game.set_volume(self.game.volume - 25)
+        self.canvas.set_volume(self.game.volume - 25)
 
     # Reacts to the user pressing on the english language toggling button
     def change_lang_to_english(self, x, y, cursor):

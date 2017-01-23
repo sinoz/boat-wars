@@ -1,7 +1,7 @@
 import pygame
 
 class Plopperdeplop:
-    def tune(self, sound):
+    def tune(sound):
         if sound == 'click':
             Snd = pygame.mixer.Sound('resources/mp3/Click.ogg')
         elif sound == 'cannon_big':
