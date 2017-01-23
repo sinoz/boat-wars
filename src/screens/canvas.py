@@ -3,17 +3,20 @@ import pygame
 from screens.main_menu import MainScreen
 from screens.termination import ExitScreen
 
+import play.grid
+
 Dutch = "nl"
 English = "eng"
 
-class Game:
+class Canvas:
     def __init__(self, app, surface, running=True):
         self.app = app
         self.surface = surface
         self.running = running
         self.screen = None
         self.language = English
-        self.volume = 100
+        self.volume = 0
+        self.grid = play.grid.Grid(surface, 20, 20)
 
         # NOTE: if you're working on a separate screen (such as hiscores, you can simply
         # change the MainScreen() to your own implementation. Ensure however that your
@@ -44,13 +47,13 @@ class Game:
     def set_screen(self, screen):
         self.screen = screen
 
-    # The game loop that continuously runs until the `self.running` flag equals false.
+    # The play loop that continuously runs until the `self.running` flag equals false.
     def game_loop(self):
         while self.running:
             self.update()
             self.draw()
 
-    # Forces the game to stop running.
+    # Forces the play to stop running.
     def quitGame(self):
         self.running = False
 
@@ -65,19 +68,3 @@ class Game:
         self.screen.draw()
 
         pygame.display.flip()  # Flips the graphics buffers to draw what's on the `screen`
-
-class GameScreen:
-    def __init__(self, game):
-        self.game = game
-
-    # Updates this 'getting started' screen.
-    def update(self):
-        pass
-
-    # Handles an event.
-    def on_event(self, event):
-        pass
-
-    # Draws the components of this 'getting started' screen.
-    def draw(self):
-        pass
