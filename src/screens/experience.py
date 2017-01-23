@@ -2,6 +2,7 @@ import pygame
 
 import screens.pregame.pregame_instructions
 import screens.game
+import screens.sound as sound
 
 class ExperienceScreen:
     def __init__(self, game):
@@ -24,8 +25,10 @@ class ExperienceScreen:
             print(x, y)
 
             if x >= 311 and y >= 378 and x <= 395 and y <= 456:
+                sound.Plopperdeplop.tune(self, 'click')
                 self.game.set_screen(screens.game.GameScreen(self.game))
             elif x >= 619 and y >= 379 and x <= 708 and y <= 454:
+                sound.Plopperdeplop.tune(self, 'click')
                 self.game.set_screen(screens.pregame.pregame_instructions.PreGameInstructionsScreen(self.game))
 
     # Draws the components of this 'experience' screen.

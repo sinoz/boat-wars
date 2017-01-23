@@ -1,11 +1,13 @@
 import pygame
 
 import screens.pregame.pregame_instructions
+import screens.sound as sound
 
 class PreGameIntroductionScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/pregame/pregame_introduction.jpg')
+        sound.Plopperdeplop.music(self, 'intro')
 
     # Updates this 'pregame introduction' screen.
     def update(self):
@@ -23,6 +25,7 @@ class PreGameIntroductionScreen:
             print(x, y)
 
             if x >= 684 and y >= 542 and x <= 1003 and y <= 619:
+                sound.Plopperdeplop.tune(self, 'click')
                 self.game.set_screen(screens.pregame.pregame_instructions.PreGameInstructionsScreen(self.game))
 
     # Draws the components of this 'pregame introduction' screen.
