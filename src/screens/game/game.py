@@ -2,11 +2,13 @@ import pygame
 
 import widget.button
 import screens.game.cards
+import screens.sound as sound
 
 class GameScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/game/game.png')
+        sound.Plopperdeplop.music(self, 'battle_music')
 
         self.cards_button = widget.button.Button((890, 98), (113, 178), self.display_cards)
         self.attack_mode_button = widget.button.Button((887, 350), (119, 65), self.set_attack_mode)
