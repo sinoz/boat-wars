@@ -1,9 +1,9 @@
-import widget.text_field
-import widget.button
 import pygame
 
-import screens.main_menu
 import screens.game.game
+import screens.main_menu
+import widget.button
+import widget.text_field
 
 class SessionScreen:
     def __init__(self, game):

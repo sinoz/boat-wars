@@ -8,8 +8,13 @@ class Grid:
         self.grid_width = grid_width
         self.grid_height = grid_height
 
-        self.tile_width = 16
-        self.tile_height = 16
+        self.tile_width = 32
+        self.tile_height = 32
+
+        self.tile_color = (0, 0, 0)
+
+        self.draw_offset_x = 16
+        self.draw_offset_y = 16
 
         self.tiles = self.create_grid(grid_width, grid_height)
 
@@ -17,9 +22,11 @@ class Grid:
     def create_grid(self, width, height):
         return [[play.tile.Tile() for y in range(width)] for x in range(height)]
 
-    # Updates this play
+    # Updates this grid
     def update(self):
-        pass
+        for tile_y in range(0, self.grid_height):
+            for tile_x in range(0, self.grid_width):
+                self.tiles[tile_y][tile_x].update()
 
     # Handles an event
     def on_event(self, event):
@@ -27,4 +34,9 @@ class Grid:
 
     # Draws the components of this grid
     def draw(self):
-        pass # TODO
+        for tile_y in range(0, self.grid_height):
+            for tile_x in range(0, self.grid_width):
+                x = self.draw_offset_x + (tile_x * self.tile_width)
+                y = self.draw_offset_y + (tile_y * self.tile_height)
+
+                pygame.draw.rect(self.surface, self.tile_color, (x, y, self.tile_width, self.tile_height), 1)

@@ -1,7 +1,7 @@
 import pygame
 
-import widget.button
 import screens.game.cards
+import widget.button
 
 class GameScreen:
     def __init__(self, game):
