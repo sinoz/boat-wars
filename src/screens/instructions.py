@@ -3,12 +3,19 @@ import pygame
 import screens
 import screens.introduction
 import screens.rules
+import screens.main_menu
 import screens.sound as sound
+
+import widget.button
 
 class InstructionsScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/instructions.jpg')
+
+        self.to_main = widget.button.Button((20, 598), (85, 66), self.return_to_main)
+        self.to_intro = widget.button.Button((109, 226), (290, 82), self.open_intro_screen)
+        self.to_rules = widget.button.Button((626, 221), (296, 84), self.open_rules_screen)
 
     # Updates this 'settings' screen.
     def update(self):
@@ -16,24 +23,24 @@ class InstructionsScreen:
 
     # Handles an event.
     def on_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_cursor = pygame.mouse.get_cursor()
-            mouse_pos = pygame.mouse.get_pos()
+        self.to_main.on_event(event)
+        self.to_intro.on_event(event)
+        self.to_rules.on_event(event)
 
-            x = mouse_pos[0]
-            y = mouse_pos[1]
+    # TODO
+    def open_intro_screen(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
+        self.game.set_screen(screens.introduction.IntroductionScreen(self.game, self))
 
-            print(x, y)
+    # TODO
+    def open_rules_screen(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
+        self.game.set_screen(screens.rules.RulesScreen(self.game))
 
-            if x >= 79 and y >= 290 and x <= 395 and x <= 363:
-                sound.Plopperdeplop.tune(self, 'click')
-                self.game.set_screen(screens.introduction.IntroductionScreen(self.game, self))
-            elif x >= 622 and y >= 284 and x <= 935 and y <= 362:
-                sound.Plopperdeplop.tune(self, 'click')
-                self.game.set_screen(screens.rules.RulesScreen(self.game))
-            elif x >= 20 and y >= 598 and x <= 105 and y <= 664:
-                sound.Plopperdeplop.tune(self, 'click')
-                self.game.set_screen(screens.main_menu.MainScreen(self.game))
+    # TODO
+    def return_to_main(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
+        self.game.set_screen(screens.main_menu.MainScreen(self.game))
 
     # Draws the components of this 'instructions' screen.
     def draw(self):

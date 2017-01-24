@@ -7,7 +7,7 @@ import widget.button
 import screens.instructions
 
 class RulesScreen:
-    def __init__(self, game):
+    def __init__(self, game, prev=None):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/rules.jpg')
         self.return_button = widget.button.Button((17, 595), (91, 75), self.return_to_prev)
