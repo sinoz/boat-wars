@@ -2,6 +2,7 @@ import pygame
 
 import screens.game.cards
 import screens.sound as sound
+import play.grid
 import widget.button
 
 class GameScreen:
@@ -21,8 +22,8 @@ class GameScreen:
     def update(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
 
-        grid_x = int(mouse_x / self.session.grid.grid_width)
-        grid_y = int(mouse_y / self.session.grid.grid_height)
+        grid_x = int(mouse_x / play.grid.TileWidth)
+        grid_y = int(mouse_y / play.grid.TileHeight)
 
         print(grid_x, grid_y)
 

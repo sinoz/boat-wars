@@ -1,12 +1,12 @@
 import play.tile
 
+TileWidth = 32
+TileHeight = 32
+
 class Grid:
     def __init__(self, grid_width, grid_height):
         self.grid_width = grid_width
         self.grid_height = grid_height
-
-        self.tile_width = 32
-        self.tile_height = 32
 
         self.default_tile_color = (0, 0, 0)
         self.tiles = self.create_grid(grid_width, grid_height)
@@ -16,7 +16,7 @@ class Grid:
         tiles = {}
         for y in range(height):
             for x in range(width):
-                tiles[(x, y)] = play.tile.Tile(x, y, self.tile_width, self.tile_height, self.default_tile_color)
+                tiles[(x, y)] = play.tile.Tile(x, y, TileWidth, TileHeight, self.default_tile_color)
         return tiles
 
     # Looks up a tile instance set at the specified coordinates.
