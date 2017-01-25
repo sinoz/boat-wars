@@ -7,10 +7,10 @@ import screens.canvas
 import screens.sound as sound
 
 class SettingsScreen:
-    def __init__(self, game):
-        self.game = game
+    def __init__(self, canvas):
+        self.canvas = canvas
         self.font = pygame.font.SysFont("monospace", 45)
-        self.image = pygame.image.load('resources/screens/' + game.language + '/options_menu.jpg')
+        self.image = pygame.image.load('resources/screens/' + canvas.language + '/options_menu.jpg')
 
         # Return button
         self.return_button = widget.button.Button((17, 595), (91, 75), self.return_to_main)
@@ -39,33 +39,33 @@ class SettingsScreen:
     # Reacts to the user pressing on the 'increase volume' button
     def increase_volume(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
-        self.game.set_volume(self.game.volume + 25)
+        self.canvas.set_volume(self.canvas.volume + 25)
 
     # Reacts to the user pressing on the 'decrease volume' button
     def decrease_volume(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
-        self.game.set_volume(self.game.volume - 25)
+        self.canvas.set_volume(self.canvas.volume - 25)
 
     # Reacts to the user pressing on the english language toggling button
     def change_lang_to_english(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
-        self.game.change_language(screens.canvas.English)
-        self.game.set_screen(SettingsScreen(self.game))
+        self.canvas.change_language(screens.canvas.English)
+        self.canvas.set_screen(SettingsScreen(self.canvas))
 
     # Reacts to the user pressing on the dutch language toggling button
     def change_lang_to_dutch(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
-        self.game.change_language(screens.canvas.Dutch)
-        self.game.set_screen(SettingsScreen(self.game))
+        self.canvas.change_language(screens.canvas.Dutch)
+        self.canvas.set_screen(SettingsScreen(self.canvas))
 
     # Reacts to the user pressing the 'return' button
     def return_to_main(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
-        self.game.set_screen(screens.main_menu.MainScreen(self.game))
+        self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))
 
     # Draws the components of this 'settings' screen.
-    def draw(self):
-        self.game.surface.blit(self.image, (0, 0))
+    def draw(self, surface):
+        surface.blit(self.image, (0, 0))
 
-        label = self.font.render(str(self.game.volume), 1, (0, 0, 0))
-        self.game.surface.blit(label, (715, 201))
+        label = self.font.render(str(self.canvas.volume), 1, (0, 0, 0))
+        surface.blit(label, (715, 201))

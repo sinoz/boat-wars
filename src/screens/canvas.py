@@ -9,15 +9,14 @@ Dutch = "nl"
 English = "eng"
 
 class Canvas:
-    def __init__(self, app, surface, running=True):
+    def __init__(self, app, running=True):
         self.app = app
-        self.surface = surface
         self.running = running
         self.screen = None
         self.language = English
         self.volume = 100
         self.activeTextField = None
-        self.grid = play.grid.Grid(surface, 20, 20)
+        self.grid = play.grid.Grid(26, 20)
 
         # NOTE: if you're working on a separate screen (such as hiscores, you can simply
         # change the MainScreen() to your own implementation. Ensure however that your
@@ -53,10 +52,10 @@ class Canvas:
         self.activeTextField = widget
 
     # The play loop that continuously runs until the `self.running` flag equals false.
-    def game_loop(self):
+    def game_loop(self, surface):
         while self.running:
             self.update()
-            self.draw()
+            self.draw(surface)
 
     # Forces the play to stop running.
     def quitGame(self):
@@ -68,8 +67,9 @@ class Canvas:
         self.screen.update()
 
     # Draws all of the recent updates
-    def draw(self):
-        self.surface.fill((0, 0, 0))  # Black background
-        self.screen.draw()
+    def draw(self, surface):
+        surface.fill((0, 0, 0))  # Black background
+
+        self.screen.draw(surface)
 
         pygame.display.flip()  # Flips the graphics buffers to draw what's on the `screen`

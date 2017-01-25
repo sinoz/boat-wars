@@ -1,9 +1,9 @@
-import widget.text_field
-import widget.button
 import pygame
 
-import screens.main_menu
 import screens.game.game
+import screens.main_menu
+import widget.button
+import widget.text_field
 
 class SessionScreen:
     def __init__(self, game):
@@ -44,7 +44,8 @@ class SessionScreen:
         self.game.set_screen(screens.main_menu.MainScreen(self.game))
 
     # Draws the components of this 'session' screen.
-    def draw(self):
-        self.game.surface.blit(self.image, (0, 0))
-        self.p1_name.draw()
-        self.p2_name.draw()
+    def draw(self, surface):
+        surface.blit(self.image, (0, 0))
+
+        self.p1_name.draw(surface)
+        self.p2_name.draw(surface)
