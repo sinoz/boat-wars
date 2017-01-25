@@ -13,9 +13,12 @@ class Cards:
         random.shuffle(self.normaldeck1)
         random.shuffle(self.specialdeck)
 
-    # Shuffle deck
-    def shuffle_deck(self, deck):
-        random.shuffle(self, deck)
+    # Shuffle decks
+    def shuffle_normaldeck1(self):
+        random.shuffle(self.normaldeck1)
+
+    def shuffle_normaldeck2(self):
+        random.shuffle(self.normaldeck2)
 
     # Take a card from normal deck 1
     def pick_normal1(self):
@@ -32,3 +35,4 @@ class Cards:
         x = random.randrange(len(self.specialdeck))
         return self.specialdeck.pop(x)
 cards = Cards()
+
