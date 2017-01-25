@@ -7,7 +7,6 @@ url = "host='localhost' dbname='boat_wars' user='postgres' password=''"
 def execute(query):
     establishedConnection = psycopg2.connect(url)
     connCursor = establishedConnection.cursor()
-
     connCursor.execute(query)
     establishedConnection.close()
 

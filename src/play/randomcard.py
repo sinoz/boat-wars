@@ -34,5 +34,3 @@ class Cards:
     def pick_special(self):
         x = random.randrange(len(self.specialdeck))
         return self.specialdeck.pop(x)
-cards = Cards()
-
