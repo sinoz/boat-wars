@@ -17,4 +17,3 @@ INSERT INTO players (name, wins, losses) VALUES ('Johan', 7, 7);
 INSERT INTO players (name, wins, losses) VALUES ('Sam', 15, 18);
 INSERT INTO players (name, wins, losses) VALUES ('Xin', 8, 6);
 INSERT INTO players (name, wins, losses) VALUES ('Maurice', 24, 30);
-
