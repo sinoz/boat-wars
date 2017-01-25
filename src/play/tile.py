@@ -16,8 +16,7 @@ class Tile:
 
     # Updates the state of this tile.
     def update(self):
-        if not self.ship is None:
-            self.ship.update()
+        pass
 
     # Draws this tile.
     def draw(self, surface):
