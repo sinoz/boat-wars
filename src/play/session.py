@@ -1,12 +1,14 @@
 import play.player
 import play.ship
 import play.grid
+import play.randomcard
 
 import pygame
 
 class Session:
     def __init__(self, grid, p1_name, p2_name):
         self.grid = grid
+        self.cards = play.randomcard.Cards()
 
         self.p1 = play.player.Player(self, p1_name)
         self.p2 = play.player.Player(self, p2_name)
