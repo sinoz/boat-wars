@@ -11,7 +11,8 @@ class Session:
         self.p1 = play.player.Player(self, p1_name)
         self.p2 = play.player.Player(self, p2_name)
 
-        self.selected_boat = True
+        self.current_turn = self.p1
+        self.selected_ship = True
 
         # Adds three ships for player one
         self.p1.add_ship(play.ship.Ship(grid.get(2, 2)))
@@ -41,15 +42,30 @@ class Session:
             grid_x = int(click_x / play.grid.TileWidth)
             grid_y = int(click_y / play.grid.TileHeight)
 
-            self.grid.forEachTile(lambda tile: tile.reset_selection())
+            self.reset_selection()
 
             if grid_x < self.grid.grid_width and grid_y < self.grid.grid_height:
-                tile = self.grid.get(grid_x, grid_y)
+                for ship in self.current_turn.ships:
+                    occupied_tile_pos = ship.occupied_tile_pos()
+                    for pos in occupied_tile_pos:
+                        tile = self.grid.get(pos[0], pos[1])
+                        if tile.x == grid_x and tile.y == grid_y:
+                            for pos in occupied_tile_pos:
+                                tile = self.grid.get(pos[0], pos[1])
+                                tile.selected = True
+
+                            self.selected_ship = tile.ship
+                            break
 
                 # TODO set tile.selected to True if clicked on the boat
                 # TODO set selected boat
 
         self.grid.on_event(event)
+
+    # Resets the current selected boat.
+    def reset_selection(self):
+        self.grid.forEachTile(lambda tile: tile.reset_selection())
+        self.selected_ship = None
 
     # Updates the state of this session.
     def update(self):
