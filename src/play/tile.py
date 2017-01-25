@@ -8,6 +8,7 @@ class Tile:
         self.width = width
         self.height = height
         self.color = color
+        self.selected = False
         self.rect = pygame.rect.Rect(x * width, y * height, width, height)
 
     # Assigns a ship to this tile.
@@ -18,6 +19,13 @@ class Tile:
     def update(self):
         pass
 
+    # Resets the selection for this tile
+    def reset_selection(self):
+        self.selected = False
+
     # Draws this tile.
     def draw(self, surface):
-        pygame.draw.rect(surface, self.color, self.rect, 1)
+        if not self.selected:
+            pygame.draw.rect(surface, self.color, self.rect, 1)
+        else:
+            pygame.draw.rect(surface, (255, 0, 0), self.rect, 2)

@@ -1,5 +1,8 @@
 import play.player
 import play.ship
+import play.grid
+
+import pygame
 
 class Session:
     def __init__(self, grid, p1_name, p2_name):
@@ -7,6 +10,8 @@ class Session:
 
         self.p1 = play.player.Player(self, p1_name)
         self.p2 = play.player.Player(self, p2_name)
+
+        self.selected_boat = True
 
         # Adds three ships for player one
         self.p1.add_ship(play.ship.Ship(grid.get(2, 2)))
@@ -24,6 +29,27 @@ class Session:
         # set some ships to defense mode
         grid.get(2, 2).ship.switch_defense_mode()
         grid.get(12, 14).ship.switch_defense_mode()
+
+    # Handles an event.
+    def on_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+
+            click_x = mouse_pos[0]
+            click_y = mouse_pos[1]
+
+            grid_x = int(click_x / play.grid.TileWidth)
+            grid_y = int(click_y / play.grid.TileHeight)
+
+            self.grid.forEachTile(lambda tile: tile.reset_selection())
+
+            if grid_x < self.grid.grid_width and grid_y < self.grid.grid_height:
+                tile = self.grid.get(grid_x, grid_y)
+
+                # TODO set tile.selected to True if clicked on the boat
+                # TODO set selected boat
+
+        self.grid.on_event(event)
 
     # Updates the state of this session.
     def update(self):

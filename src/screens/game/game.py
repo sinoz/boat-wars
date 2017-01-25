@@ -20,15 +20,6 @@ class GameScreen:
 
     # Updates this 'game' screen.
     def update(self):
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-
-        grid_x = int(mouse_x / play.grid.TileWidth)
-        grid_y = int(mouse_y / play.grid.TileHeight)
-
-        print(grid_x, grid_y)
-
-        # TODO do something with grid coordinates
-
         self.session.update()
 
     # Handles an event.
@@ -37,7 +28,7 @@ class GameScreen:
         self.attack_mode_button.on_event(event)
         self.defense_mode_button.on_event(event)
         self.end_turn_button.on_event(event)
-        self.session.grid.on_event(event)
+        self.session.on_event(event)
 
     # Ends the turn of the current player
     def end_turn(self, x, y, cursor):
@@ -45,11 +36,13 @@ class GameScreen:
 
     # Sets a boat to attack mode
     def set_attack_mode(self, x, y, cursor):
-        pass # TODO
+        if not self.session is None:
+            pass # TODO
 
     # Sets a boat to defense mode
     def set_defense_mode(self, x, y, cursor):
-        pass # TODO
+        if not self.session is None:
+            pass # TODO
 
     # Reacts to the user pressing on the 'cards' button
     def display_cards(self, x, y, cursor):

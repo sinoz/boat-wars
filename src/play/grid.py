@@ -32,7 +32,11 @@ class Grid:
     def on_event(self, event):
         pass
 
+    # A foreach function that accepts a callback which takes a tile.
+    def forEachTile(self, f):
+        for tile in self.tiles.values():
+            f(tile)
+
     # Draws the components of this grid.
     def draw(self, surface):
-        for tile in self.tiles.values():
-            tile.draw(surface)
+        self.forEachTile(lambda tile: tile.draw(surface))
