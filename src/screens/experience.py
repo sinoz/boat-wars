@@ -8,9 +8,9 @@ import screens.sound as sound
 import screens.canvas
 
 class ExperienceScreen:
-    def __init__(self, game):
-        self.game = game
-        self.image = pygame.image.load('resources/screens/' + game.language + '/experience.jpg')
+    def __init__(self, canvas):
+        self.canvas = canvas
+        self.image = pygame.image.load('resources/screens/' + canvas.language + '/experience.jpg')
 
     # Updates this 'experience' screen.
     def update(self):
@@ -29,11 +29,11 @@ class ExperienceScreen:
 
             if x >= 311 and y >= 378 and x <= 395 and y <= 456:
                 sound.Plopperdeplop.tune(self, 'click')
-                self.game.set_screen(screens.game.session.SessionScreen(self.game))
+                self.canvas.set_screen(screens.game.session.SessionScreen(self.canvas))
             elif x >= 619 and y >= 379 and x <= 708 and y <= 454:
                 sound.Plopperdeplop.tune(self, 'click')
-                self.game.set_screen(screens.pregame.pregame_instructions.PreGameInstructionsScreen(self.game))
+                self.canvas.set_screen(screens.pregame.pregame_instructions.PreGameInstructionsScreen(self.canvas))
 
     # Draws the components of this 'experience' screen.
-    def draw(self):
-        self.game.surface.blit(self.image, (0, 0))
+    def draw(self, surface):
+        surface.blit(self.image, (0, 0))
