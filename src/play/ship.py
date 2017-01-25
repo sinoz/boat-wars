@@ -3,29 +3,44 @@ import pygame
 DefenseMode = 0
 AttackMode = 1
 
-# Id, Size
-Scout = (0, 2)
-Avenger = (1, 3)
-QueenMary = (2, 3)
+# Id, Size, Moverange, Healthpoints, Firerange, Firepower
+# TODO use a dictionary instead?
+Scout = (0, 2, 4, 4, 3, 2)
+Avenger = (1, 3, 3, 5, 4, 3)
+QueenMary = (2, 4, 2, 6, 4, 4)
 
 class Ship:
     def __init__(self, tile, type=Scout, mode=AttackMode):
-        self.mode = mode
         self.type = type
         self.x = tile.x
         self.y = tile.y
         self.tile = tile
         self.image = pygame.image.load('resources/ships/' + str(type[0]) + '.png')
 
+        # Gameplay attributes of the ship
+        self.mode = mode
+        self.size = type[1]
+        self.health = type[2]
+        self.moverange = type[3]
+        self.firerange = type[4]
+        self.firepower = type[5]
+
         self.tile.set_ship(self)
 
-    # Returns the ship type id.
-    def boat_type(self):
-        return self.type[0]
+    # Returns a list of tile positions that this ship currently occupies.
+    def occupied_tile_pos(self):
+        positions = []
 
-    # Returns the size of the ship in tiles
-    def boat_size(self):
-        return self.type[1]
+        if self.in_attack_mode():
+            for y_offset in range(self.size):
+                y = self.y + y_offset
+                positions.append((self.x, y))
+        else:
+            for x_offset in range(self.size):
+                x = self.x + x_offset
+                positions.append((x, self.y))
+
+        return positions
 
     # Switches the state of this ship to Attack mode.
     def switch_attack_mode(self):
@@ -37,13 +52,8 @@ class Ship:
         self.mode = DefenseMode
         self.transform(90)
 
-        # Avenger ships move one tile to the left to center on top of the exact tile position
-        if self.boat_type() == Avenger[0]:
-            self.x -= 1
-
     # Transforms the image to be set to the specified angle.
     def transform(self, angle):
-        print("transformed ship")
         self.image = pygame.transform.rotate(self.image, angle)
 
     # Returns whether this ship is currently in Attack mode or not.

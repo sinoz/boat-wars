@@ -4,7 +4,6 @@ class Player:
         self.name = name
         self.score = 0
         self.ships = []
-        self.move_count = 0
 
     # Adds the given ship to this player's arsenal.
     def add_ship(self, ship):
