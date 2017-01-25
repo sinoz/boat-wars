@@ -1,7 +1,7 @@
 import pygame
 
 import screens.game.game
-import screens.game.session
+import screens.game.set_names
 import screens.pregame.pregame_instructions
 import screens.game
 import screens.sound as sound
@@ -29,7 +29,7 @@ class ExperienceScreen:
 
             if x >= 311 and y >= 378 and x <= 395 and y <= 456:
                 sound.Plopperdeplop.tune(self, 'click')
-                self.canvas.set_screen(screens.game.session.SessionScreen(self.canvas))
+                self.canvas.set_screen(screens.game.set_names.SetNamesScreen(self.canvas))
             elif x >= 619 and y >= 379 and x <= 708 and y <= 454:
                 sound.Plopperdeplop.tune(self, 'click')
                 self.canvas.set_screen(screens.pregame.pregame_instructions.PreGameInstructionsScreen(self.canvas))

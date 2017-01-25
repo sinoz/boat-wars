@@ -2,10 +2,11 @@ import pygame
 
 import screens.game.game
 import screens.main_menu
+import play.player
 import widget.button
 import widget.text_field
 
-class SessionScreen:
+class SetNamesScreen:
     def __init__(self, game):
         self.game = game
         self.image = pygame.image.load('resources/screens/' + game.language + '/pregame/names.jpg')
@@ -37,7 +38,10 @@ class SessionScreen:
 
     # TODO
     def start_game(self, x, y, cursor):
-        self.game.set_screen(screens.game.game.GameScreen(self.game))
+        p1 = play.player.Player(self.p1_name.text)
+        p2 = play.player.Player(self.p2_name.text)
+
+        self.game.set_screen(screens.game.game.GameScreen(self.game, p1, p2))
 
     # TODO
     def return_to_main(self, x, y, cursor):

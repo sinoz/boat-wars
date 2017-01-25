@@ -1,12 +1,15 @@
 import pygame
 
 import screens.game.cards
+import play.session
 import widget.button
 import screens.sound as sound
 
 class GameScreen:
-    def __init__(self, canvas):
+    def __init__(self, canvas, p1, p2):
         self.canvas = canvas
+        self.session = play.session.Session(p1, p2)
+
         self.image = pygame.image.load('resources/screens/' + canvas.language + '/game/game.png')
         sound.Plopperdeplop.music(self, "battle_music")
 
@@ -17,6 +20,16 @@ class GameScreen:
 
     # Updates this 'game' screen.
     def update(self):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+
+        grid_x = int(mouse_x / self.canvas.grid.grid_width)
+        grid_y = int(mouse_y / self.canvas.grid.grid_height)
+
+        print(grid_x, grid_y)
+
+        # TODO do something with grid coordinates
+
+        self.session.update()
         self.canvas.grid.update()
 
     # Handles an event.

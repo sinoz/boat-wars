@@ -1,6 +1,6 @@
 import pygame
 import screens.sound as sound
-import screens.game.session
+import screens.game.set_names
 
 class PreGameInstructionsScreen:
     def __init__(self, canvas):
@@ -36,7 +36,7 @@ class PreGameInstructionsScreen:
                 self.canvas.set_screen(RulesScreen(self.canvas, self))
             elif x >= 726 and y >= 586 and x <= 994 and y <= 670:
                 sound.Plopperdeplop.tune(self, 'click')
-                self.canvas.set_screen(screens.game.session.SessionScreen(self.canvas))
+                self.canvas.set_screen(screens.game.set_names.SetNamesScreen(self.canvas))
 
     # Draws the components of this 'pregame instructions' screen.
     def draw(self, surface):

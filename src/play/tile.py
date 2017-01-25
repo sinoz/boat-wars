@@ -4,15 +4,21 @@ class Tile:
     def __init__(self, x, y, width, height, color):
         self.x = x
         self.y = y
+        self.ship = None
         self.width = width
         self.height = height
         self.color = color
         self.rect = pygame.rect.Rect(x * width, y * height, width, height)
 
-    # Updates the state of this tile
-    def update(self):
-        pass
+    # Assigns a ship to this tile.
+    def set_ship(self, ship):
+        self.ship = ship
 
-    # Draws the components of this tile
+    # Updates the state of this tile.
+    def update(self):
+        if not self.ship is None:
+            self.ship.update()
+
+    # Draws this tile.
     def draw(self, surface):
-        pygame.draw.rect(surface, self.color, self.rect, self.width)
+        pygame.draw.rect(surface, self.color, self.rect, 1)
