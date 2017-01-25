@@ -10,7 +10,7 @@ class CardScreen:
 
         self.return_button = widget.button.Button((41, 611), (90, 58), self.return_to_game)
 
-    # Updates this 'game' screen.
+    # Updates this 'cards' screen.
     def update(self):
         pass
 
@@ -22,6 +22,6 @@ class CardScreen:
     def return_to_game(self, x, y, cursor):
         self.canvas.set_screen(self.prev)
 
-    # Draws the components of this 'game' screen.
+    # Draws the components of this 'cards' screen.
     def draw(self, surface):
         surface.blit(self.image, (0, 0))
