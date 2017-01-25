@@ -19,6 +19,10 @@ class Grid:
                 tiles[(x, y)] = play.tile.Tile(x, y, self.tile_width, self.tile_height, self.default_tile_color)
         return tiles
 
+    # Looks up a tile instance set at the specified coordinates.
+    def get(self, x, y):
+        return self.tiles[(x, y)]
+
     # Updates the state of this grid.
     def update(self):
         for tile in self.tiles.values():
