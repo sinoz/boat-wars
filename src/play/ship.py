@@ -30,16 +30,21 @@ class Ship:
     # Switches the state of this ship to Attack mode.
     def switch_attack_mode(self):
         self.mode = AttackMode
-        self.image = pygame.transform.rotate(self.image, 0)
+        self.transform(0)
 
     # Switches the state of this ship to Defense mode.
     def switch_defense_mode(self):
         self.mode = DefenseMode
-        self.image = pygame.transform.rotate(self.image, 90)
+        self.transform(90)
 
         # Avenger ships move one tile to the left to center on top of the exact tile position
         if self.boat_type() == Avenger[0]:
             self.x -= 1
+
+    # Transforms the image to be set to the specified angle.
+    def transform(self, angle):
+        print("transformed ship")
+        self.image = pygame.transform.rotate(self.image, angle)
 
     # Returns whether this ship is currently in Attack mode or not.
     def in_attack_mode(self):

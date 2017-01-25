@@ -1,9 +1,9 @@
 class Player:
-    def __init__(self, session, name, ships=[]):
+    def __init__(self, session, name):
         self.session = session
         self.name = name
         self.score = 0
-        self.ships = ships
+        self.ships = []
 
     # Adds the given ship to this player's arsenal.
     def add_ship(self, ship):
@@ -13,12 +13,15 @@ class Player:
     def remove_ship(self, ship):
         self.ships.remove(ship)
 
+    # A foreach function that accepts a callback which takes a ship.
+    def forEachShip(self, f):
+        for ship in self.ships:
+            f(ship)
+
     # Updates the state of this player.
     def update(self):
-        for ship in self.ships:
-            ship.update()
+        self.forEachShip(lambda ship: ship.update())
 
     # Draws the components of this player.
     def draw(self, surface):
-        for ship in self.ships:
-            ship.draw(surface)
+        self.forEachShip(lambda ship: ship.draw(surface))
