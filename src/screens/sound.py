@@ -32,4 +32,4 @@ class Plopperdeplop:
         pygame.mixer.music.play(-1)
         global current_song
         current_song = song
-        pygame.mixer.music.set_volume(self.game.volume)
+        pygame.mixer.music.set_volume(self.canvas.volume)

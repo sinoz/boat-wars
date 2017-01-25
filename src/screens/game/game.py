@@ -4,9 +4,9 @@ import screens.game.cards
 import widget.button
 
 class GameScreen:
-    def __init__(self, game):
-        self.game = game
-        self.image = pygame.image.load('resources/screens/' + game.language + '/game/game.png')
+    def __init__(self, canvas):
+        self.canvas = canvas
+        self.image = pygame.image.load('resources/screens/' + canvas.language + '/game/game.png')
 
         self.cards_button = widget.button.Button((890, 98), (113, 178), self.display_cards)
         self.attack_mode_button = widget.button.Button((887, 350), (119, 65), self.set_attack_mode)
@@ -15,7 +15,7 @@ class GameScreen:
 
     # Updates this 'game' screen.
     def update(self):
-        self.game.grid.update()
+        self.canvas.grid.update()
 
     # Handles an event.
     def on_event(self, event):
@@ -23,7 +23,7 @@ class GameScreen:
         self.attack_mode_button.on_event(event)
         self.defense_mode_button.on_event(event)
         self.end_turn_button.on_event(event)
-        self.game.grid.on_event(event)
+        self.canvas.grid.on_event(event)
 
     # Ends the turn of the current player
     def end_turn(self, x, y, cursor):
@@ -39,9 +39,9 @@ class GameScreen:
 
     # Reacts to the user pressing on the 'cards' button
     def display_cards(self, x, y, cursor):
-        self.game.set_screen(screens.game.cards.CardScreen(self.game, self))
+        self.canvas.set_screen(screens.game.cards.CardScreen(self.canvas, self))
 
     # Draws the components of this 'game' screen.
-    def draw(self):
-        self.game.surface.blit(self.image, (0, 0))
-        self.game.grid.draw()
+    def draw(self, surface):
+        surface.blit(self.image, (0, 0))
+        self.canvas.grid.draw(surface)

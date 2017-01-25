@@ -18,8 +18,8 @@ pygame.display.set_caption(app.title)
 surface = pygame.display.set_mode((app.width, app.height))
 
 # Creates the canvas and ignites the game loop
-canvas = canvas.Canvas(app, surface)
-canvas.game_loop()
+canvas = canvas.Canvas(app)
+canvas.game_loop(surface)
 
 # The game loop has ended, let's de-initialize the pygame modules
 pygame.quit()
