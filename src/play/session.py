@@ -10,8 +10,9 @@ DrawFireRange = 1
 DrawMoveRange = 2
 
 class Session:
-    def __init__(self, grid, p1_name, p2_name):
+    def __init__(self, language, grid, p1_name, p2_name):
         self.grid = grid
+        self.language = language
         self.deck = play.randomcard.Cards()
 
         self.p1 = play.player.Player(self, p1_name)
