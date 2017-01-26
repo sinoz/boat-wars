@@ -11,6 +11,7 @@ class Cards:
         self.normaldeck2 = []
         self.specialdeck = ['rep', 'rep', 'flak', 'flak', 'hack', 'far', 'alu', 'pir']
         self.currentdeck = self.normaldeck1
+        self.trashdeck = self.normaldeck2
 
         random.shuffle(self.currentdeck)
         random.shuffle(self.specialdeck)
@@ -20,9 +21,11 @@ class Cards:
         if len(self.currentdeck) == 0:
             if self.currentdeck == self.normaldeck1:
                 self.currentdeck = self.normaldeck2
+                self.trashdeck = self.normaldeck1
                 random.shuffle(self.currentdeck)
             else:
                 self.currentdeck = self.normaldeck1
+                self.trashdeck = self.normaldeck2
                 random.shuffle(self.currentdeck)
 
     # Take a card from currentdeck
@@ -34,3 +37,7 @@ class Cards:
     # Take a card from special deck
     def pick_special(self):
         return self.specialdeck.pop()
+
+    # Add card to trashdeck
+    def trash_card(self, card):
+        self.trashdeck.append(card)

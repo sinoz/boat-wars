@@ -224,6 +224,9 @@ class Session:
         # Give current player new card at end of turn
         if len(self.current_turn.cards) < 6:
             self.current_turn.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
+        else:
+            self.deck.trash_card(self.deck.pick_currentdeck())
+        # Change current turn
         self.current_turn = p
 
     # Updates the state of this session.
