@@ -26,6 +26,9 @@ class Session:
         self.p2.add_ship(play.ship.Ship(grid.get(12, 14), type=play.ship.Avenger))
         self.p2.add_ship(play.ship.Ship(grid.get(17, 15)))
 
+        # Give card to player 1
+        self.p1.add_card(play.crd.Card('adr', 'Normal'))
+
         # Rotate the ships of player one to face the boats of player two
         self.p1.forEachShip(lambda ship: ship.transform(180))
 

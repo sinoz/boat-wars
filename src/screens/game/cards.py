@@ -3,8 +3,9 @@ import pygame
 import widget.button
 
 class CardScreen:
-    def __init__(self, canvas, prev=None):
+    def __init__(self, canvas, session, prev=None):
         self.canvas = canvas
+        self.session = session
         self.prev = prev
         self.image = pygame.image.load('resources/screens/' + canvas.language + '/game/cards.png')
 
@@ -25,3 +26,4 @@ class CardScreen:
     # Draws the components of this 'cards' screen.
     def draw(self, surface):
         surface.blit(self.image, (0, 0))
+        self.session.current_turn.draw_cards(surface)
