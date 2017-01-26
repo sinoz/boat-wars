@@ -9,5 +9,4 @@ class Card:
 
     # Draws this card on the given surface
     def draw(self, surface):
-        # surface.blit(self.image, )
-        print('Hoera het werkt!')
+        surface.blit(self.image, (39,46))

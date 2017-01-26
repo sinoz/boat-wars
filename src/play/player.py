@@ -40,7 +40,7 @@ class Player:
 
     # Draws the cards of this player
     def draw_cards(self, surface):
-        self.forEachCard(lambda card: crd.draw(surface))
+        self.forEachCard(lambda card: card.draw(surface))
 
     # Draws the components of this player.
     def draw(self, surface):
