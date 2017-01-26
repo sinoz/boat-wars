@@ -255,3 +255,4 @@ class Session:
 
             tile = self.grid.get(grid_x, grid_y)
             tile.marked = True
+
