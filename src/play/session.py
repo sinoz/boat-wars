@@ -193,3 +193,9 @@ class Session:
 
             tile = self.grid.get(grid_x, grid_y)
             tile.marked = True
+
+    # Fire interaction between the ships
+    def battle(self):
+        #
+        if self.selected_ship = not None:
+            if self.tile.with_fire_range == True:
