@@ -34,6 +34,10 @@ class Session:
         self.p2.add_ship(play.ship.Ship(grid.get(10, 18), type=play.ship.Avenger))
         self.p2.add_ship(play.ship.Ship(grid.get(16, 17), type=play.ship.QueenMary))
         self.p2.add_ship(play.ship.Ship(grid.get(21, 19)))
+        self.p2.add_ship(play.ship.Ship(grid.get(5, 19)))
+        self.p2.add_ship(play.ship.Ship(grid.get(10, 18), type=play.ship.Avenger))
+        self.p2.add_ship(play.ship.Ship(grid.get(16, 17), type=play.ship.QueenMary))
+        self.p2.add_ship(play.ship.Ship(grid.get(21, 19)))
 
         # Give card to player 1
         self.p1.add_card(play.crd.Card('adr', 'Normal', self.language))
