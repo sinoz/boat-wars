@@ -10,6 +10,7 @@ class Tile:
         self.selected = False
         self.with_move_range = False
         self.with_fire_range = False
+        self.marked = False
         self.rect = pygame.rect.Rect(x * width, y * height, width, height)
 
     # Assigns a ship to this tile.
@@ -28,11 +29,11 @@ class Tile:
 
     # Draws this tile.
     def draw(self, surface):
-        if self.selected:
-            pygame.draw.rect(surface, (255, 0, 0), self.rect, 2)
+        if self.marked:
+            pygame.draw.rect(surface, (0, 255, 0), self.rect)
         if self.with_move_range:
-            pygame.draw.rect(surface, (0, 255, 0), self.rect, 2)
+            pygame.draw.rect(surface, (255, 255, 0), self.rect)
         if self.with_fire_range:
-            pygame.draw.rect(surface, (0, 0, 255), self.rect, 1)
+            pygame.draw.rect(surface, (255, 0, 0), self.rect, 1)
         else:
             pygame.draw.rect(surface, (0, 0, 0), self.rect, 1)
