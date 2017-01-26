@@ -1,13 +1,12 @@
 import pygame
 
 class Tile:
-    def __init__(self, x, y, width, height, color):
+    def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
         self.ship = None
         self.width = width
         self.height = height
-        self.color = color
         self.selected = False
         self.with_move_range = False
         self.with_fire_range = False
@@ -34,6 +33,6 @@ class Tile:
         if self.with_move_range:
             pygame.draw.rect(surface, (0, 255, 0), self.rect, 2)
         if self.with_fire_range:
-            pygame.draw.rect(surface, (0, 0, 255), self.rect, 2)
+            pygame.draw.rect(surface, (0, 0, 255), self.rect, 1)
         else:
-            pygame.draw.rect(surface, self.color, self.rect, 1)
+            pygame.draw.rect(surface, (0, 0, 0), self.rect, 1)

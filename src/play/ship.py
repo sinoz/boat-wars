@@ -20,8 +20,8 @@ class Ship:
         # Gameplay attributes of the ship
         self.mode = mode
         self.size = type[1]
-        self.health = type[2]
-        self.moverange = type[3]
+        self.moverange = type[2]
+        self.health = type[3]
         self.firerange = type[4]
         self.firepower = type[5]
 
@@ -45,7 +45,7 @@ class Ship:
     # Switches the state of this ship to Attack mode.
     def switch_attack_mode(self):
         self.mode = AttackMode
-        self.transform(0)
+        self.transform(270)
 
     # Switches the state of this ship to Defense mode.
     def switch_defense_mode(self):

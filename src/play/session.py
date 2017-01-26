@@ -14,7 +14,9 @@ class Session:
         self.p2 = play.player.Player(self, p2_name)
 
         self.current_turn = self.p1
-        self.selected_ship = True
+        self.selected_ship = None
+
+        self.draw_type = 1
 
         # Adds three ships for player one
         self.p1.add_ship(play.ship.Ship(grid.get(2, 2)))
@@ -30,11 +32,18 @@ class Session:
         self.p1.forEachShip(lambda ship: ship.transform(180))
 
         # set some ships to defense mode
-        grid.get(2, 2).ship.switch_defense_mode()
+        # grid.get(2, 2).ship.switch_defense_mode()
         grid.get(12, 14).ship.switch_defense_mode()
 
     # Handles an event.
     def on_event(self, event):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
+            if not self.selected_ship is None:
+                if self.draw_type == 1:
+                    self.draw_type = 2
+                else:
+                    self.draw_type = 1
+
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
 
@@ -47,6 +56,8 @@ class Session:
             self.reset_selection()
 
             if grid_x < self.grid.grid_width and grid_y < self.grid.grid_height:
+                self.grid.forEachTile(lambda tile: tile.reset())
+
                 for ship in self.current_turn.ships:
                     occupied_tile_pos = ship.occupied_tile_pos()
                     for pos in occupied_tile_pos:
@@ -59,50 +70,42 @@ class Session:
                                     self.selected_ship = tile.ship
                                 tile.selected = True
 
-                            self.draw_fire_range(self.selected_ship, occupied_tile_pos)
-                            self.draw_move_range(self.selected_ship, occupied_tile_pos)
+        if not self.selected_ship is None:
+            self.grid.forEachTile(lambda tile: tile.reset())
 
-                            break
+            if self.draw_type == 1:
+                self.draw_fire_range()
+            elif self.draw_type == 2:
+                self.draw_move_range()
 
         self.grid.on_event(event)
 
     # Draws the fire range of a ship
-    def draw_fire_range(self, ship, occupied_tile_pos): # TODO is there a better way to do this?
-        if ship.in_attack_mode():
-            for y in range(ship.y, ship.y + ship.size):
-                x = (ship.x - ship.firerange + 1)
-                while x < (ship.x + ship.firerange):
-                    if ship.x == x:
-                        x += 1
-                        continue
+    def draw_fire_range(self):
+        def f(tile):
+            tile.with_move_range = False
+            tile.with_fire_range = True
 
-                    if x < 0 or x >= self.grid.grid_width or y < 0 or y >= self.grid.grid_height:
-                        x += 1
-                        continue
-
-                    tile = self.grid.get(x, y)
-                    tile.with_fire_range = True
-                    print("tile:", tile.x, tile.y)
-
-                    x += 1
-        else:
-            for y in range(ship.y - ship.size, ship.y + (ship.size * 2)):
-                # TODO include X axis
-                if ship.y == y:
-                    continue
-
-                if y < 0 or y >= self.grid.grid_height or y < 0 or y >= self.grid.grid_height:
-                    continue
-
-                tile = self.grid.get(ship.x, y)
-                tile.with_fire_range = True
+        self.draw_range(self.selected_ship, self.selected_ship.firerange, f)
 
     # Draws the move range of a ship
-    def draw_move_range(self, ship, occupied_tile_pos):
+    def draw_move_range(self):
+        def f(tile):
+            tile.with_fire_range = False
+            tile.with_move_range = True
+
+        self.draw_range(self.selected_ship, self.selected_ship.moverange, f)
+
+    # Draws a type of range for the specified ship.
+    def draw_range(self, ship, r, f):
         if ship.in_attack_mode():
             for y in range(ship.y, ship.y + ship.size):
-                x = ship.x - ship.moverange
-                while x < ship.x + ship.moverange:
+                start_x = (ship.x - r)
+                end_x = (ship.x + r)
+
+                x = start_x
+
+                while x <= end_x:
                     if ship.x == x:
                         x += 1
                         continue
@@ -111,21 +114,10 @@ class Session:
                         x += 1
                         continue
 
-                    tile = self.grid.get(x, y)
-                    tile.with_move_range = True
-
+                    f(self.grid.get(x, y))
                     x += 1
         else:
-            for y in range(ship.y - ship.size, ship.y + (ship.size * 2)):
-                # TODO include X axis
-                if ship.y == y:
-                    continue
-
-                if y < 0 or y >= self.grid.grid_height or y < 0 or y >= self.grid.grid_height:
-                    continue
-
-                tile = self.grid.get(ship.x, y)
-                tile.with_move_range = True
+            pass # TODO
 
     # Resets the current selected boat.
     def reset_selection(self):
