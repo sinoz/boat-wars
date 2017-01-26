@@ -38,7 +38,7 @@ class GameScreen:
 
     # Ends the turn of the current player
     def end_turn(self, x, y, cursor):
-        self.session.reset_selection()
+        self.session.reset_tiles()
 
         if self.session.current_turn == self.session.p1:
             self.session.change_turn(self.session.p2)
@@ -49,12 +49,16 @@ class GameScreen:
     def set_attack_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
             self.session.selected_ship.switch_attack_mode()
+            self.session.reset_tiles()
+            self.session.reset_selection()
             self.mode_display = AttackModeID
 
     # Sets a boat to defense mode
     def set_defense_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
             self.session.selected_ship.switch_defense_mode()
+            self.session.reset_tiles()
+            self.session.reset_selection()
             self.mode_display = DefenseModeID
 
     # Reacts to the user pressing on the 'cards' button
