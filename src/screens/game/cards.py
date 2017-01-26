@@ -27,7 +27,7 @@ class CardScreen:
     # Draws the components of the 'cards' screen.
     def draw(self, surface):
         surface.blit(self.image, (0, 0))
+        self.session.current_turn.draw_cards(surface)
 
         turn_display = self.font.render(str(self.session.current_turn.name), 1, (0, 0, 0))
-
         surface.blit(turn_display, (893, 35))
