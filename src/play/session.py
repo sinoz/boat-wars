@@ -9,10 +9,6 @@ NoRangeDrawing = 0
 DrawFireRange = 1
 DrawMoveRange = 2
 
-AttackModeID = "Attack"
-DefenseModeID = "Defense"
-no_mode = "           "
-
 class Session:
     def __init__(self, language, grid, p1_name, p2_name):
         self.grid = grid
@@ -72,6 +68,8 @@ class Session:
             grid_x = int(click_x / play.grid.TileWidth)
             grid_y = int(click_y / play.grid.TileHeight)
 
+            if self.draw_type != DrawMoveRange:
+                self.reset_selection()
             self.reset_tiles()
 
             if grid_x < self.grid.grid_width and grid_y < self.grid.grid_height:
@@ -103,12 +101,13 @@ class Session:
                             if self.draw_type == DrawMoveRange:
                                 self.move_ship(self.selected_ship, grid_x, grid_y)
 
-                                self.selected_ship = None
-                                self.draw_type = NoRangeDrawing
-
-                                self.reset_tiles()
-
                                 break
+
+                    self.selected_ship = None
+                    self.draw_type = NoRangeDrawing
+
+                    self.reset_selection()
+                    self.reset_tiles()
 
         if not self.selected_ship is None:
             self.grid.forEachTile(lambda tile: tile.reset())
@@ -246,9 +245,3 @@ class Session:
 
             tile = self.grid.get(grid_x, grid_y)
             tile.marked = True
-
-    # Fire interaction between the ships
-    def battle(self):
-        #
-        if self.selected_ship = not None:
-            if self.tile.with_fire_range == True:
