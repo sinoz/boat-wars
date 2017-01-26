@@ -29,4 +29,5 @@ class CardScreen:
         surface.blit(self.image, (0, 0))
 
         turn_display = self.font.render(str(self.session.current_turn.name), 1, (0, 0, 0))
+
         surface.blit(turn_display, (893, 35))
