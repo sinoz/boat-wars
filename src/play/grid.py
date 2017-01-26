@@ -7,8 +7,6 @@ class Grid:
     def __init__(self, grid_width, grid_height):
         self.grid_width = grid_width
         self.grid_height = grid_height
-
-        self.default_tile_color = (0, 0, 0)
         self.tiles = self.create_grid(grid_width, grid_height)
 
     # Constructs a matrix / grid of the given width and height
@@ -16,7 +14,7 @@ class Grid:
         tiles = {}
         for y in range(height):
             for x in range(width):
-                tiles[(x, y)] = play.tile.Tile(x, y, TileWidth, TileHeight, self.default_tile_color)
+                tiles[(x, y)] = play.tile.Tile(x, y, TileWidth, TileHeight)
         return tiles
 
     # Looks up a tile instance set at the specified coordinates.

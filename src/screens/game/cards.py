@@ -10,6 +10,7 @@ class CardScreen:
         self.image = pygame.image.load('resources/screens/' + canvas.language + '/game/cards.png')
 
         self.return_button = widget.button.Button((41, 611), (90, 58), self.return_to_game)
+        self.font = pygame.font.SysFont("monospace", 20)
 
     # Updates this 'cards' screen.
     def update(self):
@@ -27,3 +28,6 @@ class CardScreen:
     def draw(self, surface):
         surface.blit(self.image, (0, 0))
         self.session.current_turn.draw_cards(surface)
+
+        turn_display = self.font.render(str(self.session.current_turn.name), 1, (0, 0, 0))
+        surface.blit(turn_display, (893, 35))
