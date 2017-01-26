@@ -4,9 +4,8 @@ import screens.game.cards
 import screens.sound as sound
 import play.grid
 import widget.button
+import play.ship
 
-AttackModeID = "AttackMode"
-DefenseModeID = "DefenseMode"
 
 class GameScreen:
     def __init__(self, canvas, session):
@@ -22,7 +21,6 @@ class GameScreen:
         self.end_turn_button = widget.button.Button((885, 608), (126, 79), self.end_turn)
 
         self.font = pygame.font.SysFont("monospace", 20)
-        self.mode_display = AttackModeID
 
     # Updates this 'game' screen.
     def update(self):
@@ -48,14 +46,14 @@ class GameScreen:
     # Sets a boat to attack mode
     def set_attack_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
-            self.session.selected_ship.switch_attack_mode()
-            self.mode_display = AttackModeID
+            if not self.session.selected_ship.in_attack_mode():
+                self.session.selected_ship.switch_attack_mode()
 
     # Sets a boat to defense mode
     def set_defense_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
-            self.session.selected_ship.switch_defense_mode()
-            self.mode_display = DefenseModeID
+            if not self.session.selected_ship.in_defense_mode():
+                self.session.selected_ship.switch_defense_mode()
 
     # Reacts to the user pressing on the 'cards' button
     def display_cards(self, x, y, cursor):
@@ -68,5 +66,8 @@ class GameScreen:
 
         turn_display = self.font.render(str(self.session.current_turn.name), 1, (0, 0, 0))
         surface.blit(turn_display, (893, 22))
-        mode_display = self.font.render(str(self.mode_display), 1, (0, 0, 0))
-        surface.blit(mode_display, (891, 47))
+        if self.session.selected_ship is None:
+            surface.blit(self.font.render("     ", 1, (0, 0, 0)), (891, 47))
+        else:
+            mode_display = self.font.render(self.session.selected_ship.mode_id_to_name(), 1, (0, 0, 0))
+            surface.blit(mode_display, (906, 47))
