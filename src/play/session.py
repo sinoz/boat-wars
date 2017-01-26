@@ -2,6 +2,7 @@ import play.player
 import play.ship
 import play.grid
 import play.randomcard
+import play.crd as crd
 
 import pygame
 
@@ -34,18 +35,12 @@ class Session:
         self.p2.add_ship(play.ship.Ship(grid.get(10, 18), type=play.ship.Avenger))
         self.p2.add_ship(play.ship.Ship(grid.get(16, 17), type=play.ship.QueenMary))
         self.p2.add_ship(play.ship.Ship(grid.get(21, 19)))
-        self.p2.add_ship(play.ship.Ship(grid.get(5, 19)))
-        self.p2.add_ship(play.ship.Ship(grid.get(10, 18), type=play.ship.Avenger))
-        self.p2.add_ship(play.ship.Ship(grid.get(16, 17), type=play.ship.QueenMary))
-        self.p2.add_ship(play.ship.Ship(grid.get(21, 19)))
 
-        # Give cards to player 1
-        self.p1.add_card(play.crd.Card('adr', 'Normal', self.language))
-        self.p1.add_card(play.crd.Card('arif', 'Normal', self.language))
-        self.p1.add_card(play.crd.Card('adr', 'Normal', self.language))
-        self.p1.add_card(play.crd.Card('arif', 'Normal', self.language))
-        self.p1.add_card(play.crd.Card('adr', 'Normal', self.language))
-        self.p1.add_card(play.crd.Card('arif', 'Normal', self.language))
+        # Give 2 cards to player 1 and 2
+        self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
+        self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
+        self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
+        self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
 
         # Rotate the ships of player one to face the boats of player two
         self.p1.forEachShip(lambda ship: ship.transform(180))
@@ -68,11 +63,11 @@ class Session:
             grid_x = int(click_x / play.grid.TileWidth)
             grid_y = int(click_y / play.grid.TileHeight)
 
-            if self.draw_type != DrawMoveRange:
-                self.reset_selection()
-            self.reset_tiles()
-
             if grid_x < self.grid.grid_width and grid_y < self.grid.grid_height:
+                if self.draw_type != DrawMoveRange:
+                    self.reset_selection()
+                self.reset_tiles()
+
                 self.grid.forEachTile(lambda tile: tile.reset())
 
                 if self.selected_ship is None:
@@ -98,7 +93,7 @@ class Session:
                     tiles = self.compute_range(self.selected_ship, r)
                     for tile in tiles:
                         if grid_x == tile.x and grid_y == tile.y:
-                            if self.draw_type == DrawMoveRange:
+                            if self.draw_type == DrawMoveRange and not self.selected_ship.in_defense_mode():
                                 self.move_ship(self.selected_ship, grid_x, grid_y)
 
                                 break
@@ -116,7 +111,6 @@ class Session:
                 self.draw_fire_range()
             elif self.draw_type == DrawMoveRange:
                 self.draw_move_range()
-
         self.grid.on_event(event)
 
     # Draws the fire range of a ship
@@ -181,14 +175,24 @@ class Session:
     # is in defense mode.
     def compute_defense_range(self, ship, delta):
         tiles = []
-        for y in range(ship.y - delta, (ship.y + ship.size + delta)):
-            for x in range(ship.x, (ship.x + ship.size)):
-                if x < 0 or x >= self.grid.grid_width or y < 0 or y >= self.grid.grid_height:
-                    y += 1
+
+        y_offset = (ship.y - delta)
+        y_end = (ship.y + ship.size + delta) - 1
+
+        for y in range(y_offset, y_end):
+            if y < 0 or y >= self.grid.grid_height or y == ship.y:
+                continue
+
+            x_offset = ship.x
+            x_end = (ship.x + ship.size)
+
+            for x in range(x_offset, x_end):
+                if x < 0 or x >= self.grid.grid_width:
                     continue
 
                 tiles.append(self.grid.get(x, y))
-                y += 1
+
+            y += 1
         return tiles
 
     # Resets the current selection of a ship.
@@ -202,6 +206,9 @@ class Session:
 
     # Updates the position from its current position to the specified position
     def move_ship(self, ship, x, y):
+        if x < 0 or x >= self.grid.grid_width or y < 0 or y > self.grid.grid_height:
+            return
+
         ship.x = x
         ship.y = y
 
@@ -214,6 +221,9 @@ class Session:
 
     # Changes the current turn to that of the specified player.
     def change_turn(self, p):
+        # Give current player new card at end of turn
+        if len(self.current_turn.cards) < 6:
+            self.current_turn.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         self.current_turn = p
 
     # Updates the state of this session.
