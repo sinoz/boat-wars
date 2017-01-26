@@ -1,6 +1,7 @@
 import pygame
 
 import screens
+import screens.boats
 import screens.introduction
 import screens.rules
 import screens.main_menu
@@ -16,6 +17,7 @@ class InstructionsScreen:
         self.to_main = widget.button.Button((20, 598), (85, 66), self.return_to_main)
         self.to_intro = widget.button.Button((109, 226), (290, 82), self.open_intro_screen)
         self.to_rules = widget.button.Button((626, 221), (296, 84), self.open_rules_screen)
+        self.to_boats = widget.button.Button((409, 444), (199, 81), self.open_boats_screen)
 
     # Updates this 'settings' screen.
     def update(self):
@@ -26,6 +28,7 @@ class InstructionsScreen:
         self.to_main.on_event(event)
         self.to_intro.on_event(event)
         self.to_rules.on_event(event)
+        self.to_boats.on_event(event)
 
     # TODO
     def open_intro_screen(self, x, y, cursor):
@@ -36,6 +39,11 @@ class InstructionsScreen:
     def open_rules_screen(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
         self.canvas.set_screen(screens.rules.RulesScreen(self.canvas))
+
+    # TODO
+    def open_boats_screen(self, x, y, cursor):
+        sound.Plopperdeplop.tune(self, 'click')
+        self.canvas.set_screen(screens.boats.BoatsScreen(self.canvas, self))
 
     # TODO
     def return_to_main(self, x, y, cursor):

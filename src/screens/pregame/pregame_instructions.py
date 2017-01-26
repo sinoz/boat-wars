@@ -34,6 +34,10 @@ class PreGameInstructionsScreen:
                 sound.Plopperdeplop.tune(self, 'click')
                 from screens.pregame.pregame_rules import RulesScreen
                 self.canvas.set_screen(RulesScreen(self.canvas, self))
+            elif x >= 410 and y >= 445 and x <= 605 and y <= 525:
+                sound.Plopperdeplop.tune(self, 'click')
+                from screens.boats import BoatsScreen
+                self.canvas.set_screen(BoatsScreen(self.canvas, self))
             elif x >= 726 and y >= 586 and x <= 994 and y <= 670:
                 sound.Plopperdeplop.tune(self, 'click')
                 self.canvas.set_screen(screens.game.set_names.SetNamesScreen(self.canvas))

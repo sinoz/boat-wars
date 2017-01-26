@@ -2,11 +2,12 @@ import pygame
 
 import screens.game.cards
 import screens.sound as sound
+import screens.termination
+import screens.main_menu
 import play.grid
 import play.session
 import widget.button
 import play.ship
-
 
 class GameScreen:
     def __init__(self, canvas, session):
@@ -14,6 +15,8 @@ class GameScreen:
         self.session = session
 
         self.image = pygame.image.load('resources/screens/' + canvas.language + '/game/game.png')
+        self.exit_image = pygame.image.load('resources/screens/' + canvas.language + '/game/ingame_exit.jpg')
+
         sound.Plopperdeplop.music(self, "battle_music")
 
         self.cards_button = widget.button.Button((890, 98), (113, 178), self.display_cards)
@@ -21,7 +24,24 @@ class GameScreen:
         self.defense_mode_button = widget.button.Button((885, 432), (122, 68), self.set_defense_mode)
         self.end_turn_button = widget.button.Button((885, 608), (126, 79), self.end_turn)
 
+        self.main_menu_button = widget.button.Button((338, 221), (318, 67), self.return_to_main_menu)
+        self.exit_game_button = widget.button.Button((344, 398), (315, 77), self.open_exit)
+
+        # 338 211 to 656 278
+        # 341 301 to 658 376 TODO
+        # 344 398 to 659 475
+
+        self.draw_exit = False
+
         self.font = pygame.font.SysFont("monospace", 20)
+
+    # TODO
+    def return_to_main_menu(self, x, y, cursor):
+        self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))
+
+    # TODO
+    def open_exit(self, x, y, cursor):
+        self.canvas.set_screen(screens.termination.ExitScreen(self.canvas, self))
 
     # Updates this 'game' screen.
     def update(self):
@@ -29,11 +49,18 @@ class GameScreen:
 
     # Handles an event.
     def on_event(self, event):
+        if self.draw_exit:
+            self.main_menu_button.on_event(event)
+            self.exit_game_button.on_event(event)
+
         self.cards_button.on_event(event)
         self.attack_mode_button.on_event(event)
         self.defense_mode_button.on_event(event)
         self.end_turn_button.on_event(event)
         self.session.on_event(event)
+
+        if (event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE)):
+            self.draw_exit = not self.draw_exit
 
     # Ends the turn of the current player
     def end_turn(self, x, y, cursor):
@@ -69,7 +96,13 @@ class GameScreen:
         turn_display = self.font.render(str(self.session.current_turn.name), 1, (0, 0, 0))
         surface.blit(turn_display, (893, 22))
         if self.session.selected_ship is None:
-            surface.blit(self.font.render("     ", 1, (0, 0, 0)), (891, 47))
+            surface.blit(self.font.render("", 1, (0, 0, 0)), (891, 47))
         else:
             mode_display = self.font.render(self.session.selected_ship.mode_id_to_name(), 1, (0, 0, 0))
             surface.blit(mode_display, (906, 47))
+
+        if self.draw_exit:
+            x = (self.canvas.app.width / 2) - (540 / 2)
+            y = (self.canvas.app.height / 2) - (340 / 2)
+
+            surface.blit(self.exit_image, (x, y))

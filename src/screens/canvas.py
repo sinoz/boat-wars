@@ -26,7 +26,7 @@ class Canvas:
     # that apply for all types of screens.
     def poll_events(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            if (event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE)) and not type(self.screen) is screens.game.game.GameScreen:
                 self.set_screen(ExitScreen(self, self.screen))
             else:
                 self.screen.on_event(event)
