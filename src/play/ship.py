@@ -45,7 +45,7 @@ class Ship:
     # Switches the state of this ship to Attack mode.
     def switch_attack_mode(self):
         self.mode = AttackMode
-        self.transform(270)
+        self.transform(-90)
 
     # Switches the state of this ship to Defense mode.
     def switch_defense_mode(self):
