@@ -10,8 +10,9 @@ DrawFireRange = 1
 DrawMoveRange = 2
 
 class Session:
-    def __init__(self, grid, p1_name, p2_name):
+    def __init__(self, language, grid, p1_name, p2_name):
         self.grid = grid
+        self.language = language
         self.deck = play.randomcard.Cards()
 
         self.p1 = play.player.Player(self, p1_name)
@@ -35,7 +36,7 @@ class Session:
         self.p2.add_ship(play.ship.Ship(grid.get(21, 19)))
 
         # Give card to player 1
-        self.p1.add_card(play.crd.Card('adr', 'Normal'))
+        self.p1.add_card(play.crd.Card('adr', 'Normal', self.language))
 
         # Rotate the ships of player one to face the boats of player two
         self.p1.forEachShip(lambda ship: ship.transform(180))
