@@ -37,10 +37,10 @@ class Session:
         self.p2.add_ship(play.ship.Ship(grid.get(21, 19)))
 
         # Give 2 cards to player 1 and 2
-        self.p1.add_card(crd.Card(self.deck.pick_normal1(), 'Normal', self.language))
-        self.p1.add_card(crd.Card(self.deck.pick_normal1(), 'Normal', self.language))
-        self.p2.add_card(crd.Card(self.deck.pick_normal1(), 'Normal', self.language))
-        self.p2.add_card(crd.Card(self.deck.pick_normal1(), 'Normal', self.language))
+        self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
+        self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
+        self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
+        self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
 
         # Rotate the ships of player one to face the boats of player two
         self.p1.forEachShip(lambda ship: ship.transform(180))
@@ -223,7 +223,7 @@ class Session:
     def change_turn(self, p):
         # Give current player new card at end of turn
         if len(self.current_turn.cards) < 6:
-            self.current_turn.add_card(crd.Card(self.deck.pick_normal1(), 'Normal', self.language))
+            self.current_turn.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         self.current_turn = p
 
     # Updates the state of this session.
