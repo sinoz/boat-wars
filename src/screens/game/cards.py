@@ -5,6 +5,7 @@ import widget.button
 class CardScreen:
     def __init__(self, canvas, session, prev=None):
         self.canvas = canvas
+        self.session = session
         self.prev = prev
         self.image = pygame.image.load('resources/screens/' + canvas.language + '/game/cards.png')
 
