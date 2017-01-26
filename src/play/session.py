@@ -213,6 +213,9 @@ class Session:
 
     # Changes the current turn to that of the specified player.
     def change_turn(self, p):
+        # Give current player new card at end of turn
+        if len(self.current_turn.cards) < 6:
+            self.current_turn.add_card(crd.Card(self.deck.pick_normal1(), 'Normal', self.language))
         self.current_turn = p
 
     # Updates the state of this session.
