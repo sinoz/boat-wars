@@ -4,9 +4,8 @@ import screens.game.cards
 import screens.sound as sound
 import play.grid
 import widget.button
+import play.ship
 
-AttackModeID = "AttackMode"
-DefenseModeID = "DefenseMode"
 
 class GameScreen:
     def __init__(self, canvas, session):
@@ -22,7 +21,6 @@ class GameScreen:
         self.end_turn_button = widget.button.Button((885, 608), (126, 79), self.end_turn)
 
         self.font = pygame.font.SysFont("monospace", 20)
-        self.mode_display = AttackModeID
 
     # Updates this 'game' screen.
     def update(self):
@@ -38,7 +36,7 @@ class GameScreen:
 
     # Ends the turn of the current player
     def end_turn(self, x, y, cursor):
-        self.session.reset_tiles()
+        self.session.reset_selection()
 
         if self.session.current_turn == self.session.p1:
             self.session.change_turn(self.session.p2)
@@ -50,18 +48,12 @@ class GameScreen:
         if not self.session.selected_ship is None:
             if not self.session.selected_ship.in_attack_mode():
                 self.session.selected_ship.switch_attack_mode()
-                self.session.reset_tiles()
-                self.session.reset_selection()
-                self.mode_display = AttackModeID
 
     # Sets a boat to defense mode
     def set_defense_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
             if not self.session.selected_ship.in_defense_mode():
                 self.session.selected_ship.switch_defense_mode()
-                self.session.reset_tiles()
-                self.session.reset_selection()
-                self.mode_display = DefenseModeID
 
     # Reacts to the user pressing on the 'cards' button
     def display_cards(self, x, y, cursor):
