@@ -3,6 +3,7 @@ import pygame
 import screens.game.cards
 import screens.sound as sound
 import play.grid
+import play.session
 import widget.button
 import play.ship
 
@@ -53,6 +54,7 @@ class GameScreen:
     def set_defense_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
             if not self.session.selected_ship.in_defense_mode():
+                self.session.draw_type = play.session.DrawFireRange
                 self.session.selected_ship.switch_defense_mode()
 
     # Reacts to the user pressing on the 'cards' button

@@ -26,6 +26,7 @@ class Ship:
         self.firepower = type[5]
 
         self.tile.set_ship(self)
+        self.font = pygame.font.SysFont("monospace", 30)
 
     # Returns a list of tile positions that this ship currently occupies.
     def occupied_tile_pos(self):
@@ -71,6 +72,9 @@ class Ship:
     # Draws this ship onto the given surface.
     def draw(self, surface):
         surface.blit(self.image, pygame.rect.Rect(self.x * self.tile.width, self.y * self.tile.height, self.tile.width, self.tile.height))
+
+        shipHealthDisplay = self.font.render(str(self.health), 1, (0, 255, 0))
+        surface.blit(shipHealthDisplay, (self.tile.rect.x + self.tile.width / 4, self.tile.rect.y - 15))
 
     # Translates the mode id to a reusable name.
     def mode_id_to_name(self):
