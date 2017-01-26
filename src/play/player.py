@@ -31,8 +31,10 @@ class Player:
 
     # A foreach function that accepts a callback which takes a card.
     def forEachCard(self, f):
+        x = 0
         for card in self.cards:
-            f(card)
+            f(card, x)
+            x += 1
 
     # Updates the state of this player.
     def update(self):
@@ -40,7 +42,7 @@ class Player:
 
     # Draws the cards of this player
     def draw_cards(self, surface):
-        self.forEachCard(lambda card: card.draw(surface))
+        self.forEachCard(lambda card, x: card.draw(surface, x))
 
     # Draws the components of this player.
     def draw(self, surface):
