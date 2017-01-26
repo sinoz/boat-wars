@@ -9,6 +9,10 @@ NoRangeDrawing = 0
 DrawFireRange = 1
 DrawMoveRange = 2
 
+AttackModeID = "Attack"
+DefenseModeID = "Defense"
+no_mode = "           "
+
 class Session:
     def __init__(self, grid, p1_name, p2_name):
         self.grid = grid
