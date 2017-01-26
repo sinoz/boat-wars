@@ -7,7 +7,8 @@ AttackMode = 1
 # TODO use a dictionary instead?
 Scout = (0, 2, 4, 4, 3, 2)
 Avenger = (1, 3, 3, 5, 4, 3)
-QueenMary = (2, 4, 2, 6, 4, 4)
+Marejada = (2, 3, 3, 5, 4, 3)
+QueenMary = (3, 4, 2, 6, 4, 4)
 
 class Ship:
     def __init__(self, tile, type=Scout, mode=AttackMode):

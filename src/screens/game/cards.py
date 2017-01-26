@@ -12,7 +12,7 @@ class CardScreen:
         self.return_button = widget.button.Button((41, 611), (90, 58), self.return_to_game)
         self.font = pygame.font.SysFont("monospace", 20)
 
-    # Updates this 'cards' screen.
+    # Updates the 'cards' screen.
     def update(self):
         pass
 
@@ -24,7 +24,7 @@ class CardScreen:
     def return_to_game(self, x, y, cursor):
         self.canvas.set_screen(self.prev)
 
-    # Draws the components of this 'cards' screen.
+    # Draws the components of the 'cards' screen.
     def draw(self, surface):
         surface.blit(self.image, (0, 0))
 
