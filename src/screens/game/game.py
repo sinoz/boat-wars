@@ -5,6 +5,9 @@ import screens.sound as sound
 import play.grid
 import widget.button
 
+AttackModeID = "Kaas"
+DefenseModeID = "Baksteen"
+
 class GameScreen:
     def __init__(self, canvas, session):
         self.canvas = canvas
@@ -19,6 +22,7 @@ class GameScreen:
         self.end_turn_button = widget.button.Button((885, 608), (126, 79), self.end_turn)
 
         self.font = pygame.font.SysFont("monospace", 20)
+        self.mode_display = None
 
     # Updates this 'game' screen.
     def update(self):
@@ -45,11 +49,13 @@ class GameScreen:
     def set_attack_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
             self.session.selected_ship.switch_attack_mode()
+            self.mode_display = AttackModeID
 
     # Sets a boat to defense mode
     def set_defense_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
             self.session.selected_ship.switch_defense_mode()
+            self.mode_display = DefenseModeID
 
     # Reacts to the user pressing on the 'cards' button
     def display_cards(self, x, y, cursor):
@@ -60,5 +66,5 @@ class GameScreen:
         surface.blit(self.image, (0, 0))
         self.session.draw(surface)
 
-        turn_display = self.font.render(str(self.session.current_turn.name), 1, (0, 0, 0))
+        turn_display = self.font.render(str(self.session.current_turn.name + "\n" + str(self.mode_display)), 2, (0, 0, 0))
         surface.blit(turn_display, (893, 35))
