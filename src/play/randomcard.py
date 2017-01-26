@@ -4,7 +4,7 @@ import random
 class Cards:
     # Create and shuffle decks
     def __init__(self):
-        self.normaldeck1 = ['fmj', 'fjm', 'rif', 'rif', 'arif', 'arif', 'navm', 'navm', 'navm', 'navm', 'navm', 'navm',
+        self.normaldeck1 = ['fmj', 'fmj', 'rif', 'rif', 'arif', 'arif', 'navm', 'navm', 'navm', 'navm', 'navm', 'navm',
                            'emp', 'emp', 'emp', 'emp', 'refh', 'refh', 'son', 'son', 'son', 'son', 'son', 'smok', 'smok',
                            'sab', 'sab', 'back', 'back', 'fue2', 'fue2', 'fue2', 'fue2', 'fuel', 'fuel', 'fuel', 'fuel',
                            'fuel', 'fuel', 'rally', 'adr', 'adr', 'adr', 'adr']
