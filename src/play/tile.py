@@ -9,6 +9,8 @@ class Tile:
         self.height = height
         self.color = color
         self.selected = False
+        self.with_move_range = False
+        self.with_fire_range = False
         self.rect = pygame.rect.Rect(x * width, y * height, width, height)
 
     # Assigns a ship to this tile.
@@ -19,13 +21,19 @@ class Tile:
     def update(self):
         pass
 
-    # Resets the selection for this tile
-    def reset_selection(self):
+    # Resets drawing flags for this tile
+    def reset(self):
+        self.with_fire_range = False
+        self.with_move_range = False
         self.selected = False
 
     # Draws this tile.
     def draw(self, surface):
-        if not self.selected:
-            pygame.draw.rect(surface, self.color, self.rect, 1)
-        else:
+        if self.selected:
             pygame.draw.rect(surface, (255, 0, 0), self.rect, 2)
+        if self.with_move_range:
+            pygame.draw.rect(surface, (0, 255, 0), self.rect, 2)
+        if self.with_fire_range:
+            pygame.draw.rect(surface, (0, 0, 255), self.rect, 2)
+        else:
+            pygame.draw.rect(surface, self.color, self.rect, 1)
