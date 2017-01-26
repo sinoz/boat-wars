@@ -48,18 +48,20 @@ class GameScreen:
     # Sets a boat to attack mode
     def set_attack_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
-            self.session.selected_ship.switch_attack_mode()
-            self.session.reset_tiles()
-            self.session.reset_selection()
-            self.mode_display = AttackModeID
+            if not self.session.selected_ship.in_attack_mode():
+                self.session.selected_ship.switch_attack_mode()
+                self.session.reset_tiles()
+                self.session.reset_selection()
+                self.mode_display = AttackModeID
 
     # Sets a boat to defense mode
     def set_defense_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
-            self.session.selected_ship.switch_defense_mode()
-            self.session.reset_tiles()
-            self.session.reset_selection()
-            self.mode_display = DefenseModeID
+            if not self.session.selected_ship.in_defense_mode():
+                self.session.selected_ship.switch_defense_mode()
+                self.session.reset_tiles()
+                self.session.reset_selection()
+                self.mode_display = DefenseModeID
 
     # Reacts to the user pressing on the 'cards' button
     def display_cards(self, x, y, cursor):
@@ -72,5 +74,8 @@ class GameScreen:
 
         turn_display = self.font.render(str(self.session.current_turn.name), 1, (0, 0, 0))
         surface.blit(turn_display, (893, 22))
-        mode_display = self.font.render(str(self.mode_display), 1, (0, 0, 0))
-        surface.blit(mode_display, (891, 47))
+        if self.session.selected_ship is None:
+            surface.blit(self.font.render("     ", 1, (0, 0, 0)), (891, 47))
+        else:
+            mode_display = self.font.render(self.session.selected_ship.mode_id_to_name(), 1, (0, 0, 0))
+            surface.blit(mode_display, (906, 47))

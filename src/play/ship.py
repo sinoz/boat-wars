@@ -71,3 +71,10 @@ class Ship:
     # Draws this ship onto the given surface.
     def draw(self, surface):
         surface.blit(self.image, pygame.rect.Rect(self.x * self.tile.width, self.y * self.tile.height, self.tile.width, self.tile.height))
+
+    # Translates the mode id to a reusable name.
+    def mode_id_to_name(self):
+        if self.mode == AttackMode:
+            return "Attack"
+        else:
+            return "Defense"
