@@ -2,6 +2,7 @@ import play.player
 import play.ship
 import play.grid
 import play.randomcard
+import play.crd as crd
 
 import pygame
 
@@ -40,10 +41,10 @@ class Session:
         self.p2.add_ship(play.ship.Ship(grid.get(21, 19)))
 
         # Give 2 cards to player 1 and 2
-        self.p1.add_card(self.deck.pick_normal1())
-        self.p1.add_card(self.deck.pick_normal1())
-        self.p2.add_card(self.deck.pick_normal1())
-        self.p2.add_card(self.deck.pick_normal1())
+        self.p1.add_card(crd.Card(self.deck.pick_normal1(), 'Normal', self.language))
+        self.p1.add_card(crd.Card(self.deck.pick_normal1(), 'Normal', self.language))
+        self.p2.add_card(crd.Card(self.deck.pick_normal1(), 'Normal', self.language))
+        self.p2.add_card(crd.Card(self.deck.pick_normal1(), 'Normal', self.language))
 
         # Rotate the ships of player one to face the boats of player two
         self.p1.forEachShip(lambda ship: ship.transform(180))
