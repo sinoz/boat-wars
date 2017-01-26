@@ -40,7 +40,7 @@ class SetNamesScreen:
 
     # TODO
     def start_game(self, x, y, cursor):
-        grid = play.grid.Grid(26, 20)
+        grid = play.grid.Grid(27, 21)
         session = play.session.Session(grid, self.p1_name.text, self.p2_name.text)
 
         self.canvas.set_screen(screens.game.game.GameScreen(self.canvas, session))
