@@ -27,6 +27,7 @@ class GameScreen:
         self.end_turn_button = widget.button.Button((885, 608), (126, 79), self.end_turn)
 
         self.main_menu_button = widget.button.Button((338, 221), (318, 67), self.return_to_main_menu)
+        self.vic_main_menu_button = widget.button.Button((333,365), (317,79), self.return_to_main_menu)
         self.settings_button = widget.button.Button((341, 301), (317, 65), self.return_to_settings)
         self.exit_game_button = widget.button.Button((344, 398), (315, 77), self.open_exit)
 
@@ -65,7 +66,7 @@ class GameScreen:
             self.settings_button.on_event(event)
 
         if self.draw_victory:
-            self.main_menu_button.on_event(event)
+            self.vic_main_menu_button.on_event(event)
 
         self.cards_button.on_event(event)
         self.attack_mode_button.on_event(event)
@@ -127,5 +128,6 @@ class GameScreen:
         if self.draw_victory:
             x = (self.canvas.app.width / 2) - (540 / 2)
             y = (self.canvas.app.height / 2) - (340 / 2)
+            # TODO show winner
 
             surface.blit(self.victory_image, (x, y))
