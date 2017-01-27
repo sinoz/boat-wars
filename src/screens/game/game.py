@@ -1,6 +1,7 @@
 import pygame
 
 import screens.game.cards
+import screens.settings
 import screens.sound as sound
 import screens.termination
 import screens.main_menu
@@ -25,6 +26,7 @@ class GameScreen:
         self.end_turn_button = widget.button.Button((885, 608), (126, 79), self.end_turn)
 
         self.main_menu_button = widget.button.Button((338, 221), (318, 67), self.return_to_main_menu)
+        self.settings_button = widget.button.Button((341, 301), (317, 65), self.return_to_settings)
         self.exit_game_button = widget.button.Button((344, 398), (315, 77), self.open_exit)
 
         # 338 211 to 656 278
@@ -39,6 +41,10 @@ class GameScreen:
     def return_to_main_menu(self, x, y, cursor):
         self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))
 
+    def return_to_settings(self, x, y, cursor):
+        print("kek")
+        self.canvas.set_screen(screens.settings.SettingsScreen(self.canvas, self))
+
     # TODO
     def open_exit(self, x, y, cursor):
         self.canvas.set_screen(screens.termination.ExitScreen(self.canvas, self))
@@ -52,6 +58,7 @@ class GameScreen:
         if self.draw_exit:
             self.main_menu_button.on_event(event)
             self.exit_game_button.on_event(event)
+            self.settings_button.on_event(event)
 
         self.cards_button.on_event(event)
         self.attack_mode_button.on_event(event)

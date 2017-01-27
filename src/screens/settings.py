@@ -7,13 +7,14 @@ import screens.canvas
 import screens.sound as sound
 
 class SettingsScreen:
-    def __init__(self, canvas):
+    def __init__(self, canvas, prev=None):
         self.canvas = canvas
+        self.prev = prev
         self.font = pygame.font.SysFont("monospace", 45)
         self.image = pygame.image.load('resources/screens/' + canvas.language + '/options_menu.jpg')
 
         # Return button
-        self.return_button = widget.button.Button((17, 595), (91, 75), self.return_to_main)
+        self.return_button = widget.button.Button((17, 595), (91, 75), self.return_to_prev)
 
         # Language buttons
         self.change_lang_dutch = widget.button.Button((801, 312), (95, 85), self.change_lang_to_dutch)
@@ -59,9 +60,9 @@ class SettingsScreen:
         self.canvas.set_screen(SettingsScreen(self.canvas))
 
     # Reacts to the user pressing the 'return' button
-    def return_to_main(self, x, y, cursor):
+    def return_to_prev(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
-        self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))
+        self.canvas.set_screen(self.prev)
 
     # Draws the components of this 'settings' screen.
     def draw(self, surface):

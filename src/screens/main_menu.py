@@ -35,7 +35,7 @@ class MainScreen:
                 self.canvas.set_screen(instructions.InstructionsScreen(self.canvas))
             elif x >= 359 and y >= 355 and x <= 670 and y <= 428:
                 sound.Plopperdeplop.tune(self, 'click')
-                self.canvas.set_screen(settings.SettingsScreen(self.canvas))
+                self.canvas.set_screen(settings.SettingsScreen(self.canvas, self))
             elif x >= 356 and y >= 458 and x <= 667 and y <= 538:
                 sound.Plopperdeplop.tune(self, 'click')
                 self.canvas.set_screen(highscores.HighscoresScreen(self.canvas, self))
