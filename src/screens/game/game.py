@@ -128,6 +128,8 @@ class GameScreen:
         if self.draw_victory:
             x = (self.canvas.app.width / 2) - (540 / 2)
             y = (self.canvas.app.height / 2) - (340 / 2)
-            # TODO show winner
+            winner_display = self.font.render((str(self.session.winner.name) + ' Wins!'), 1, (0, 0, 0))
+            self.font.set_bold(True)
 
             surface.blit(self.victory_image, (x, y))
+            surface.blit(winner_display, (400, 267))

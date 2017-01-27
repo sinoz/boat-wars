@@ -256,6 +256,7 @@ class Session:
         self.grid.update()
 
         # Check if a player has won
+        # TODO add statistics to database
         if len(self.p1.ships) == 0:
             self.winner = self.p2
         elif len(self.p2.ships) == 0:
