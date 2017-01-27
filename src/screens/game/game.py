@@ -77,7 +77,7 @@ class GameScreen:
         self.session.on_event(event)
 
         if event.type == pygame.QUIT:
-            self.canvas.set_screen(screens.termination.ExitScreen(self.canvas, self))
+            self.open_exit()
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             self.draw_exit = not self.draw_exit
 
