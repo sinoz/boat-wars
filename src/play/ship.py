@@ -26,7 +26,7 @@ class Ship:
         self.firepower = type[5]
 
         self.tile.set_ship(self)
-        self.font = pygame.font.SysFont("monospace", 30)
+        self.font = pygame.font.SysFont("monospace", 30, 1)
 
     # Returns a list of tile positions that this ship currently occupies.
     def occupied_tile_pos(self):

@@ -30,7 +30,7 @@ class GameScreen:
         self.exit_game_button = widget.button.Button((344, 398), (315, 77), self.open_exit)
 
         # 338 211 to 656 278
-        # 341 301 to 658 376 TODO
+        # 341 301 to 658 376
         # 344 398 to 659 475
 
         self.draw_exit = False
