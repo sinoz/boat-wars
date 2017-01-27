@@ -57,6 +57,8 @@ class GameScreen:
         self.session.update()
         if self.session.winner != None:
             self.draw_victory = True
+            if sound.current_song != 'victory':
+                sound.Plopperdeplop.music(self, 'victory')
 
     # Handles an event.
     def on_event(self, event):
@@ -128,6 +130,7 @@ class GameScreen:
         if self.draw_victory:
             x = (self.canvas.app.width / 2) - (540 / 2)
             y = (self.canvas.app.height / 2) - (340 / 2)
+
             winner_display = self.font.render((str(self.session.winner.name) + ' Wins!'), 1, (0, 0, 0))
             self.font.set_bold(True)
 
