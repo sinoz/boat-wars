@@ -17,6 +17,7 @@ class GameScreen:
 
         self.image = pygame.image.load('resources/screens/' + canvas.language + '/game/game.png')
         self.exit_image = pygame.image.load('resources/screens/' + canvas.language + '/game/ingame_exit.jpg')
+        self.victory_image = pygame.image.load('resources/screens/' + canvas.language + '/game/victory.png')
 
         sound.Plopperdeplop.music(self, "battle_music")
 
@@ -34,6 +35,7 @@ class GameScreen:
         # 344 398 to 659 475
 
         self.draw_exit = False
+        self.draw_victory = False
 
         self.font = pygame.font.SysFont("monospace", 20, 1)
 
@@ -59,6 +61,9 @@ class GameScreen:
             self.main_menu_button.on_event(event)
             self.exit_game_button.on_event(event)
             self.settings_button.on_event(event)
+
+        if self.draw_victory:
+            self.main_menu_button.on_event(event)
 
         self.cards_button.on_event(event)
         self.attack_mode_button.on_event(event)
@@ -115,3 +120,9 @@ class GameScreen:
             y = (self.canvas.app.height / 2) - (340 / 2)
 
             surface.blit(self.exit_image, (x, y))
+
+        if self.draw_victory:
+            x = (self.canvas.app.width / 2) - (540 / 2)
+            y = (self.canvas.app.height / 2) - (340 / 2)
+
+            surface.blit(self.victory_image, (x, y))
