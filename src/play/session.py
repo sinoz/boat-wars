@@ -10,6 +10,7 @@ import pygame
 NoRangeDrawing = 0
 DrawFireRange = 1
 DrawMoveRange = 2
+# enemy = None
 
 class Session:
     def __init__(self, language, grid, p1_name, p2_name):
@@ -19,9 +20,12 @@ class Session:
 
         self.p1 = play.player.Player(self, p1_name)
         self.p2 = play.player.Player(self, p2_name)
+        # self.enemy = play.player.Player.enemy(self)
 
         self.current_turn = self.p1
         self.selected_ship = None
+        # self.selected_enemy_ship = None
+
 
         self.draw_type = NoRangeDrawing
 
@@ -46,7 +50,7 @@ class Session:
         # Rotate the ships of player one to face the boats of player two
         self.p1.forEachShip(lambda ship: ship.transform(180))
 
-    # Handles an event.
+   # Handles an event.
     def on_event(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
             if not self.selected_ship is None and not self.selected_ship.in_defense_mode():
@@ -223,13 +227,26 @@ class Session:
 
     # Changes the current turn to that of the specified player.
     def change_turn(self, p):
+
         # Give current player new card at end of turn
         if len(self.current_turn.cards) < 6:
             self.current_turn.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         else:
             self.deck.trash_card(self.deck.pick_currentdeck())
+
+        # Determine the enemy
+        if self.current_turn == self.p1:
+            self.p1.enemy = True
+            self.p2.enemy = False
+            self.current_turn = p
+        elif self.current_turn == self.p2:
+            self.p1.enemy = False
+            self.p2.enemy = True
+            self.current_turn = p
+
         # Change current turn
-        self.current_turn = p
+        # self.current_turn = p
+
 
     # Updates the state of this session.
     def update(self):
@@ -260,4 +277,37 @@ class Session:
 
             tile = self.grid.get(grid_x, grid_y)
             tile.marked = True
+
+    # # Fire interaction between the ships
+    # def battle(self,event):
+    #     p2_boat_life = self.p2.session.selected_ship.Healthpoints
+    #     p1_boat_firepower = self.p1.session.selected_ship.Firepower
+    #
+    #     if self.selected_ship != None:
+    #         if self.session.selected_ship.mode == AttackMode:
+    #             if self.tile.with_fire_range == True:
+    #                 if event.type == pygame.MOUSEBUTTONDOWN:
+    #                     if self.p2.session.selected_ship.tile != None:
+    #                         self.p2_boat_life = p2_boat_life - p1_boat_firepower
+
+            # # # # def selected_enemy_ship(self, event):
+            # # # #     # if self.current_turn == self.p1:
+            # # # #     #     if self.selected_ship is not None:
+            # # # #     #         if event.type == pygame.MOUSEBUTTONDOWN and self.p2.enemy == True:
+            # # # #     #             self.selected_enemy_ship = self.tile.ship
+            # # # #
+            # # # #
+            # # # #         if self.selected__enemy_ship is None:
+            # # # #                 for ship in self.current_turn.ships:
+            # # #                     occupied_tile_pos = ship.occupied_tile_pos()
+            # # #                     for pos in occupied_tile_pos:
+            # # #                         tile = self.grid.get(pos[0], pos[1])
+            # # #                         if tile.x == grid_x and tile.y == grid_y:
+            # #                             self.selected_ship = tile.ship
+            # #                             for pos in occupied_tile_pos:
+            # #                                 tile = self.grid.get(pos[0], pos[1])
+            # #                                 if not tile.ship is None:
+            #                                     self.selected_ship = tile.ship
+            #                                     self.draw_type = DrawFireRange
+            #                                 tile.selected = True
 
