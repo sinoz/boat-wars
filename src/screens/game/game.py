@@ -35,7 +35,7 @@ class GameScreen:
 
         self.draw_exit = False
 
-        self.font = pygame.font.SysFont("monospace", 20)
+        self.font = pygame.font.SysFont("monospace", 20, 1)
 
     # TODO
     def return_to_main_menu(self, x, y, cursor):
