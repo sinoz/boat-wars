@@ -24,6 +24,7 @@ class Session:
 
         self.current_turn = self.p1
         self.selected_ship = None
+        self.winner = None
         # self.selected_enemy_ship = None
 
 
@@ -253,6 +254,12 @@ class Session:
         self.p1.update()
         self.p2.update()
         self.grid.update()
+
+        # Check if a player has won
+        if len(self.p1.ships) == 0:
+            self.winner = self.p2
+        elif len(self.p2.ships) == 0:
+            self.winner = self.p1
 
     # Draws the grid and all of the players and their components
     def draw(self, surface):

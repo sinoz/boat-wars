@@ -54,6 +54,8 @@ class GameScreen:
     # Updates this 'game' screen.
     def update(self):
         self.session.update()
+        if self.session.winner != None:
+            self.draw_victory = True
 
     # Handles an event.
     def on_event(self, event):
