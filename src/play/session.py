@@ -3,6 +3,7 @@ import play.ship
 import play.grid
 import play.randomcard
 import play.crd as crd
+import screens.sound as sound
 
 import pygame
 
@@ -28,13 +29,13 @@ class Session:
 
         self.draw_type = NoRangeDrawing
 
-        # Adds three ships for player one
+        # Adds four ships for player one
         self.p1.add_ship(play.ship.Ship(grid.get(5, 0)))
         self.p1.add_ship(play.ship.Ship(grid.get(10, 0), type=play.ship.QueenMary))
         self.p1.add_ship(play.ship.Ship(grid.get(16, 0), type=play.ship.Avenger))
         self.p1.add_ship(play.ship.Ship(grid.get(21, 0)))
 
-        # And now we add three ships for player two
+        # And now we add four ships for player two
         self.p2.add_ship(play.ship.Ship(grid.get(5, 19)))
         self.p2.add_ship(play.ship.Ship(grid.get(10, 18), type=play.ship.Avenger))
         self.p2.add_ship(play.ship.Ship(grid.get(16, 17), type=play.ship.QueenMary))
@@ -99,6 +100,7 @@ class Session:
                         if grid_x == tile.x and grid_y == tile.y:
                             if self.draw_type == DrawMoveRange and not self.selected_ship.in_defense_mode():
                                 self.move_ship(self.selected_ship, grid_x, grid_y)
+                                sound.Plopperdeplop.tune(self, 'movement')
 
                                 break
 
