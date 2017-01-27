@@ -13,6 +13,8 @@ class Plopperdeplop:
             Snd = pygame.mixer.Sound('resources/mp3/Explosion_ship.ogg')
         elif sound == 'movement':
             Snd = pygame.mixer.Sound('resources/mp3/Movement.ogg')
+        elif sound == 'card_flip' :
+            Snd = pygame.mixer.Sound('resources/mp3/Card.ogg')
 
         pygame.mixer.Sound.play(Snd)
         Snd.set_volume(0.3)

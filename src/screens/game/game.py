@@ -96,6 +96,7 @@ class GameScreen:
     # Reacts to the user pressing on the 'cards' button
     def display_cards(self, x, y, cursor):
         self.canvas.set_screen(screens.game.cards.CardScreen(self.canvas, self.session, self))
+        sound.Plopperdeplop.tune(self, 'card_flip')
 
     # Draws the components of this 'game' screen.
     def draw(self, surface):
