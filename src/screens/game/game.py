@@ -66,7 +66,9 @@ class GameScreen:
         self.end_turn_button.on_event(event)
         self.session.on_event(event)
 
-        if (event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE)):
+        if event.type == pygame.QUIT:
+            self.canvas.set_screen(screens.termination.ExitScreen(self.canvas, self))
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             self.draw_exit = not self.draw_exit
 
     # Ends the turn of the current player
