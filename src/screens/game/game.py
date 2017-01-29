@@ -89,7 +89,8 @@ class GameScreen:
     # Sets a boat to defense mode
     def set_defense_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
-            self.session.draw_type = play.session.DrawFireRange
+            if not self.session.selected_ship.reached_fire_limit():
+                self.session.draw_type = play.session.DrawFireRange
             self.session.selected_ship.switch_defense_mode()
 
     # Reacts to the user pressing on the 'cards' button

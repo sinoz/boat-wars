@@ -5,7 +5,6 @@ class Player:
         self.score = 0
         self.ships = []
         self.cards = []
-        # self.enemy = None
 
     # Adds the given ship to this player's arsenal.
     def add_ship(self, ship):
@@ -40,7 +39,7 @@ class Player:
         return has_remaining
 
     # A foreach function that accepts a callback which takes a ship.
-    def forEachShip(self, f):
+    def foreach_ship(self, f):
         for ship in self.ships:
             f(ship)
 
@@ -53,7 +52,7 @@ class Player:
         self.cards.remove(card)
 
     # A foreach function that accepts a callback which takes a card.
-    def forEachCard(self, f):
+    def foreach_card(self, f):
         x = 0
         for card in self.cards:
             f(card, x)
@@ -61,12 +60,12 @@ class Player:
 
     # Updates the state of this player.
     def update(self):
-        self.forEachShip(lambda ship: ship.update())
+        self.foreach_ship(lambda ship: ship.update())
 
     # Draws the cards of this player
     def draw_cards(self, surface):
-        self.forEachCard(lambda card, x: card.draw(surface, x))
+        self.foreach_card(lambda card, x: card.draw(surface, x))
 
     # Draws the components of this player.
     def draw(self, surface):
-        self.forEachShip(lambda ship: ship.draw(surface))
+        self.foreach_ship(lambda ship: ship.draw(surface))

@@ -43,7 +43,7 @@ class Session:
         self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
 
         # Rotate the ships of player one to face the boats of player two
-        self.p1.forEachShip(lambda ship: ship.transform(180))
+        self.p1.foreach_ship(lambda ship: ship.transform(180))
 
    # Handles an event.
     def on_event(self, event):
@@ -51,7 +51,7 @@ class Session:
             if not self.selected_ship is None and not self.selected_ship.in_defense_mode():
                 if self.draw_type == DrawFireRange:
                     self.draw_type = DrawMoveRange
-                else:
+                elif self.draw_type == DrawMoveRange:
                     self.draw_type = DrawFireRange
 
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -100,7 +100,7 @@ class Session:
                     tiles = self.compute_range(self.selected_ship, r)
                     for tile in tiles:
                         if click_tile_x == tile.x and click_tile_y == tile.y:
-                            if self.draw_type == DrawMoveRange and not self.selected_ship.in_defense_mode():
+                            if self.draw_type == DrawMoveRange and not self.selected_ship.in_defense_mode() and not self.selected_ship.reached_move_limit():
                                 occupied_tile_pos = self.selected_ship.occupied_tile_pos()
                                 for pos in occupied_tile_pos:
                                     if self.out_of_bounds(pos[0], pos[1]):
@@ -117,6 +117,8 @@ class Session:
                                 self.selected_ship.x = click_tile_x
                                 self.selected_ship.y = click_tile_y
 
+                                self.selected_ship.move_count += 1
+
                                 occupied_tile_pos = self.selected_ship.occupied_tile_pos()
                                 for pos in occupied_tile_pos:
                                     if self.out_of_bounds(pos[0], pos[1]):
@@ -126,7 +128,7 @@ class Session:
                                     tile.set_ship(self.selected_ship)
 
                                 break
-                            elif self.draw_type == DrawFireRange:
+                            elif self.draw_type == DrawFireRange and not self.selected_ship.reached_fire_limit():
                                 tile = self.grid.get(click_tile_x, click_tile_y)
                                 if not tile.ship is None:
                                     self.fire(self.selected_ship, tile.ship)
@@ -278,6 +280,7 @@ class Session:
         if opponent.health < 0:
             opponent.health = 0
 
+        attacker.fire_count += 1
         if not opponent.owner.has_remaining_ships():
             self.winner = attacker.owner
 
@@ -307,6 +310,9 @@ class Session:
             self.current_turn.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         else:
             self.deck.trash_card(self.deck.pick_currentdeck())
+
+        # Reset the fire and move counts
+        p.foreach_ship(lambda ship: ship.reset_counts())
 
         # Change current turn
         self.current_turn = p

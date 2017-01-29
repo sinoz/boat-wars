@@ -51,17 +51,18 @@ class SettingsScreen:
     def change_lang_to_english(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
         self.canvas.change_language(screens.canvas.English)
-        self.canvas.set_screen(SettingsScreen(self.canvas))
+        self.canvas.set_screen(SettingsScreen(self.canvas, self))
 
     # Reacts to the user pressing on the dutch language toggling button
     def change_lang_to_dutch(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
         self.canvas.change_language(screens.canvas.Dutch)
-        self.canvas.set_screen(SettingsScreen(self.canvas))
+        self.canvas.set_screen(SettingsScreen(self.canvas, self))
 
     # Reacts to the user pressing the 'return' button
     def return_to_prev(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
+        print(self.prev)
         self.canvas.set_screen(self.prev)
 
     # Draws the components of this 'settings' screen.

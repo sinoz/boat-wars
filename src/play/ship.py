@@ -24,6 +24,9 @@ class Ship:
         self.owner = owner
         self.tile.set_ship(self)
 
+        self.fire_count = 0
+        self.move_count = 0
+
         # Gameplay attributes of the ship
         self.mode = mode
         self.size = type[1]
@@ -70,6 +73,16 @@ class Ship:
     # Returns whether this ship is currently in Defense mode or not.
     def in_defense_mode(self):
         return self.mode == DefenseMode
+
+    def reached_fire_limit(self):
+        return self.fire_count == 1
+
+    def reached_move_limit(self):
+        return self.move_count == 1
+
+    def reset_counts(self):
+        self.move_count = 0
+        self.fire_count = 0
 
     # Updates the state of this ship per frame.
     def update(self):
