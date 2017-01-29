@@ -10,6 +10,7 @@ class ExitScreen:
         self.return_button = widget.button.Button((599, 351), (87, 76), self.return_to_prev)
         self.prev = prev
 
+        pygame.mixer.music.pause()
     # Updates this 'termination' screen.
     def update(self):
         pass
@@ -22,12 +23,14 @@ class ExitScreen:
     # Reacts to the user confirming to close the application
     def close_app(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
+        pygame.time.wait(100)
         self.canvas.quitGame()
 
     # Reacts to the user confirming to return to the previous screen
     def return_to_prev(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
         self.canvas.set_screen(self.prev)
+        pygame.mixer.music.unpause()
 
     # Draws the components of this 'termination' screen.
     def draw(self, surface):

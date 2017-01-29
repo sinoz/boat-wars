@@ -10,7 +10,7 @@ class CardScreen:
         self.image = pygame.image.load('resources/screens/' + canvas.language + '/game/cards.png')
 
         self.return_button = widget.button.Button((41, 611), (90, 58), self.return_to_game)
-        self.font = pygame.font.SysFont("monospace", 20)
+        self.font = pygame.font.SysFont("monospace", 20, 1)
 
     # Updates the 'cards' screen.
     def update(self):

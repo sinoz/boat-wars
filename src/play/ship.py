@@ -18,7 +18,7 @@ class Ship:
 
         self.tile = tile
 
-        self.font = pygame.font.SysFont("monospace", 30)
+        self.font = pygame.font.SysFont("monospace", 30, 1)
         self.image = pygame.image.load('resources/ships/' + str(type[0]) + '.png')
 
         self.owner = owner

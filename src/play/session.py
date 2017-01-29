@@ -24,17 +24,17 @@ class Session:
 
         self.draw_type = NoRangeDrawing
 
-        # Adds three ships for player one
-        self.p1.add_ship(play.ship.Ship(grid.get(5, 0), self.p1))
-        self.p1.add_ship(play.ship.Ship(grid.get(10, 0), self.p1, type=play.ship.QueenMary))
-        self.p1.add_ship(play.ship.Ship(grid.get(16, 0), self.p1, type=play.ship.Avenger))
-        self.p1.add_ship(play.ship.Ship(grid.get(21, 0), self.p1))
+        # Adds four ships for player one
+        self.p1.add_ship(play.ship.Ship(grid.get(5, 0)))
+        self.p1.add_ship(play.ship.Ship(grid.get(10, 0), type=play.ship.QueenMary))
+        self.p1.add_ship(play.ship.Ship(grid.get(16, 0), type=play.ship.Avenger))
+        self.p1.add_ship(play.ship.Ship(grid.get(21, 0)))
 
-        # And now we add three ships for player two
-        self.p2.add_ship(play.ship.Ship(grid.get(5, 15), self.p2))
-        self.p2.add_ship(play.ship.Ship(grid.get(10, 15), self.p2, type=play.ship.Avenger))
-        self.p2.add_ship(play.ship.Ship(grid.get(16, 15), self.p2, type=play.ship.QueenMary))
-        self.p2.add_ship(play.ship.Ship(grid.get(21, 15), self.p2))
+        # And now we add four ships for player two
+        self.p2.add_ship(play.ship.Ship(grid.get(5, 19)))
+        self.p2.add_ship(play.ship.Ship(grid.get(10, 18), type=play.ship.Avenger))
+        self.p2.add_ship(play.ship.Ship(grid.get(16, 17), type=play.ship.QueenMary))
+        self.p2.add_ship(play.ship.Ship(grid.get(21, 19)))
 
         # Give 2 cards to player 1 and 2
         self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
@@ -45,7 +45,7 @@ class Session:
         # Rotate the ships of player one to face the boats of player two
         self.p1.forEachShip(lambda ship: ship.transform(180))
 
-    # Handles an event.
+   # Handles an event.
     def on_event(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
             if not self.selected_ship is None and not self.selected_ship.in_defense_mode():
@@ -315,6 +315,13 @@ class Session:
         self.p1.update()
         self.p2.update()
         self.grid.update()
+
+        # Check if a player has won
+        # TODO add statistics to database
+        if len(self.p1.ships) == 0:
+            self.winner = self.p2
+        elif len(self.p2.ships) == 0:
+            self.winner = self.p1
 
     # Draws the grid and all of the players and their components
     def draw(self, surface):

@@ -17,6 +17,7 @@ class GameScreen:
 
         self.image = pygame.image.load('resources/screens/' + canvas.language + '/game/game.png')
         self.exit_image = pygame.image.load('resources/screens/' + canvas.language + '/game/ingame_exit.jpg')
+        self.victory_image = pygame.image.load('resources/screens/' + canvas.language + '/game/victory.png')
 
         sound.Plopperdeplop.music(self, "battle_music")
 
@@ -26,18 +27,25 @@ class GameScreen:
         self.end_turn_button = widget.button.Button((885, 608), (126, 79), self.end_turn)
 
         self.main_menu_button = widget.button.Button((338, 221), (318, 67), self.return_to_main_menu)
+        self.vic_main_menu_button = widget.button.Button((333,365), (317,79), self.return_to_main_menu)
         self.settings_button = widget.button.Button((341, 301), (317, 65), self.return_to_settings)
         self.exit_game_button = widget.button.Button((344, 398), (315, 77), self.open_exit)
 
-        self.draw_exit = False
+        # 338 211 to 656 278
+        # 341 301 to 658 376
+        # 344 398 to 659 475
 
-        self.font = pygame.font.SysFont("monospace", 20)
+        self.draw_exit = False
+        self.draw_victory = False
+
+        self.font = pygame.font.SysFont("monospace", 20, 1)
 
     # TODO
     def return_to_main_menu(self, x, y, cursor):
         self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))
 
     def return_to_settings(self, x, y, cursor):
+        print("kek")
         self.canvas.set_screen(screens.settings.SettingsScreen(self.canvas, self))
 
     # TODO
@@ -47,6 +55,10 @@ class GameScreen:
     # Updates this 'game' screen.
     def update(self):
         self.session.update()
+        if self.session.winner != None:
+            self.draw_victory = True
+            if sound.current_song != 'victory':
+                sound.Plopperdeplop.music(self, 'victory')
 
     # Handles an event.
     def on_event(self, event):
@@ -55,6 +67,9 @@ class GameScreen:
             self.exit_game_button.on_event(event)
             self.settings_button.on_event(event)
 
+        if self.draw_victory:
+            self.vic_main_menu_button.on_event(event)
+
         self.cards_button.on_event(event)
         self.attack_mode_button.on_event(event)
         self.defense_mode_button.on_event(event)
@@ -62,7 +77,7 @@ class GameScreen:
         self.session.on_event(event)
 
         if event.type == pygame.QUIT:
-            self.canvas.set_screen(screens.termination.ExitScreen(self.canvas, self))
+            self.open_exit()
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             self.draw_exit = not self.draw_exit
 
@@ -89,6 +104,7 @@ class GameScreen:
     # Reacts to the user pressing on the 'cards' button
     def display_cards(self, x, y, cursor):
         self.canvas.set_screen(screens.game.cards.CardScreen(self.canvas, self.session, self))
+        sound.Plopperdeplop.tune(self, 'card_flip')
 
     # Draws the components of this 'game' screen.
     def draw(self, surface):
@@ -108,3 +124,13 @@ class GameScreen:
             y = (self.canvas.app.height / 2) - (340 / 2)
 
             surface.blit(self.exit_image, (x, y))
+
+        if self.draw_victory:
+            x = (self.canvas.app.width / 2) - (540 / 2)
+            y = (self.canvas.app.height / 2) - (340 / 2)
+
+            winner_display = self.font.render((str(self.session.winner.name) + ' Wins!'), 1, (0, 0, 0))
+            self.font.set_bold(True)
+
+            surface.blit(self.victory_image, (x, y))
+            surface.blit(winner_display, (400, 267))

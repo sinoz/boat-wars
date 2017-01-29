@@ -5,6 +5,7 @@ class Player:
         self.score = 0
         self.ships = []
         self.cards = []
+        # self.enemy = None
 
     # Adds the given ship to this player's arsenal.
     def add_ship(self, ship):
