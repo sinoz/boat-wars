@@ -270,6 +270,7 @@ class Session:
         if not opponent.applied_smokescreen:
             # TODO play smokescreen animation?
             opponent.health -= attacker.firepower
+            opponent.applied_smokescreen = False
 
         if opponent.health < 0:
             opponent.health = 0
