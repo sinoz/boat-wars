@@ -20,21 +20,26 @@ class Session:
         self.p2 = play.player.Player(self, p2_name)
 
         self.current_turn = self.p1
+
+        self.winner = None
         self.selected_ship = None
 
         self.draw_type = NoRangeDrawing
+        self.add_initial_entities()
 
+    # Adds the initial entities for this new session. Should only be called upon creation of a session.
+    def add_initial_entities(self):
         # Adds four ships for player one
-        self.p1.add_ship(play.ship.Ship(grid.get(5, 0), self.p1))
-        self.p1.add_ship(play.ship.Ship(grid.get(10, 0), self.p1, type=play.ship.QueenMary))
-        self.p1.add_ship(play.ship.Ship(grid.get(16, 0), self.p1, type=play.ship.Avenger))
-        self.p1.add_ship(play.ship.Ship(grid.get(21, 0), self.p1))
+        self.p1.add_ship(play.ship.Ship(self.grid.get(5, 0), self.p1))
+        self.p1.add_ship(play.ship.Ship(self.grid.get(10, 0), self.p1, type=play.ship.QueenMary))
+        self.p1.add_ship(play.ship.Ship(self.grid.get(16, 0), self.p1, type=play.ship.Avenger))
+        self.p1.add_ship(play.ship.Ship(self.grid.get(21, 0), self.p1))
 
         # And now we add four ships for player two
-        self.p2.add_ship(play.ship.Ship(grid.get(5, 19), self.p2))
-        self.p2.add_ship(play.ship.Ship(grid.get(10, 18), self.p2, type=play.ship.Avenger))
-        self.p2.add_ship(play.ship.Ship(grid.get(16, 17), self.p2, type=play.ship.QueenMary))
-        self.p2.add_ship(play.ship.Ship(grid.get(21, 19), self.p2))
+        self.p2.add_ship(play.ship.Ship(self.grid.get(5, 19), self.p2))
+        self.p2.add_ship(play.ship.Ship(self.grid.get(10, 18), self.p2, type=play.ship.Avenger))
+        self.p2.add_ship(play.ship.Ship(self.grid.get(16, 17), self.p2, type=play.ship.QueenMary))
+        self.p2.add_ship(play.ship.Ship(self.grid.get(21, 19), self.p2))
 
         # Give 2 cards to player 1 and 2
         self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
@@ -45,118 +50,104 @@ class Session:
         # Rotate the ships of player one to face the boats of player two
         self.p1.foreach_ship(lambda ship: ship.transform(180))
 
-   # Handles an event.
-    def on_event(self, event):
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
-            if not self.selected_ship is None and not self.selected_ship.in_defense_mode():
-                if self.draw_type == DrawFireRange:
-                    self.draw_type = DrawMoveRange
-                elif self.draw_type == DrawMoveRange:
-                    self.draw_type = DrawFireRange
+    # Switches between the fire range and move range drawing types, if applicable.
+    def switch_draw_type(self):
+        if not self.selected_ship is None and not self.selected_ship.in_defense_mode():
+            if self.draw_type == DrawFireRange:
+                self.draw_type = DrawMoveRange
+            elif self.draw_type == DrawMoveRange:
+                self.draw_type = DrawFireRange
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_pos = pygame.mouse.get_pos()
+    # Attempts to select a ship that is located at the specified coordinates.
+    def select_ship_if_present(self, x, y):
+        for ship in self.current_turn.ships:
+            occupied_tile_pos = ship.occupied_tile_pos()
+            for pos in occupied_tile_pos:
+                if self.out_of_bounds(pos[0], pos[1]):
+                    continue
 
-            screen_x = mouse_pos[0]
-            screen_y = mouse_pos[1]
+                tile = self.grid.get(pos[0], pos[1])
+                if tile.x == x and tile.y == y:
+                    self.selected_ship = tile.ship
+                    for pos in occupied_tile_pos:
+                        if self.out_of_bounds(pos[0], pos[1]):
+                            continue
 
-            click_tile_x = int(screen_x / play.grid.TileWidth)
-            click_tile_y = int(screen_y / play.grid.TileHeight)
-
-            if click_tile_x < self.grid.grid_width and click_tile_y < self.grid.grid_height:
-                self.reset_tiles()
-
-                self.grid.forEachTile(lambda tile: tile.reset())
-
-                if self.selected_ship is None:
-                    for ship in self.current_turn.ships:
-                        occupied_tile_pos = ship.occupied_tile_pos()
-                        for pos in occupied_tile_pos:
-                            if self.out_of_bounds(pos[0], pos[1]):
+                        tile = self.grid.get(pos[0], pos[1])
+                        if not tile.ship is None:
+                            if tile.ship.health == 0:
                                 continue
 
-                            tile = self.grid.get(pos[0], pos[1])
-                            if tile.x == click_tile_x and tile.y == click_tile_y:
-                                self.selected_ship = tile.ship
-                                for pos in occupied_tile_pos:
-                                    if self.out_of_bounds(pos[0], pos[1]):
-                                        continue
+                            self.selected_ship = tile.ship
+                            self.draw_type = DrawFireRange
+                        tile.selected = True
 
-                                    tile = self.grid.get(pos[0], pos[1])
-                                    if not tile.ship is None:
-                                        if tile.ship.health == 0:
-                                            continue
+    # Updates the state of a currently selected ship. Raises an `Exception` if no ship was selected
+    # prior to this method call. Ensure to call `select_ship_if_present()` before calling this method.
+    def update_selected_ship(self, click_tile_x, click_tile_y):
+        if self.selected_ship is None:
+            raise Exception("No ship was selected prior to this method call")
 
-                                        self.selected_ship = tile.ship
-                                        self.draw_type = DrawFireRange
-                                    tile.selected = True
-                else:
-                    r = 0
-                    if self.draw_type == DrawFireRange:
-                        r = self.selected_ship.firerange
-                    elif self.draw_type == DrawMoveRange:
-                        r = self.selected_ship.moverange
+        r = 0
+        if self.draw_type == DrawFireRange:
+            r = self.selected_ship.firerange
+        elif self.draw_type == DrawMoveRange:
+            r = self.selected_ship.moverange
 
-                    tiles = self.compute_range(self.selected_ship, r)
-                    for tile in tiles:
-                        if click_tile_x == tile.x and click_tile_y == tile.y:
-                            if self.draw_type == DrawMoveRange and not self.selected_ship.in_defense_mode() and not self.selected_ship.reached_move_limit():
-                                occupied_tile_pos = self.selected_ship.occupied_tile_pos()
-                                for pos in occupied_tile_pos:
-                                    if self.out_of_bounds(pos[0], pos[1]):
-                                        continue
+        tiles = self.compute_range(self.selected_ship, r)
+        for tile in tiles:
+            if click_tile_x == tile.x and click_tile_y == tile.y:
+                if self.draw_type == DrawMoveRange and not self.selected_ship.in_defense_mode() and not self.selected_ship.reached_move_limit():
+                    occupied_tile_pos = self.selected_ship.occupied_tile_pos()
+                    for pos in occupied_tile_pos:
+                        if self.out_of_bounds(pos[0], pos[1]):
+                            continue
 
-                                    tile = self.grid.get(pos[0], pos[1])
-                                    tile.set_ship(None)
+                        tile = self.grid.get(pos[0], pos[1])
+                        tile.set_ship(None)
 
-                                delta_x = click_tile_x - self.selected_ship.x
-                                delta_y = click_tile_y - self.selected_ship.y
+                    delta_x = click_tile_x - self.selected_ship.x
+                    delta_y = click_tile_y - self.selected_ship.y
 
-                                # TODO
+                    # TODO
 
-                                self.selected_ship.x = click_tile_x
-                                self.selected_ship.y = click_tile_y
+                    self.selected_ship.x = click_tile_x
+                    self.selected_ship.y = click_tile_y
 
-                                self.selected_ship.move_count += 1
+                    self.selected_ship.move_count += 1
 
-                                occupied_tile_pos = self.selected_ship.occupied_tile_pos()
-                                for pos in occupied_tile_pos:
-                                    if self.out_of_bounds(pos[0], pos[1]):
-                                        continue
+                    occupied_tile_pos = self.selected_ship.occupied_tile_pos()
+                    for pos in occupied_tile_pos:
+                        if self.out_of_bounds(pos[0], pos[1]):
+                            continue
 
-                                    tile = self.grid.get(pos[0], pos[1])
-                                    tile.set_ship(self.selected_ship)
+                        tile = self.grid.get(pos[0], pos[1])
+                        tile.set_ship(self.selected_ship)
 
-                                break
-                            elif self.draw_type == DrawFireRange and not self.selected_ship.reached_fire_limit():
-                                tile = self.grid.get(click_tile_x, click_tile_y)
-                                if not tile.ship is None:
-                                    self.fire(self.selected_ship, tile.ship)
+                    break
+                elif self.draw_type == DrawFireRange and not self.selected_ship.reached_fire_limit() and not self.current_turn.reached_fire_limit():
+                    tile = self.grid.get(click_tile_x, click_tile_y)
+                    if not tile.ship is None:
+                        self.fire(self.selected_ship, tile.ship)
 
-                    self.selected_ship = None
-                    self.draw_type = NoRangeDrawing
+        self.reset_ship_selection()
 
-                    self.reset_selection()
-                    self.reset_tiles()
+    # Resets the currently selected ship.
+    def reset_ship_selection(self):
+        self.selected_ship = None
+        self.draw_type = NoRangeDrawing
 
-        if not self.selected_ship is None:
-            self.grid.forEachTile(lambda tile: tile.reset())
-
-            if self.draw_type == DrawFireRange:
-                self.draw_fire_range()
-            elif self.draw_type == DrawMoveRange:
-                self.draw_move_range()
-        self.grid.on_event(event)
+        self.reset_tiles()
 
     # Draws the fire range of a ship
-    def draw_fire_range(self):
+    def set_fire_range_drawing(self):
         tiles = self.compute_range(self.selected_ship, self.selected_ship.firerange)
         for tile in tiles:
             tile.with_fire_range = True
             tile.with_move_range = False
 
     # Draws the move range of a ship
-    def draw_move_range(self):
+    def set_move_range_drawing(self):
         tiles = self.compute_range(self.selected_ship, self.selected_ship.moverange)
         for tile in tiles:
             tile.with_fire_range = False
@@ -276,11 +267,16 @@ class Session:
     # Executes an attack on the opponent ship, by the attacking ship. Subtracts the opponent ship's health
     # By the amount of firepower the attacking ship has.
     def fire(self, attacker, opponent):
-        opponent.health -= attacker.firepower
+        if not opponent.applied_smokescreen:
+            # TODO play smokescreen animation?
+            opponent.health -= attacker.firepower
+
         if opponent.health < 0:
             opponent.health = 0
 
-        attacker.fire_count += 1
+        attacker.fire_count += 1 # Every ship can attack at most once
+        attacker.owner.fire_count += 1 # A player can only attack two other ships per turn
+
         if not opponent.owner.has_remaining_ships():
             self.winner = attacker.owner
 
@@ -293,11 +289,6 @@ class Session:
             return True
 
         return False
-
-    # Resets the current selection of a ship.
-    def reset_selection(self):
-        self.draw_type = NoRangeDrawing
-        self.selected_ship = None
 
     # Resets the state of all of the tiles in the grid.
     def reset_tiles(self):
@@ -313,22 +304,54 @@ class Session:
 
         # Reset the fire and move counts
         p.foreach_ship(lambda ship: ship.reset_counts())
+        p.fire_count = 0
 
         # Change current turn
         self.current_turn = p
+
+    # Handles an input event.
+    def on_event(self, event):
+        # We do not handle any game input events if we've already declared a winner
+        if not self.winner is None:
+            return
+
+        # Allows the user to switch between fire and move draw types through the `TAB` key.
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
+            self.switch_draw_type()
+
+        # Allows the user to select ships and perform actions upon selected ships
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+
+            screen_x = mouse_pos[0]
+            screen_y = mouse_pos[1]
+
+            click_tile_x = int(screen_x / play.grid.TileWidth)
+            click_tile_y = int(screen_y / play.grid.TileHeight)
+
+            if click_tile_x < self.grid.grid_width and click_tile_y < self.grid.grid_height:
+                self.reset_tiles()
+                self.grid.forEachTile(lambda tile: tile.reset())
+
+                if self.selected_ship is None:
+                    self.select_ship_if_present(click_tile_x, click_tile_y)
+                else:
+                    self.update_selected_ship(click_tile_x, click_tile_y)
+
+        if not self.selected_ship is None:
+            self.grid.forEachTile(lambda tile: tile.reset())
+
+            if self.draw_type == DrawFireRange:
+                self.set_fire_range_drawing()
+            elif self.draw_type == DrawMoveRange:
+                self.set_move_range_drawing()
+        self.grid.on_event(event)
 
     # Updates the state of this session.
     def update(self):
         self.p1.update()
         self.p2.update()
         self.grid.update()
-
-        # Check if a player has won
-        # TODO add statistics to database
-        if len(self.p1.ships) == 0:
-            self.winner = self.p2
-        elif len(self.p2.ships) == 0:
-            self.winner = self.p1
 
     # Draws the grid and all of the players and their components
     def draw(self, surface):

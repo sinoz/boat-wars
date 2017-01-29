@@ -37,3 +37,6 @@ class Tile:
             pygame.draw.rect(surface, (255, 0, 0), self.rect, 1)
         else:
             pygame.draw.rect(surface, (0, 0, 0), self.rect, 1)
+
+    def __str__(self):
+        return str(self.x) + "_" + str(self.y)

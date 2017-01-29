@@ -35,6 +35,9 @@ class Ship:
         self.firerange = type[4]
         self.firepower = type[5]
 
+        # Card effects
+        self.applied_smokescreen = False
+
     # Returns a list of tile positions that this ship currently occupies.
     def occupied_tile_pos(self):
         positions = []
@@ -74,12 +77,15 @@ class Ship:
     def in_defense_mode(self):
         return self.mode == DefenseMode
 
+    # Returns whether this ship has reached its firing limit of 1.
     def reached_fire_limit(self):
         return self.fire_count == 1
 
+    # Returns whether this ship has reached its moving limit of 1.
     def reached_move_limit(self):
         return self.move_count == 1
 
+    # Resets all of its action counters.
     def reset_counts(self):
         self.move_count = 0
         self.fire_count = 0

@@ -5,6 +5,7 @@ class Player:
         self.score = 0
         self.ships = []
         self.cards = []
+        self.fire_count = 0
 
     # Adds the given ship to this player's arsenal.
     def add_ship(self, ship):
@@ -37,6 +38,10 @@ class Player:
             if ship.health > 0:
                 has_remaining = True
         return has_remaining
+
+    # Returns whether this player has reached his/her attack limit.
+    def reached_fire_limit(self):
+        return self.fire_count == 2
 
     # A foreach function that accepts a callback which takes a ship.
     def foreach_ship(self, f):

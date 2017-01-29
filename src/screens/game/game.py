@@ -74,7 +74,7 @@ class GameScreen:
 
     # Ends the turn of the current player
     def end_turn(self, x, y, cursor):
-        self.session.reset_selection()
+        self.session.reset_ship_selection()
 
         if self.session.current_turn == self.session.p1:
             self.session.change_turn(self.session.p2)
