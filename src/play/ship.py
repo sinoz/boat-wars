@@ -10,12 +10,19 @@ Avenger = (1, 3, 3, 5, 4, 3)
 QueenMary = (2, 4, 2, 6, 4, 4)
 
 class Ship:
-    def __init__(self, tile, type=Scout, mode=AttackMode):
+    def __init__(self, tile, owner, type=Scout, mode=AttackMode):
         self.type = type
+
         self.x = tile.x
         self.y = tile.y
+
         self.tile = tile
+
+        self.font = pygame.font.SysFont("monospace", 30)
         self.image = pygame.image.load('resources/ships/' + str(type[0]) + '.png')
+
+        self.owner = owner
+        self.tile.set_ship(self)
 
         # Gameplay attributes of the ship
         self.mode = mode
@@ -24,9 +31,6 @@ class Ship:
         self.health = type[3]
         self.firerange = type[4]
         self.firepower = type[5]
-
-        self.tile.set_ship(self)
-        self.font = pygame.font.SysFont("monospace", 30)
 
     # Returns a list of tile positions that this ship currently occupies.
     def occupied_tile_pos(self):
@@ -45,13 +49,15 @@ class Ship:
 
     # Switches the state of this ship to Attack mode.
     def switch_attack_mode(self):
-        self.mode = AttackMode
-        self.transform(-90)
+        if self.mode != AttackMode:
+            self.mode = AttackMode
+            self.transform(-90)
 
     # Switches the state of this ship to Defense mode.
     def switch_defense_mode(self):
-        self.mode = DefenseMode
-        self.transform(90)
+        if self.mode != DefenseMode:
+            self.mode = DefenseMode
+            self.transform(90)
 
     # Transforms the image to be set to the specified angle.
     def transform(self, angle):
@@ -67,14 +73,17 @@ class Ship:
 
     # Updates the state of this ship per frame.
     def update(self):
-        pass
+        pass # TODO
 
     # Draws this ship onto the given surface.
     def draw(self, surface):
         surface.blit(self.image, pygame.rect.Rect(self.x * self.tile.width, self.y * self.tile.height, self.tile.width, self.tile.height))
 
-        shipHealthDisplay = self.font.render(str(self.health), 1, (0, 255, 0))
-        surface.blit(shipHealthDisplay, (self.tile.rect.x + self.tile.width / 4, self.tile.rect.y - 15))
+        ship_health = self.font.render(str(self.health), 1, (0, 255, 0))
+        ship_health_x = self.x * self.tile.width
+        ship_health_y = self.y * self.tile.height
+
+        surface.blit(ship_health, (ship_health_x + self.tile.width / 4, ship_health_y - 15))
 
     # Translates the mode id to a reusable name.
     def mode_id_to_name(self):

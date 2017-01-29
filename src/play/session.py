@@ -25,16 +25,16 @@ class Session:
         self.draw_type = NoRangeDrawing
 
         # Adds three ships for player one
-        self.p1.add_ship(play.ship.Ship(grid.get(5, 0)))
-        self.p1.add_ship(play.ship.Ship(grid.get(10, 0), type=play.ship.QueenMary))
-        self.p1.add_ship(play.ship.Ship(grid.get(16, 0), type=play.ship.Avenger))
-        self.p1.add_ship(play.ship.Ship(grid.get(21, 0)))
+        self.p1.add_ship(play.ship.Ship(grid.get(5, 0), self.p1))
+        self.p1.add_ship(play.ship.Ship(grid.get(10, 0), self.p1, type=play.ship.QueenMary))
+        self.p1.add_ship(play.ship.Ship(grid.get(16, 0), self.p1, type=play.ship.Avenger))
+        self.p1.add_ship(play.ship.Ship(grid.get(21, 0), self.p1))
 
         # And now we add three ships for player two
-        self.p2.add_ship(play.ship.Ship(grid.get(5, 19)))
-        self.p2.add_ship(play.ship.Ship(grid.get(10, 18), type=play.ship.Avenger))
-        self.p2.add_ship(play.ship.Ship(grid.get(16, 17), type=play.ship.QueenMary))
-        self.p2.add_ship(play.ship.Ship(grid.get(21, 19)))
+        self.p2.add_ship(play.ship.Ship(grid.get(5, 15), self.p2))
+        self.p2.add_ship(play.ship.Ship(grid.get(10, 15), self.p2, type=play.ship.Avenger))
+        self.p2.add_ship(play.ship.Ship(grid.get(16, 15), self.p2, type=play.ship.QueenMary))
+        self.p2.add_ship(play.ship.Ship(grid.get(21, 15), self.p2))
 
         # Give 2 cards to player 1 and 2
         self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
@@ -57,15 +57,13 @@ class Session:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
 
-            click_x = mouse_pos[0]
-            click_y = mouse_pos[1]
+            screen_x = mouse_pos[0]
+            screen_y = mouse_pos[1]
 
-            grid_x = int(click_x / play.grid.TileWidth)
-            grid_y = int(click_y / play.grid.TileHeight)
+            click_tile_x = int(screen_x / play.grid.TileWidth)
+            click_tile_y = int(screen_y / play.grid.TileHeight)
 
-            if grid_x < self.grid.grid_width and grid_y < self.grid.grid_height:
-                if self.draw_type != DrawMoveRange:
-                    self.reset_selection()
+            if click_tile_x < self.grid.grid_width and click_tile_y < self.grid.grid_height:
                 self.reset_tiles()
 
                 self.grid.forEachTile(lambda tile: tile.reset())
@@ -74,12 +72,21 @@ class Session:
                     for ship in self.current_turn.ships:
                         occupied_tile_pos = ship.occupied_tile_pos()
                         for pos in occupied_tile_pos:
+                            if self.out_of_bounds(pos[0], pos[1]):
+                                continue
+
                             tile = self.grid.get(pos[0], pos[1])
-                            if tile.x == grid_x and tile.y == grid_y:
+                            if tile.x == click_tile_x and tile.y == click_tile_y:
                                 self.selected_ship = tile.ship
                                 for pos in occupied_tile_pos:
+                                    if self.out_of_bounds(pos[0], pos[1]):
+                                        continue
+
                                     tile = self.grid.get(pos[0], pos[1])
                                     if not tile.ship is None:
+                                        if tile.ship.health == 0:
+                                            continue
+
                                         self.selected_ship = tile.ship
                                         self.draw_type = DrawFireRange
                                     tile.selected = True
@@ -92,11 +99,37 @@ class Session:
 
                     tiles = self.compute_range(self.selected_ship, r)
                     for tile in tiles:
-                        if grid_x == tile.x and grid_y == tile.y:
+                        if click_tile_x == tile.x and click_tile_y == tile.y:
                             if self.draw_type == DrawMoveRange and not self.selected_ship.in_defense_mode():
-                                self.move_ship(self.selected_ship, grid_x, grid_y)
+                                occupied_tile_pos = self.selected_ship.occupied_tile_pos()
+                                for pos in occupied_tile_pos:
+                                    if self.out_of_bounds(pos[0], pos[1]):
+                                        continue
+
+                                    tile = self.grid.get(pos[0], pos[1])
+                                    tile.set_ship(None)
+
+                                delta_x = click_tile_x - self.selected_ship.x
+                                delta_y = click_tile_y - self.selected_ship.y
+
+                                # TODO
+
+                                self.selected_ship.x = click_tile_x
+                                self.selected_ship.y = click_tile_y
+
+                                occupied_tile_pos = self.selected_ship.occupied_tile_pos()
+                                for pos in occupied_tile_pos:
+                                    if self.out_of_bounds(pos[0], pos[1]):
+                                        continue
+
+                                    tile = self.grid.get(pos[0], pos[1])
+                                    tile.set_ship(self.selected_ship)
 
                                 break
+                            elif self.draw_type == DrawFireRange:
+                                tile = self.grid.get(click_tile_x, click_tile_y)
+                                if not tile.ship is None:
+                                    self.fire(self.selected_ship, tile.ship)
 
                     self.selected_ship = None
                     self.draw_type = NoRangeDrawing
@@ -130,29 +163,47 @@ class Session:
     # Computes a collection of tiles that are within the specified range
     def compute_range(self, ship, delta):
         if ship.in_attack_mode():
-            return self.compute_attack_range(ship, delta)
+            return self.compute_attack_mode_range(ship, delta)
         else:
-            return self.compute_defense_range(ship, delta)
+            return self.compute_defense_mode_range(ship, delta)
 
     # Computes a collection of tiles that are within the specified range assuming the given ship
     # is in attack mode.
-    def compute_attack_range(self, ship, delta):
+    def compute_attack_mode_range(self, ship, delta):
         tiles = []
-        for y in range(ship.y - delta, (ship.y + ship.size + delta)):
+
+        y_offset = ship.y - delta
+        y_end = (ship.y + ship.size + delta)
+
+        for y in range(y_offset, y_end):
             occupied_tile_pos = ship.occupied_tile_pos()
             for pos in occupied_tile_pos:
-                if ship.y == y or y == pos[1]:
-                    y += 1
+                if self.out_of_bounds(pos[0], pos[1]):
                     continue
 
-            if y < 0 or y >= self.grid.grid_height:
-                y += 1
+                if ship.y == y or y == pos[1]:
+                    continue
+
+            if self.out_of_bounds(ship.x, y):
                 continue
 
-            tiles.append(self.grid.get(ship.x, y))
-            y += 1
+            tile = self.grid.get(ship.x, y)
+            if not tile.ship is None:
+                if self.draw_type == DrawFireRange and tile.ship.health == 0:
+                    continue
 
-        for y in range(ship.y, ship.y + ship.size):
+                if self.draw_type == DrawFireRange and tile.ship.owner == self.current_turn:
+                    continue
+
+                elif self.draw_type == DrawMoveRange:
+                    continue
+
+            tiles.append(tile)
+
+        y_offset = ship.y
+        y_end = ship.y + ship.size
+
+        for y in range(y_offset, y_end):
             start_x = (ship.x - delta)
             end_x = (ship.x + delta)
 
@@ -163,37 +214,81 @@ class Session:
                     x += 1
                     continue
 
-                if x < 0 or x >= self.grid.grid_width or y < 0 or y >= self.grid.grid_height:
+                if self.out_of_bounds(x, y):
                     x += 1
                     continue
 
-                tiles.append(self.grid.get(x, y))
+                tile = self.grid.get(x, y)
+                if not tile.ship is None:
+                    if self.draw_type == DrawFireRange and tile.ship.health == 0:
+                        x += 1
+                        continue
+
+                    if self.draw_type == DrawFireRange and tile.ship.owner == self.current_turn:
+                        x += 1
+                        continue
+
+                    elif self.draw_type == DrawMoveRange:
+                        x += 1
+                        continue
+
+                tiles.append(tile)
                 x += 1
         return tiles
 
     # Computes a collection of tiles that are within the specified range assuming the given ship
     # is in defense mode.
-    def compute_defense_range(self, ship, delta):
+    def compute_defense_mode_range(self, ship, delta):
         tiles = []
 
         y_offset = (ship.y - delta)
         y_end = (ship.y + ship.size + delta) - 1
 
         for y in range(y_offset, y_end):
-            if y < 0 or y >= self.grid.grid_height or y == ship.y:
+            if self.out_of_bounds(ship.x, y):
                 continue
 
             x_offset = ship.x
             x_end = (ship.x + ship.size)
 
             for x in range(x_offset, x_end):
-                if x < 0 or x >= self.grid.grid_width:
+                if self.out_of_bounds(x, y):
                     continue
 
-                tiles.append(self.grid.get(x, y))
+                tile = self.grid.get(x, y)
+                if not tile.ship is None:
+                    if self.draw_type == DrawFireRange and tile.ship.health == 0:
+                        continue
+
+                    if self.draw_type == DrawFireRange and tile.ship.owner == self.current_turn:
+                        continue
+
+                    elif self.draw_type == DrawMoveRange:
+                        continue
+
+                tiles.append(tile)
 
             y += 1
         return tiles
+
+    # Executes an attack on the opponent ship, by the attacking ship. Subtracts the opponent ship's health
+    # By the amount of firepower the attacking ship has.
+    def fire(self, attacker, opponent):
+        opponent.ship.health -= attacker.firepower
+        if opponent.ship.health < 0:
+            opponent.ship.health = 0
+
+        # TODO
+
+    # Returns whether the specified coordinates are out of bounds.
+    def out_of_bounds(self, x, y):
+        if x < 0 or x >= self.grid.grid_width:
+            return True
+
+        if y < 0 or y >= self.grid.grid_height:
+            return True
+
+        return False
 
     # Resets the current selection of a ship.
     def reset_selection(self):
@@ -204,21 +299,6 @@ class Session:
     def reset_tiles(self):
         self.grid.forEachTile(lambda tile: tile.reset())
 
-    # Updates the position from its current position to the specified position
-    def move_ship(self, ship, x, y):
-        if x < 0 or x >= self.grid.grid_width or y < 0 or y > self.grid.grid_height:
-            return
-
-        ship.x = x
-        ship.y = y
-
-        # Releases the ship from the tile the ship was standing on
-        ship.tile.set_ship(None)
-
-        # And assigns the ship to the new tile
-        ship.tile = self.grid.get(x, y)
-        ship.tile.set_ship(ship)
-
     # Changes the current turn to that of the specified player.
     def change_turn(self, p):
         # Give current player new card at end of turn
@@ -226,6 +306,7 @@ class Session:
             self.current_turn.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         else:
             self.deck.trash_card(self.deck.pick_currentdeck())
+
         # Change current turn
         self.current_turn = p
 

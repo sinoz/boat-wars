@@ -29,10 +29,6 @@ class GameScreen:
         self.settings_button = widget.button.Button((341, 301), (317, 65), self.return_to_settings)
         self.exit_game_button = widget.button.Button((344, 398), (315, 77), self.open_exit)
 
-        # 338 211 to 656 278
-        # 341 301 to 658 376 TODO
-        # 344 398 to 659 475
-
         self.draw_exit = False
 
         self.font = pygame.font.SysFont("monospace", 20)
@@ -42,7 +38,6 @@ class GameScreen:
         self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))
 
     def return_to_settings(self, x, y, cursor):
-        print("kek")
         self.canvas.set_screen(screens.settings.SettingsScreen(self.canvas, self))
 
     # TODO
@@ -83,15 +78,13 @@ class GameScreen:
     # Sets a boat to attack mode
     def set_attack_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
-            if not self.session.selected_ship.in_attack_mode():
-                self.session.selected_ship.switch_attack_mode()
+            self.session.selected_ship.switch_attack_mode()
 
     # Sets a boat to defense mode
     def set_defense_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
-            if not self.session.selected_ship.in_defense_mode():
-                self.session.draw_type = play.session.DrawFireRange
-                self.session.selected_ship.switch_defense_mode()
+            self.session.draw_type = play.session.DrawFireRange
+            self.session.selected_ship.switch_defense_mode()
 
     # Reacts to the user pressing on the 'cards' button
     def display_cards(self, x, y, cursor):

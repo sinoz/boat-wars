@@ -1,5 +1,3 @@
-import play.crd as crd
-
 class Player:
     def __init__(self, session, name):
         self.session = session
@@ -10,10 +8,26 @@ class Player:
 
     # Adds the given ship to this player's arsenal.
     def add_ship(self, ship):
+        occupied_tile_pos = ship.occupied_tile_pos()
+        for pos in occupied_tile_pos:
+            if self.session.out_of_bounds(pos[0], pos[1]):
+                continue
+
+            tile = self.session.grid.get(pos[0], pos[1])
+            tile.set_ship(ship)
+
         self.ships.append(ship)
 
     # Removes the specified ship from this player's arsenal.
     def remove_ship(self, ship):
+        occupied_tile_pos = ship.occupied_tile_pos()
+        for pos in occupied_tile_pos:
+            if self.session.out_of_bounds(pos[0], pos[1]):
+                continue
+
+            tile = self.session.grid.get(pos[0], pos[1])
+            tile.set_ship(None)
+
         self.ships.remove(ship)
 
     # A foreach function that accepts a callback which takes a ship.
