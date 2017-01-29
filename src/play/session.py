@@ -25,16 +25,16 @@ class Session:
         self.draw_type = NoRangeDrawing
 
         # Adds four ships for player one
-        self.p1.add_ship(play.ship.Ship(grid.get(5, 0)))
-        self.p1.add_ship(play.ship.Ship(grid.get(10, 0), type=play.ship.QueenMary))
-        self.p1.add_ship(play.ship.Ship(grid.get(16, 0), type=play.ship.Avenger))
-        self.p1.add_ship(play.ship.Ship(grid.get(21, 0)))
+        self.p1.add_ship(play.ship.Ship(grid.get(5, 0), self.p1))
+        self.p1.add_ship(play.ship.Ship(grid.get(10, 0), self.p1, type=play.ship.QueenMary))
+        self.p1.add_ship(play.ship.Ship(grid.get(16, 0), self.p1, type=play.ship.Avenger))
+        self.p1.add_ship(play.ship.Ship(grid.get(21, 0), self.p1))
 
         # And now we add four ships for player two
-        self.p2.add_ship(play.ship.Ship(grid.get(5, 19)))
-        self.p2.add_ship(play.ship.Ship(grid.get(10, 18), type=play.ship.Avenger))
-        self.p2.add_ship(play.ship.Ship(grid.get(16, 17), type=play.ship.QueenMary))
-        self.p2.add_ship(play.ship.Ship(grid.get(21, 19)))
+        self.p2.add_ship(play.ship.Ship(grid.get(5, 19), self.p2))
+        self.p2.add_ship(play.ship.Ship(grid.get(10, 18), self.p2, type=play.ship.Avenger))
+        self.p2.add_ship(play.ship.Ship(grid.get(16, 17), self.p2, type=play.ship.QueenMary))
+        self.p2.add_ship(play.ship.Ship(grid.get(21, 19), self.p2))
 
         # Give 2 cards to player 1 and 2
         self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
@@ -274,11 +274,12 @@ class Session:
     # Executes an attack on the opponent ship, by the attacking ship. Subtracts the opponent ship's health
     # By the amount of firepower the attacking ship has.
     def fire(self, attacker, opponent):
-        opponent.ship.health -= attacker.firepower
-        if opponent.ship.health < 0:
-            opponent.ship.health = 0
+        opponent.health -= attacker.firepower
+        if opponent.health < 0:
+            opponent.health = 0
 
-        # TODO
+        if not opponent.owner.has_remaining_ships():
+            self.winner = attacker.owner
 
     # Returns whether the specified coordinates are out of bounds.
     def out_of_bounds(self, x, y):

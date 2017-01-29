@@ -29,11 +29,8 @@ class GameScreen:
         self.main_menu_button = widget.button.Button((338, 221), (318, 67), self.return_to_main_menu)
         self.vic_main_menu_button = widget.button.Button((333,365), (317,79), self.return_to_main_menu)
         self.settings_button = widget.button.Button((341, 301), (317, 65), self.return_to_settings)
-        self.exit_game_button = widget.button.Button((344, 398), (315, 77), self.open_exit)
 
-        # 338 211 to 656 278
-        # 341 301 to 658 376
-        # 344 398 to 659 475
+        self.session.winner = None
 
         self.draw_exit = False
         self.draw_victory = False
@@ -45,12 +42,7 @@ class GameScreen:
         self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))
 
     def return_to_settings(self, x, y, cursor):
-        print("kek")
         self.canvas.set_screen(screens.settings.SettingsScreen(self.canvas, self))
-
-    # TODO
-    def open_exit(self, x, y, cursor):
-        self.canvas.set_screen(screens.termination.ExitScreen(self.canvas, self))
 
     # Updates this 'game' screen.
     def update(self):
@@ -64,7 +56,6 @@ class GameScreen:
     def on_event(self, event):
         if self.draw_exit:
             self.main_menu_button.on_event(event)
-            self.exit_game_button.on_event(event)
             self.settings_button.on_event(event)
 
         if self.draw_victory:
@@ -77,7 +68,7 @@ class GameScreen:
         self.session.on_event(event)
 
         if event.type == pygame.QUIT:
-            self.open_exit()
+            self.canvas.set_screen(screens.termination.ExitScreen(self.canvas, self))
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             self.draw_exit = not self.draw_exit
 

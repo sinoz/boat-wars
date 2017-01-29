@@ -31,6 +31,14 @@ class Player:
 
         self.ships.remove(ship)
 
+    # Returns whether this player has any ships with remaining life points.
+    def has_remaining_ships(self):
+        has_remaining = False
+        for ship in self.ships:
+            if ship.health > 0:
+                has_remaining = True
+        return has_remaining
+
     # A foreach function that accepts a callback which takes a ship.
     def forEachShip(self, f):
         for ship in self.ships:
