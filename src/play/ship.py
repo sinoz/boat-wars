@@ -60,6 +60,9 @@ class Ship:
         self.far_sight = False
         self.alumininum_hull = False
 
+        #Save the Boat info in the databse
+
+
     # Updates the grid and pixel coordinates of this ship
     def update_pos(self, x, y):
         self.x = x
