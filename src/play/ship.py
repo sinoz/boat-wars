@@ -38,11 +38,11 @@ class Ship:
         self.firepower = type[5]
 
         # Card effects
-        self.applied_smokescreen = False
         self.fmj_upgrade = False
         self.rifling = False
         self.better_rifling = False
         self.reinforced_hull = False
+        self.applied_smokescreen = False
         self.sabotage = False
         self.extra_fuel = False
         self.extra_fuel_two = False
@@ -111,6 +111,37 @@ class Ship:
     def reset_counts(self):
         self.move_count = 0
         self.fire_count = 0
+
+    # Apply card effects
+    def apply_cards(self):
+        if self.fmj_upgrade:
+            pass
+        if self.rifling:
+            pass
+        if self.better_rifling:
+            pass
+        if self.reinforced_hull:
+            pass
+        if self.applied_smokescreen:
+            pass
+        if self.sabotage:
+            pass
+        if self.extra_fuel:
+            pass
+        if self.extra_fuel_two:
+            pass
+        if self.rally:
+            pass
+        if self.adrenaline_rush:
+            pass
+        if self.repair:
+            pass
+        if self.mine_armor:
+            pass
+        if self.far_sight:
+            pass
+        if self.aluminium_hull:
+            pass
 
     # Updates the state of this ship per frame.
     def update(self):
