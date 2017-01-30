@@ -3,11 +3,11 @@ import pygame
 DefenseMode = 0
 AttackMode = 1
 
-# Id, Size, Moverange, Healthpoints, Firerange, Firepower
+# Id, Size, Moverange, Healthpoints, Firerange, Firepower, Cannon sound
 # TODO use a dictionary instead?
-Scout = (0, 2, 4, 4, 3, 2)
-Avenger = (1, 3, 3, 5, 4, 3)
-QueenMary = (2, 4, 2, 6, 4, 4)
+Scout = (0, 2, 4, 4, 3, 2, 'cannon_small')
+Avenger = (1, 3, 3, 5, 4, 3, 'cannon_big')
+QueenMary = (2, 4, 2, 6, 4, 4, 'cannon_big')
 
 class Ship:
     def __init__(self, tile, owner, type=Scout, mode=AttackMode):
@@ -27,7 +27,6 @@ class Ship:
         self.tile.set_ship(self)
 
         self.fire_count = 0
-        self.move_count = 0
 
         # Gameplay attributes of the ship
         self.mode = mode
@@ -36,9 +35,29 @@ class Ship:
         self.health = type[3]
         self.firerange = type[4]
         self.firepower = type[5]
+        self.cannon_sound = type[6]
+
+        # The amount of tiles the ship has left to move over
+        self.remaining_tiles = 4
+
+        # The amount of remaining times a ship can attack other ship
+        self.firelimit = 1
 
         # Card effects
         self.applied_smokescreen = False
+        self.fmj_upgrade = False
+        self.rifling = False
+        self.better_rifling = False
+        self.reinforced_hull = False
+        self.sabotage = False
+        self.extra_fuel = False
+        self.extra_fuel_two = False
+        self.rally = False
+        self.adrenaline_rush = False
+        self.repair = False
+        self.mine_armor = False
+        self.far_sight = False
+        self.aluminium_hull = False
 
     # Updates the grid and pixel coordinates of this ship
     def update_pos(self, x, y):
@@ -88,15 +107,15 @@ class Ship:
 
     # Returns whether this ship has reached its firing limit of 1.
     def reached_fire_limit(self):
-        return self.fire_count == 1
+        return self.fire_count == self.firelimit
 
     # Returns whether this ship has reached its moving limit of 1.
     def reached_move_limit(self):
-        return self.move_count == 1
+        return self.remaining_tiles == 0
 
     # Resets all of its action counters.
     def reset_counts(self):
-        self.move_count = 0
+        self.remaining_tiles = 4
         self.fire_count = 0
 
     # Updates the state of this ship per frame.
