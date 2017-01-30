@@ -38,7 +38,7 @@ class Ship:
         self.cannon_sound = type[6]
 
         # The amount of tiles the ship has left to move over
-        self.remaining_tiles = 4
+        self.remaining_tiles = self.moverange
 
         # The amount of remaining times a ship can attack other ship
         self.firelimit = 1
@@ -115,7 +115,7 @@ class Ship:
 
     # Resets all of its action counters.
     def reset_counts(self):
-        self.remaining_tiles = 4
+        self.remaining_tiles = self.moverange
         self.fire_count = 0
 
     # Updates the state of this ship per frame.

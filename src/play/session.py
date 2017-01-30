@@ -117,7 +117,15 @@ class Session:
 
                     # To ensure ships move downwards by their tail instead of their head
                     if delta_y > 0:
-                        new_y -= (self.selected_ship.size - 1)
+                        # The y coordinate of the tail of the ship
+                        tail_y = self.selected_ship.y + (self.selected_ship.size - 1)
+
+                        # The distance between the tail and the destination
+                        delta_y = click_tile_y - tail_y
+
+                        # And finally to ensure ships move downwards by their tail instead of their head
+                        new_y = (tail_y + delta_y) - (self.selected_ship.size - 1)
+
                         if new_y < 0:
                             new_y = 0
 
