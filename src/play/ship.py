@@ -121,11 +121,11 @@ class Ship:
     # Apply card effects
     def apply_cards(self):
         if self.fmj_upgrade:
-            pass
+            self.firepower += 1
         if self.rifling:
-            pass
+            self.firerange += 1
         if self.better_rifling:
-            pass
+            self.firerange += 1
         if self.reinforced_hull:
             self.health += 1
             self.reinforced_hull = False
@@ -134,11 +134,11 @@ class Ship:
         if self.sabotage:
             pass
         if self.extra_fuel:
-            pass
+            self.moverange += 1
         if self.extra_fuel_two:
-            pass
+            self.moverange += 2
         if self.rally:
-            pass
+            self.remaining_tiles += 1
         if self.adrenaline_rush:
             pass
         if self.repair:
