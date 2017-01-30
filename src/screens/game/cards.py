@@ -37,7 +37,6 @@ class CardScreen:
     def on_event(self, event):
         for card in self.cards:
             card.on_event(event)
-            print(card.language)
 
         self.return_button.on_event(event)
 
