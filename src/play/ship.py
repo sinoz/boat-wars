@@ -150,7 +150,7 @@ class Ship:
             self.health += 1
         if card.id == 'fuel': # Fuel, adds one extra tile to your movement capacity
             self.remaining_tiles += 1
-        if card.id == 'fue2': # Extra fuek, adds two extra tiles to your movement capacity
+        if card.id == 'fue2': # Extra fuel, adds two extra tiles to your movement capacity
             self.remaining_tiles += 2
         if card.id == 'adr': # Adrenaline Rush, adds a second chance to move the ship around
             self.remaining_tiles += self.moverange
@@ -158,6 +158,8 @@ class Ship:
             self.firerange += 1
         if card.id == 'arif': # Advanced rifling, increases firerange by 2
             self.firerange += 2
+        if card.id == 'fmj': # FMJ Upgrade, adds one point to the current firepower
+            self.firepower += 1
 
         print(card.id)
 
