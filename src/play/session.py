@@ -2,7 +2,7 @@ import play.player
 import play.ship
 import play.grid
 import play.randomcard
-import play.crd as crd
+import play.card as crd
 import screens.sound as sound
 
 import pygame

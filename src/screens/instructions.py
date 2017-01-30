@@ -30,22 +30,22 @@ class InstructionsScreen:
         self.to_rules.on_event(event)
         self.to_boats.on_event(event)
 
-    # TODO
+    # Opens up the introduction screen.
     def open_intro_screen(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
         self.canvas.set_screen(screens.introduction.IntroductionScreen(self.canvas, self))
 
-    # TODO
+    # Opens up the rules screen.
     def open_rules_screen(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
         self.canvas.set_screen(screens.rules.RulesScreen(self.canvas))
 
-    # TODO
+    # Opens up the boats screen.
     def open_boats_screen(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
         self.canvas.set_screen(screens.boats.BoatsScreen(self.canvas, self))
 
-    # TODO
+    # Returns to the main menu screen.
     def return_to_main(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
         self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))

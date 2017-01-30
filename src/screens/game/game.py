@@ -37,10 +37,11 @@ class GameScreen:
 
         self.font = pygame.font.SysFont("monospace", 20, 1)
 
-    # TODO
+    # Returns to the main menu screen.
     def return_to_main_menu(self, x, y, cursor):
         self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))
 
+    # Returns to the settings screen.
     def return_to_settings(self, x, y, cursor):
         self.canvas.set_screen(screens.settings.SettingsScreen(self.canvas, self))
 

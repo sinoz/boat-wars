@@ -9,7 +9,7 @@ class PreGameIntroductionScreen:
     def __init__(self, canvas):
         self.canvas = canvas
         self.image = pygame.image.load('resources/screens/' + canvas.language + '/pregame/pregame_introduction.jpg')
-        self.button1 = widget.button.Button((17, 595), (91, 75), self.xd)
+        self.button1 = widget.button.Button((17, 595), (91, 75), self.to_instructions)
 
     # Updates this 'pregame introduction' screen.
     def update(self):
@@ -19,8 +19,8 @@ class PreGameIntroductionScreen:
     def on_event(self, event):
         self.button1.on_event(event)
 
-    # TODO
-    def xd(self, x, y, cursor):
+    # Switches to the pre-game instructions screen.
+    def to_instructions(self, x, y, cursor):
         sound.Plopperdeplop.tune(self, 'click')
         self.canvas.set_screen(screens.pregame.pregame_instructions.PreGameInstructionsScreen(self.canvas))
 

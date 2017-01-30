@@ -20,7 +20,7 @@ class RulesScreen:
     def on_event(self, event):
         self.return_button.on_event(event)
 
-    # TODO
+    # Returns to the previous screen.
     def return_to_prev(self, x, y, cursor):
         self.canvas.set_screen(screens.instructions.InstructionsScreen(self.canvas))
         sound.Plopperdeplop.tune(self, 'click')
