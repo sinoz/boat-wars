@@ -94,7 +94,7 @@ class Session:
         if self.draw_type == DrawFireRange:
             r = self.selected_ship.firerange
         elif self.draw_type == DrawMoveRange:
-            r = self.selected_ship.moverange
+            r = self.selected_ship.remaining_tiles
 
         tiles = self.compute_range(self.selected_ship, r)
         for tile in tiles:
@@ -122,9 +122,12 @@ class Session:
                             new_y = 0
 
                     if delta_x < 0 or delta_x >= 1:
-                        self.selected_ship.move_count += math.fabs(delta_x)
+                        self.selected_ship.remaining_tiles -= int(math.fabs(delta_x))
                     elif delta_y < 0 or delta_y >= 1:
-                        self.selected_ship.move_count += math.fabs(delta_y)
+                        self.selected_ship.remaining_tiles -= int(math.fabs(delta_y))
+
+                    if self.selected_ship.remaining_tiles < 0:
+                        self.selected_ship.remaining_tiles = 0
 
                     # Finally update the position of the ship
                     self.selected_ship.update_pos(new_x, new_y)
@@ -138,7 +141,7 @@ class Session:
                         tile.set_ship(self.selected_ship)
 
                     break
-                elif self.draw_type == DrawFireRange and not self.selected_ship.reached_fire_limit() and not self.current_turn.reached_fire_limit():
+                elif self.draw_type == DrawFireRange and not self.selected_ship.reached_fire_limit() and not self.selected_ship.remaining_tiles == 0 and not self.current_turn.reached_fire_limit():
                     tile = self.grid.get(click_tile_x, click_tile_y)
                     if not tile.ship is None:
                         self.fire(self.selected_ship, tile.ship)
@@ -161,7 +164,7 @@ class Session:
 
     # Draws the move range of a ship
     def set_move_range_drawing(self):
-        tiles = self.compute_range(self.selected_ship, self.selected_ship.moverange)
+        tiles = self.compute_range(self.selected_ship, self.selected_ship.remaining_tiles)
         for tile in tiles:
             tile.with_fire_range = False
             tile.with_move_range = True
@@ -290,13 +293,12 @@ class Session:
     # By the amount of firepower the attacking ship has.
     def fire(self, attacker, opponent):
         if not opponent.applied_smokescreen:
-            # TODO play smokescreen animation?
+            sound.Plopperdeplop.tune(self, attacker.cannon_sound)
+
             opponent.health -= attacker.firepower
-            if self.selected_ship.type == (0, 2, 4, 4, 3, 2):
-                sound.Plopperdeplop.tune(self, 'cannon_small')
-            else:
-                sound.Plopperdeplop.tune(self, 'cannon_big')
             opponent.applied_smokescreen = False
+        else:
+            pass # TODO play smokescreen animation/sound
 
         if opponent.health <= 0:
             sound.Plopperdeplop.tune(self, 'explosion_ship')
