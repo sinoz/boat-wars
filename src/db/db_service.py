@@ -8,6 +8,7 @@ def execute(query):
     establishedConnection = psycopg2.connect(url)
     connCursor = establishedConnection.cursor()
     connCursor.execute(query)
+    establishedConnection.commit()
     establishedConnection.close()
 
 # Establishes a new connection to execute the given query. Returns the

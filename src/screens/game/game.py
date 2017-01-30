@@ -74,6 +74,7 @@ class GameScreen:
 
     # Ends the turn of the current player
     def end_turn(self, x, y, cursor):
+        self.session.reset_card_selection()
         self.session.reset_ship_selection()
 
         if self.session.current_turn == self.session.p1:
@@ -133,7 +134,9 @@ class GameScreen:
 
     # Reacts to the user pressing on the 'cards' button
     def display_cards(self, x, y, cursor):
+        self.session.selected_ship = None
         self.canvas.set_screen(screens.game.cards.CardScreen(self.canvas, self.session, self))
+
         sound.Plopperdeplop.tune(self, 'card_flip')
 
     # Draws the components of this 'game' screen.
