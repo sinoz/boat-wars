@@ -3,6 +3,7 @@ import play.ship
 import play.grid
 import play.randomcard
 import play.crd as crd
+import screens.sound as sound
 
 import pygame
 import math
@@ -106,6 +107,7 @@ class Session:
 
                         tile = self.grid.get(pos[0], pos[1])
                         tile.set_ship(None)
+                        sound.Plopperdeplop.tune(self, 'movement')
 
                     delta_x = click_tile_x - self.selected_ship.x
                     delta_y = click_tile_y - self.selected_ship.y
@@ -290,9 +292,14 @@ class Session:
         if not opponent.applied_smokescreen:
             # TODO play smokescreen animation?
             opponent.health -= attacker.firepower
+            if self.selected_ship.type == (0, 2, 4, 4, 3, 2):
+                sound.Plopperdeplop.tune(self, 'cannon_small')
+            else:
+                sound.Plopperdeplop.tune(self, 'cannon_big')
             opponent.applied_smokescreen = False
 
-        if opponent.health < 0:
+        if opponent.health <= 0:
+            sound.Plopperdeplop.tune(self, 'explosion_ship')
             opponent.health = 0
 
         attacker.fire_count += 1 # Every ship can attack at most once
