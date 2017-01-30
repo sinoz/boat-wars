@@ -285,10 +285,10 @@ class Session:
         if not opponent.applied_smokescreen:
             # TODO play smokescreen animation?
             opponent.health -= attacker.firepower
-            # if self.selected_ship.type == 'Scout':
-            #     sound.Plopperdeplop.tune(self, 'cannon_small')
-            # else:
-            #     sound.Plopperdeplop.tune(self, 'cannon_big')
+            if self.selected_ship.type == (0, 2, 4, 4, 3, 2):
+                sound.Plopperdeplop.tune(self, 'cannon_small')
+            else:
+                sound.Plopperdeplop.tune(self, 'cannon_big')
             opponent.applied_smokescreen = False
 
         if opponent.health <= 0:
