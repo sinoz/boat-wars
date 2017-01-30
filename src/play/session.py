@@ -5,6 +5,7 @@ import play.randomcard
 import play.crd as crd
 
 import pygame
+import math
 
 NoRangeDrawing = 0
 DrawFireRange = 1
@@ -115,10 +116,16 @@ class Session:
                     # To ensure ships move downwards by their tail instead of their head
                     if delta_y > 0:
                         new_y -= (self.selected_ship.size - 1)
+                        if new_y < 0:
+                            new_y = 0
+
+                    if delta_x < 0 or delta_x >= 1:
+                        self.selected_ship.move_count += math.fabs(delta_x)
+                    elif delta_y < 0 or delta_y >= 1:
+                        self.selected_ship.move_count += math.fabs(delta_y)
 
                     # Finally update the position of the ship
                     self.selected_ship.update_pos(new_x, new_y)
-                    self.selected_ship.move_count += 1
 
                     occupied_tile_pos = self.selected_ship.occupied_tile_pos(self.selected_ship.in_attack_mode())
                     for pos in occupied_tile_pos:

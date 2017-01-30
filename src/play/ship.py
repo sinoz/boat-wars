@@ -36,6 +36,7 @@ class Ship:
         self.health = type[3]
         self.firerange = type[4]
         self.firepower = type[5]
+        self.firelimit = 1
 
         # Card effects
         self.applied_smokescreen = False
@@ -88,11 +89,11 @@ class Ship:
 
     # Returns whether this ship has reached its firing limit of 1.
     def reached_fire_limit(self):
-        return self.fire_count == 1
+        return self.fire_count == self.firelimit
 
     # Returns whether this ship has reached its moving limit of 1.
     def reached_move_limit(self):
-        return self.move_count == 1
+        return self.move_count >= self.moverange
 
     # Resets all of its action counters.
     def reset_counts(self):
