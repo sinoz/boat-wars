@@ -37,6 +37,11 @@ class Ship:
 
         # Card effects
         self.applied_smokescreen = False
+        self.one_extra_damage = False
+        self.one_extra_range = False
+        self.two_extra_range = False
+        self.reinforced_hull = False
+
 
     # Returns a list of tile positions that this ship currently occupies.
     def occupied_tile_pos(self):
