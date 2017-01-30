@@ -47,19 +47,7 @@ class Ship:
         self.fmj_upgrade = True
         self.rifling = False
         self.better_rifling = False
-        self.reinforced_hull = False
         self.applied_smokescreen = False
-        self.sabotage = False
-        self.extra_fuel = False
-        self.extra_fuel_two = False
-        self.rally = False
-        self.adrenaline_rush = False
-        self.repair = False
-        self.mine_armor = False
-        self.far_sight = False
-        self.aluminium_hull = False
-
-        self.apply_cards()
 
     # Updates the grid and pixel coordinates of this ship
     def update_pos(self, x, y):
@@ -121,39 +109,11 @@ class Ship:
         self.fire_count = 0
 
     # Apply card effects
-    def apply_cards(self):
-        if self.fmj_upgrade:
-            self.firepower += 1
-            print(self.firepower)
-        if self.rifling:
-            self.firerange += 1
-        if self.better_rifling:
-            self.firerange += 2
-        if self.reinforced_hull:
+    def apply_card_effect(self, card):
+        if card.id == 'refh':
             self.health += 1
-            self.reinforced_hull = False
-        if self.applied_smokescreen:
-            pass
-        if self.sabotage:
-            pass
-        if self.extra_fuel:
-            self.moverange += 1
-        if self.extra_fuel_two:
-            self.moverange += 2
-        if self.rally:
-            self.remaining_tiles += 1
-        if self.adrenaline_rush:
-            pass
-        if self.repair:
-            self.health = self.type[3]
-            self.repair = False
-        if self.mine_armor:
-            pass
-        if self.far_sight:
-            self.firerange += 2
-            self.far_sight = False
-        if self.aluminium_hull:
-            pass
+
+        print(card.id)
 
     # Resets all of the card flags of attack related effects that only last for a single attack.
     def reset_attack_effects(self):

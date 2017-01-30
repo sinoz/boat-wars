@@ -24,12 +24,12 @@ class CardScreen:
         self.cards.append(widget.button.Button(CardPositions[4], (178, 240), lambda x, y, cursor: self.on_card(x, y, cursor, 4)))
         self.cards.append(widget.button.Button(CardPositions[5], (178, 240), lambda x, y, cursor: self.on_card(x, y, cursor, 5)))
 
-    # TODO
+    # Handles the user selecting a card to use
     def on_card(self, x, y, cursor, id):
-        # TODO
+        self.session.selected_card = self.session.current_turn.cards[id]
         self.canvas.set_screen(self.prev)
 
-    # TODO
+    # Updates this `cards` screen
     def update(self):
         pass # TODO
 

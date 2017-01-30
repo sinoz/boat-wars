@@ -26,6 +26,8 @@ class Session:
         self.winner = None
         self.selected_ship = None
 
+        self.selected_card = None
+
         self.draw_type = NoRangeDrawing
         self.add_initial_entities()
 
@@ -79,6 +81,12 @@ class Session:
                         if not tile.ship is None:
                             if tile.ship.health == 0:
                                 continue
+
+                            print(self.selected_card)
+                            if not self.selected_card is None and tile.ship.owner == self.current_turn:
+                                self.apply_selected_card_effect(tile.ship)
+
+                                return
 
                             self.selected_ship = tile.ship
                             self.draw_type = DrawFireRange
@@ -155,13 +163,20 @@ class Session:
                         self.fire(self.selected_ship, tile.ship)
 
         self.reset_ship_selection()
+        self.reset_card_selection()
 
-    # Resets the currently selected ship.
-    def reset_ship_selection(self):
-        self.selected_ship = None
-        self.draw_type = NoRangeDrawing
+    # Applies the card effect of the currently selected card onto the specified ship. Raises an
+    # `Exception` if no card is currently selected.
+    def apply_selected_card_effect(self, ship):
+        if self.selected_card is None:
+            raise Exception("Cannot apply a non existing card effect on the specified ship")
 
-        self.reset_tiles()
+        print("applying card effect")
+        ship.apply_card_effect(self.selected_card)
+        # TODO trash current selected card
+        # TODO refresh card screen or something?
+
+        self.reset_card_selection()
 
     # Draws the fire range of a ship
     def set_fire_range_drawing(self):
@@ -303,7 +318,6 @@ class Session:
         if not opponent.sabotage:
             if not opponent.applied_smokescreen:
                 sound.Plopperdeplop.tune(self, attacker.cannon_sound)
-                print("firepower: " + str(attacker.firepower))
                 opponent.health -= attacker.firepower
             else:
                 # TODO play smokescreen animation/sound
@@ -335,6 +349,16 @@ class Session:
             return True
 
         return False
+
+    # Resets the currently selected ship.
+    def reset_ship_selection(self):
+        self.selected_ship = None
+        self.draw_type = NoRangeDrawing
+        self.reset_tiles()
+
+    # Resets the currently selected card.
+    def reset_card_selection(self):
+        self.selected_card = None
 
     # Resets the state of all of the tiles in the grid.
     def reset_tiles(self):
@@ -377,12 +401,15 @@ class Session:
 
             if click_tile_x < self.grid.grid_width and click_tile_y < self.grid.grid_height:
                 self.reset_tiles()
+
                 self.grid.forEachTile(lambda tile: tile.reset())
 
                 if self.selected_ship is None:
                     self.select_ship_if_present(click_tile_x, click_tile_y)
                 else:
                     self.update_selected_ship(click_tile_x, click_tile_y)
+
+                self.reset_card_selection()
 
         if not self.selected_ship is None:
             self.grid.forEachTile(lambda tile: tile.reset())
@@ -391,6 +418,7 @@ class Session:
                 self.set_fire_range_drawing()
             elif self.draw_type == DrawMoveRange:
                 self.set_move_range_drawing()
+
         self.grid.on_event(event)
 
     # Updates the state of this session.
