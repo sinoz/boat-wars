@@ -102,7 +102,7 @@ class Session:
         if self.draw_type == DrawFireRange:
             r = self.selected_ship.firerange
         elif self.draw_type == DrawMoveRange:
-            r = self.selected_ship.remaining_tiles
+            r = self.selected_ship.get_moverange()
 
         tiles = self.compute_range(self.selected_ship, r)
         for tile in tiles:
@@ -171,7 +171,6 @@ class Session:
         if self.selected_card is None:
             raise Exception("Cannot apply a non existing card effect on the specified ship")
 
-        print("applying card effect")
         ship.apply_card_effect(self.selected_card)
         # TODO trash current selected card
         # TODO refresh card screen or something?
@@ -187,7 +186,7 @@ class Session:
 
     # Draws the move range of a ship
     def set_move_range_drawing(self):
-        tiles = self.compute_range(self.selected_ship, self.selected_ship.remaining_tiles)
+        tiles = self.compute_range(self.selected_ship, self.selected_ship.get_moverange())
         for tile in tiles:
             tile.with_fire_range = False
             tile.with_move_range = True

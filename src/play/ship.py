@@ -82,6 +82,13 @@ class Ship:
 
         return positions
 
+    # Returns the appropriate move range.
+    def get_moverange(self):
+        if self.remaining_tiles > self.moverange:
+            return int(self.moverange)
+        else:
+            return int(self.remaining_tiles)
+
     # Switches the state of this ship to Attack mode.
     def switch_attack_mode(self):
         if self.mode != AttackMode:
@@ -123,6 +130,10 @@ class Ship:
     def apply_card_effect(self, card):
         if card.id == 'refh':
             self.health += 1
+        if card.id == 'fuel':
+            self.remaining_tiles += 1
+        if card.id == 'adr':
+            self.remaining_tiles += self.moverange
 
         print(card.id)
 
