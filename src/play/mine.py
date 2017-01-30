@@ -8,4 +8,7 @@ class Mine:
         self.rect = pygame.rect.Rect(self.x * self.tile.width, self.y * self.height, self.tile.width, self.tile.height)
         self.owner = None
         self.tile.set_mine(self)
-        
+
+    # Draws this mine on the given surface
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)

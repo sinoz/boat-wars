@@ -1,5 +1,6 @@
 import play.player
 import play.ship
+import play.mine
 import play.grid
 import play.randomcard
 import play.crd as crd
@@ -53,6 +54,9 @@ class Session:
 
         # Rotate the ships of player one to face the boats of player two
         self.p1.foreach_ship(lambda ship: ship.transform(180))
+
+        # Add 9 mines to the playing field
+        # self.mine1 = play.Mine()
 
     # Switches between the fire range and move range drawing types, if applicable.
     def switch_draw_type(self):
