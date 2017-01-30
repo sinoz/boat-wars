@@ -5,6 +5,7 @@ class Tile:
         self.x = x
         self.y = y
         self.ship = None
+        self.mine = None
         self.width = width
         self.height = height
         self.selected = False
@@ -16,6 +17,10 @@ class Tile:
     # Assigns a ship to this tile.
     def set_ship(self, ship):
         self.ship = ship
+
+    # Assigns a mine to this tile
+    def set_mine(self, mine):
+        self.mine = mine
 
     # Updates the state of this tile.
     def update(self):
