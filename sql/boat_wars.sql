@@ -30,7 +30,9 @@ CREATE TABLE Boats(
     BRange integer,
     Attack integer,
     ShotDef boolean,
-    MineDef boolean
+    MineDef boolean,
+    ReflDef boolean,
+    BoatMovementLeft integer
 );
 
 DROP TABLE IF EXISTS Cards;
@@ -59,24 +61,3 @@ DROP TABLE IF EXISTS Turn;
 CREATE TABLE Turn(
     Turn integer
 );
-
-INSERT INTO Boats(XPos, YPos, HP, BType, State, BRange, Attack, ShotDef, MineDef)
-VALUES (src.play.ship.Ship.x,
-    src.play.ship.Ship.y, src.play.ship.Ship.health, src.play.ship.Ship.mode, src.play.ship.Ship.firerange, src.play.ship.Ship.firepower, src.play.ship.Ship.shotdef, src.play.ship.Ship.minedef),
-(src.play.ship.Ship.x,
-    src.play.ship.Ship.y, src.play.ship.Ship.health, src.play.ship.Ship.mode, src.play.ship.Ship.firerange, src.play.ship.Ship.firepower, src.play.ship.Ship.shotdef, src.play.ship.Ship.minedef),
-(src.play.ship.Ship.x,
-    src.play.ship.Ship.y, src.play.ship.Ship.health, src.play.ship.Ship.mode, src.play.ship.Ship.firerange, src.play.ship.Ship.firepower, src.play.ship.Ship.shotdef, src.play.ship.Ship.minedef),
-(src.play.ship.Ship.x,
-    src.play.ship.Ship.y, src.play.ship.Ship.health, src.play.ship.Ship.mode, src.play.ship.Ship.firerange, src.play.ship.Ship.firepower, src.play.ship.Ship.shotdef, src.play.ship.Ship.minedef),
-(src.play.ship.Ship.x,
-    src.play.ship.Ship.y, src.play.ship.Ship.health, src.play.ship.Ship.mode, src.play.ship.Ship.firerange, src.play.ship.Ship.firepower, src.play.ship.Ship.shotdef, src.play.ship.Ship.minedef),
-(src.play.ship.Ship.x,
-    src.play.ship.Ship.y, src.play.ship.Ship.health, src.play.ship.Ship.mode, src.play.ship.Ship.firerange, src.play.ship.Ship.firepower, src.play.ship.Ship.shotdef, src.play.ship.Ship.minedef),
-(src.play.ship.Ship.x,
-    src.play.ship.Ship.y, src.play.ship.Ship.health, src.play.ship.Ship.mode, src.play.ship.Ship.firerange, src.play.ship.Ship.firepower, src.play.ship.Ship.shotdef, src.play.ship.Ship.minedef),
-(src.play.ship.Ship.x,
-    src.play.ship.Ship.y, src.play.ship.Ship.health, src.play.ship.Ship.mode, src.play.ship.Ship.firerange, src.play.ship.Ship.firepower, src.play.ship.Ship.shotdef, src.play.ship.Ship.minedef),
-
-INSERT INTO Cards(Card1, Card2, Card3, Card4, Card5, Card6)
-VALUES (src.play.card)
