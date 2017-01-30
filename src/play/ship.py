@@ -45,7 +45,7 @@ class Ship:
         self.firelimit = 1
 
         # Card effects
-        self.fmj_upgrade = False
+        self.fmj_upgrade = True
         self.rifling = False
         self.better_rifling = False
         self.reinforced_hull = False
@@ -59,6 +59,8 @@ class Ship:
         self.mine_armor = False
         self.far_sight = False
         self.aluminium_hull = False
+
+        self.apply_cards()
 
         x = 0 + self.tile.x
         y = 0 + self.tile.y
@@ -137,11 +139,12 @@ class Ship:
     # Apply card effects
     def apply_cards(self):
         if self.fmj_upgrade:
-            pass
+            self.firepower += 1
+            print(self.firepower)
         if self.rifling:
-            pass
+            self.firerange += 1
         if self.better_rifling:
-            pass
+            self.firerange += 2
         if self.reinforced_hull:
             self.health += 1
             self.reinforced_hull = False
@@ -150,11 +153,11 @@ class Ship:
         if self.sabotage:
             pass
         if self.extra_fuel:
-            pass
+            self.moverange += 1
         if self.extra_fuel_two:
-            pass
+            self.moverange += 2
         if self.rally:
-            pass
+            self.remaining_tiles += 1
         if self.adrenaline_rush:
             pass
         if self.repair:
@@ -168,10 +171,32 @@ class Ship:
         if self.aluminium_hull:
             pass
 
+    # Resets all of the card flags of attack related effects that only last for a single attack.
+    def reset_attack_effects(self):
+        self.fmj_upgrade = False
+        self.rifling = False
+        self.better_rifling = False
+
+        # Reset all of the stats back to its original state
+        self.reset_firepower()
+        self.reset_firerange()
+        self.reset_moverange()
+
+    # Resets the moverange back to its original state
+    def reset_moverange(self):
+        self.moverange = self.type[2]
+
+    # Resets the firerange back to its original state
+    def reset_firerange(self):
+        self.firerange = self.type[4]
+
+    # Resets the firepower back to its original state
+    def reset_firepower(self):
+        self.firepower = self.type[5]
+
     # Updates the state of this ship per frame.
     def update(self):
-        self.apply_cards()
-        # TODO
+        pass
 
     # Draws this ship onto the given surface.
     def draw(self, surface):
@@ -195,4 +220,3 @@ class Ship:
             return "Attack"
         else:
             return "Defense"
-
