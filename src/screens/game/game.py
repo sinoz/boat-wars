@@ -87,6 +87,7 @@ class GameScreen:
             # Look up the positions this ship would occupy if it were set in attack mode
             pos_in_atk_mode = self.session.selected_ship.occupied_tile_pos(True)
             for pos in pos_in_atk_mode:
+                sound.Plopperdeplop.tune(self, 'change_mode')
                 # If the ship is standing on the last tiles on the x axis, the ship would be
                 # able to fall off the grid, hence the `return` to prevent switching to defense mode
                 if self.session.out_of_bounds(pos[0], pos[1]):
@@ -110,6 +111,7 @@ class GameScreen:
             # Look up the positions this ship would occupy if it were set in defense mode
             pos_in_atk_mode = self.session.selected_ship.occupied_tile_pos(False)
             for pos in pos_in_atk_mode:
+                sound.Plopperdeplop.tune(self, 'change_mode')
                 # If the ship is standing on the last tiles on the x axis, the ship would be
                 # able to fall off the grid, hence the `return` to prevent switching to defense mode
                 if self.session.out_of_bounds(pos[0], pos[1]):

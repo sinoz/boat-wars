@@ -44,11 +44,11 @@ class Ship:
         self.firelimit = 1
 
         # Card effects
-        self.applied_smokescreen = False
         self.fmj_upgrade = False
         self.rifling = False
         self.better_rifling = False
         self.reinforced_hull = False
+        self.applied_smokescreen = False
         self.sabotage = False
         self.extra_fuel = False
         self.extra_fuel_two = False
@@ -118,9 +118,44 @@ class Ship:
         self.remaining_tiles = self.moverange
         self.fire_count = 0
 
+    # Apply card effects
+    def apply_cards(self):
+        if self.fmj_upgrade:
+            pass
+        if self.rifling:
+            pass
+        if self.better_rifling:
+            pass
+        if self.reinforced_hull:
+            self.health += 1
+            self.reinforced_hull = False
+        if self.applied_smokescreen:
+            pass
+        if self.sabotage:
+            pass
+        if self.extra_fuel:
+            pass
+        if self.extra_fuel_two:
+            pass
+        if self.rally:
+            pass
+        if self.adrenaline_rush:
+            pass
+        if self.repair:
+            self.health = self.type[3]
+            self.repair = False
+        if self.mine_armor:
+            pass
+        if self.far_sight:
+            self.firerange += 2
+            self.far_sight = False
+        if self.aluminium_hull:
+            pass
+
     # Updates the state of this ship per frame.
     def update(self):
-        pass # TODO
+        self.apply_cards()
+        # TODO
 
     # Draws this ship onto the given surface.
     def draw(self, surface):
