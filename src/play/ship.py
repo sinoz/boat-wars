@@ -53,7 +53,7 @@ class Ship:
         self.sabotage = False
         self.extra_fuel = False
         self.extra_fuel_two = False
-        self. rally = False
+        self.rally = False
         self.adrenaline_rush = False
         self.repair = False
         self.mine_armor = False
@@ -128,12 +128,18 @@ class Ship:
 
     # Apply card effects
     def apply_card_effect(self, card):
-        if card.id == 'refh':
+        if card.id == 'refh': # Refinement Hull, adds a health point to the ship
             self.health += 1
-        if card.id == 'fuel':
+        if card.id == 'fuel': # Fuel, adds one extra tile to your movement capacity
             self.remaining_tiles += 1
-        if card.id == 'adr':
+        if card.id == 'fue2': # Extra fuek, adds two extra tiles to your movement capacity
+            self.remaining_tiles += 2
+        if card.id == 'adr': # Adrenaline Rush, adds a second chance to move the ship around
             self.remaining_tiles += self.moverange
+        if card.id == 'rif': # Normal rifling, increases firerange by 1
+            self.firerange += 1
+        if card.id == 'arif': # Advanced rifling, increases firerange by 2
+            self.firerange += 2
 
         print(card.id)
 
