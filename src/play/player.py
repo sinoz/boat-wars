@@ -9,7 +9,7 @@ class Player:
 
     # Adds the given ship to this player's arsenal.
     def add_ship(self, ship):
-        occupied_tile_pos = ship.occupied_tile_pos()
+        occupied_tile_pos = ship.occupied_tile_pos(ship.in_attack_mode())
         for pos in occupied_tile_pos:
             if self.session.out_of_bounds(pos[0], pos[1]):
                 continue
@@ -21,7 +21,7 @@ class Player:
 
     # Removes the specified ship from this player's arsenal.
     def remove_ship(self, ship):
-        occupied_tile_pos = ship.occupied_tile_pos()
+        occupied_tile_pos = ship.occupied_tile_pos(ship.in_attack_mode())
         for pos in occupied_tile_pos:
             if self.session.out_of_bounds(pos[0], pos[1]):
                 continue
