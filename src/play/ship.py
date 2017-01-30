@@ -14,6 +14,8 @@ class Ship:
     def __init__(self, tile, owner, type=Scout, mode=AttackMode):
         self.type = type
 
+        self.id = type[0]
+
         self.x = tile.x
         self.y = tile.y
 
@@ -59,6 +61,22 @@ class Ship:
         self.mine_armor = False
         self.far_sight = False
         self.alumininum_hull = False
+
+        #Save the Boat info in the databse
+        x = 0 + self.tile.x
+        y = 0 + self.tile.y
+        health = 0 + self.health
+        BID = self.id
+        mode = self.mode  # 0 = Defense, 1 = Attack, for further coding.
+        firerange = 0 + self.firerange
+        firepower = 0 + self.firepower
+        # For the coming: False = Negative, True = Applied
+        applied_smokescreen = self.applied_smokescreen
+        mine_armor = self.mine_armor
+        sabotage = self.sabotage
+        remaining_tiles = self.remaining_tiles
+
+        db.db_service.execute("INSERT INTO Boats (XPos, YPos, HP, BID, State, BRange, Attack, ShotDef, MineDef, ReflDef, BoatMovementLeft) VALUES (" + str(x) + "," + str(y) + "," + str(health) + "," + str(BID) + "," + str(mode) + "," + str(firerange) + "," + str(firepower) + "," + str(applied_smokescreen) + "," + str(mine_armor) + "," + str(sabotage) + "," + str(remaining_tiles) + ");")
 
     # Updates the grid and pixel coordinates of this ship
     def update_pos(self, x, y):
