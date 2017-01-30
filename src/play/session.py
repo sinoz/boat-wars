@@ -61,7 +61,7 @@ class Session:
     # Attempts to select a ship that is located at the specified coordinates.
     def select_ship_if_present(self, x, y):
         for ship in self.current_turn.ships:
-            occupied_tile_pos = ship.occupied_tile_pos()
+            occupied_tile_pos = ship.occupied_tile_pos(ship.in_attack_mode())
             for pos in occupied_tile_pos:
                 if self.out_of_bounds(pos[0], pos[1]):
                     continue
@@ -98,7 +98,7 @@ class Session:
         for tile in tiles:
             if click_tile_x == tile.x and click_tile_y == tile.y:
                 if self.draw_type == DrawMoveRange and not self.selected_ship.in_defense_mode() and not self.selected_ship.reached_move_limit():
-                    occupied_tile_pos = self.selected_ship.occupied_tile_pos()
+                    occupied_tile_pos = self.selected_ship.occupied_tile_pos(self.selected_ship.in_attack_mode())
                     for pos in occupied_tile_pos:
                         if self.out_of_bounds(pos[0], pos[1]):
                             continue
@@ -109,14 +109,18 @@ class Session:
                     delta_x = click_tile_x - self.selected_ship.x
                     delta_y = click_tile_y - self.selected_ship.y
 
-                    # TODO
+                    new_x = click_tile_x
+                    new_y = click_tile_y
 
-                    self.selected_ship.x = click_tile_x
-                    self.selected_ship.y = click_tile_y
+                    # To ensure ships move downwards by their tail instead of their head
+                    if delta_y > 0:
+                        new_y -= (self.selected_ship.size - 1)
 
+                    # Finally update the position of the ship
+                    self.selected_ship.update_pos(new_x, new_y)
                     self.selected_ship.move_count += 1
 
-                    occupied_tile_pos = self.selected_ship.occupied_tile_pos()
+                    occupied_tile_pos = self.selected_ship.occupied_tile_pos(self.selected_ship.in_attack_mode())
                     for pos in occupied_tile_pos:
                         if self.out_of_bounds(pos[0], pos[1]):
                             continue
@@ -169,7 +173,7 @@ class Session:
         y_end = (ship.y + ship.size + delta)
 
         for y in range(y_offset, y_end):
-            occupied_tile_pos = ship.occupied_tile_pos()
+            occupied_tile_pos = ship.occupied_tile_pos(ship.in_attack_mode())
             for pos in occupied_tile_pos:
                 if self.out_of_bounds(pos[0], pos[1]):
                     continue
@@ -182,6 +186,9 @@ class Session:
 
             tile = self.grid.get(ship.x, y)
             if not tile.ship is None:
+                if ship.rect.colliderect(tile.ship.rect):
+                    continue
+
                 if self.draw_type == DrawFireRange and tile.ship.health == 0:
                     continue
 
@@ -213,6 +220,9 @@ class Session:
 
                 tile = self.grid.get(x, y)
                 if not tile.ship is None:
+                    if ship.rect.colliderect(tile.ship.rect):
+                        continue
+
                     if self.draw_type == DrawFireRange and tile.ship.health == 0:
                         x += 1
                         continue
@@ -250,6 +260,9 @@ class Session:
 
                 tile = self.grid.get(x, y)
                 if not tile.ship is None:
+                    if ship.rect.colliderect(tile.ship.rect):
+                        continue
+
                     if self.draw_type == DrawFireRange and tile.ship.health == 0:
                         continue
 

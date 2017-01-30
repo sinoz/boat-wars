@@ -21,6 +21,8 @@ class Ship:
         self.font = pygame.font.SysFont("monospace", 30, 1)
         self.image = pygame.image.load('resources/ships/' + str(type[0]) + '.png')
 
+        self.rect = pygame.rect.Rect(self.x * self.tile.width, self.y * self.tile.height, self.tile.width, self.tile.height)
+
         self.owner = owner
         self.tile.set_ship(self)
 
@@ -38,11 +40,18 @@ class Ship:
         # Card effects
         self.applied_smokescreen = False
 
-    # Returns a list of tile positions that this ship currently occupies.
-    def occupied_tile_pos(self):
+    # Updates the grid and pixel coordinates of this ship
+    def update_pos(self, x, y):
+        self.x = x
+        self.y = y
+        self.rect.x = x * self.tile.width
+        self.rect.y = y * self.tile.height
+
+    # Returns a list of tile positions that this ship would occupy if it were in the specified mode.
+    def occupied_tile_pos(self, in_attack_mode):
         positions = []
 
-        if self.in_attack_mode():
+        if in_attack_mode:
             for y_offset in range(self.size):
                 y = self.y + y_offset
                 positions.append((self.x, y))
@@ -96,11 +105,17 @@ class Ship:
 
     # Draws this ship onto the given surface.
     def draw(self, surface):
-        surface.blit(self.image, pygame.rect.Rect(self.x * self.tile.width, self.y * self.tile.height, self.tile.width, self.tile.height))
+        surface.blit(self.image, self.rect)
+
+        draw_x = self.x
+        draw_y = self.y
+
+        if self.y == 0:
+            draw_y += 1
 
         ship_health = self.font.render(str(self.health), 1, (0, 255, 0))
-        ship_health_x = self.x * self.tile.width
-        ship_health_y = self.y * self.tile.height
+        ship_health_x = draw_x * self.tile.width
+        ship_health_y = draw_y * self.tile.height
 
         surface.blit(ship_health, (ship_health_x + self.tile.width / 4, ship_health_y - 15))
 
