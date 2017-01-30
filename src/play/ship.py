@@ -45,6 +45,19 @@ class Ship:
 
         # Card effects
         self.applied_smokescreen = False
+        self.fmj_upgrade = False
+        self.rifling = False
+        self.better_rifling = False
+        self.reinforced_hull = False
+        self.sabotage = False
+        self.extra_fuel = False
+        self.extra_fuel_two = False
+        self.rally = False
+        self.adrenaline_rush = False
+        self.repair = False
+        self.mine_armor = False
+        self.far_sight = False
+        self.aluminium_hull = False
 
     # Updates the grid and pixel coordinates of this ship
     def update_pos(self, x, y):
