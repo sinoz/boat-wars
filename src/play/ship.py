@@ -127,7 +127,8 @@ class Ship:
         if self.better_rifling:
             pass
         if self.reinforced_hull:
-            pass
+            self.health += 1
+            self.reinforced_hull = False
         if self.applied_smokescreen:
             pass
         if self.sabotage:
@@ -141,17 +142,20 @@ class Ship:
         if self.adrenaline_rush:
             pass
         if self.repair:
-            pass
+            self.health = self.type[3]
+            self.repair = False
         if self.mine_armor:
             pass
         if self.far_sight:
-            pass
+            self.firerange += 2
+            self.far_sight = False
         if self.aluminium_hull:
             pass
 
     # Updates the state of this ship per frame.
     def update(self):
-        pass # TODO
+        self.apply_cards()
+        # TODO
 
     # Draws this ship onto the given surface.
     def draw(self, surface):
