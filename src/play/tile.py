@@ -35,6 +35,11 @@ class Tile:
             pygame.draw.rect(surface, (255, 255, 0), self.rect)
         if self.with_fire_range:
             pygame.draw.rect(surface, (255, 0, 0), self.rect, 1)
+        if not self.ship is None and not self.ship.owner.session.selected_card is None:
+            if self.ship.owner == self.ship.owner.session.current_turn:
+                pygame.draw.rect(surface, (0, 255, 0), self.rect)
+            else:
+                pygame.draw.rect(surface, (255, 0, 0), self.rect)
         else:
             pygame.draw.rect(surface, (0, 0, 0), self.rect, 1)
 
