@@ -137,11 +137,11 @@ class Ship:
         if self.sabotage:
             pass
         if self.extra_fuel:
-            pass
+            self.moverange += 1
         if self.extra_fuel_two:
-            pass
+            self.moverange += 2
         if self.rally:
-            pass
+            self.remaining_tiles += 1
         if self.adrenaline_rush:
             pass
         if self.repair:
