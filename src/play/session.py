@@ -117,7 +117,15 @@ class Session:
 
                     # To ensure ships move downwards by their tail instead of their head
                     if delta_y > 0:
-                        new_y -= (self.selected_ship.size - 1)
+                        # The y coordinate of the tail of the ship
+                        tail_y = self.selected_ship.y + (self.selected_ship.size - 1)
+
+                        # The distance between the tail and the destination
+                        delta_y = click_tile_y - tail_y
+
+                        # And finally to ensure ships move downwards by their tail instead of their head
+                        new_y = (tail_y + delta_y) - (self.selected_ship.size - 1)
+
                         if new_y < 0:
                             new_y = 0
 
@@ -292,13 +300,19 @@ class Session:
     # Executes an attack on the opponent ship, by the attacking ship. Subtracts the opponent ship's health
     # By the amount of firepower the attacking ship has.
     def fire(self, attacker, opponent):
-        if not opponent.applied_smokescreen:
-            sound.Plopperdeplop.tune(self, attacker.cannon_sound)
-
-            opponent.health -= attacker.firepower
-            opponent.applied_smokescreen = False
+        if not opponent.sabotage:
+            if not opponent.applied_smokescreen:
+                sound.Plopperdeplop.tune(self, attacker.cannon_sound)
+                print("firepower: " + str(attacker.firepower))
+                opponent.health -= attacker.firepower
+            else:
+                # TODO play smokescreen animation/sound
+                opponent.applied_smokescreen = False
         else:
-            pass # TODO play smokescreen animation/sound
+            # Do this before we call fire(), else we end up an infinite recursion
+            opponent.sabotage = False
+
+            self.fire(opponent, attacker)
 
         if opponent.health <= 0:
             sound.Plopperdeplop.tune(self, 'explosion_ship')
@@ -306,6 +320,8 @@ class Session:
 
         attacker.fire_count += 1 # Every ship can attack at most once
         attacker.owner.fire_count += 1 # A player can only attack two other ships per turn
+
+        attacker.reset_attack_effects()
 
         if not opponent.owner.has_remaining_ships():
             self.winner = attacker.owner
