@@ -7,15 +7,12 @@ class Grid:
     def __init__(self, grid_width, grid_height):
         self.grid_width = grid_width
         self.grid_height = grid_height
-        self.tiles = self.create_grid(grid_width, grid_height)
 
-    # Constructs a matrix / grid of the given width and height
-    def create_grid(self, width, height):
-        tiles = {}
-        for y in range(height):
-            for x in range(width):
-                tiles[(x, y)] = play.tile.Tile(x, y, TileWidth, TileHeight)
-        return tiles
+        # Constructs the grid of size `grid_width` and `grid_height`
+        self.tiles = {}
+        for y in range(grid_height):
+            for x in range(grid_width):
+                self.tiles[(x, y)] = play.tile.Tile(x, y, TileWidth, TileHeight)
 
     # Looks up a tile instance set at the specified coordinates.
     def get(self, x, y):
@@ -31,10 +28,10 @@ class Grid:
         pass
 
     # A foreach function that accepts a callback which takes a tile.
-    def forEachTile(self, f):
+    def foreach_tile(self, f):
         for tile in self.tiles.values():
             f(tile)
 
     # Draws the components of this grid.
     def draw(self, surface):
-        self.forEachTile(lambda tile: tile.draw(surface))
+        self.foreach_tile(lambda tile: tile.draw(surface))

@@ -50,7 +50,8 @@ class Player:
 
     # Adds the given card to the player's normal stack
     def add_card(self, card):
-        self.cards.append(card)
+        if len(self.cards) != 6:
+            self.cards.append(card)
 
     # Removes specified card from player's normal stack
     def remove_card(self, card):

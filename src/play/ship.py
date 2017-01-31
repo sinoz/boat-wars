@@ -49,7 +49,7 @@ class Ship:
         self.firelimit = 1
 
         # Card effects
-        self.fmj_upgrade = True
+        self.fmj_upgrade = False
         self.rifling = False
         self.better_rifling = False
         self.reinforced_hull = False
@@ -57,7 +57,7 @@ class Ship:
         self.sabotage = False
         self.extra_fuel = False
         self.extra_fuel_two = False
-        self. rally = False
+        self.rally = False
         self.adrenaline_rush = False
         self.repair = False
         self.mine_armor = False
@@ -102,6 +102,13 @@ class Ship:
 
         return positions
 
+    # Returns the appropriate move range.
+    def get_moverange(self):
+        if self.remaining_tiles > self.moverange:
+            return int(self.moverange)
+        else:
+            return int(self.remaining_tiles)
+
     # Switches the state of this ship to Attack mode.
     def switch_attack_mode(self):
         if self.mode != AttackMode:
@@ -141,8 +148,26 @@ class Ship:
 
     # Apply card effects
     def apply_card_effect(self, card):
-        if card.id == 'refh':
+        if card.id == 'refh': # Refinement Hull, adds a health point to the ship
             self.health += 1
+        elif card.id == 'fuel': # Fuel, adds one extra tile to your movement capacity
+            self.remaining_tiles += 1
+        elif card.id == 'fue2': # Extra fuel, adds two extra tiles to your movement capacity
+            self.remaining_tiles += 2
+        elif card.id == 'adr': # Adrenaline Rush, adds a second chance to move the ship around
+            self.remaining_tiles += self.moverange
+        elif card.id == 'rif': # Normal rifling, increases firerange by 1
+            self.firerange += 1
+        elif card.id == 'arif': # Advanced rifling, increases firerange by 2
+            self.firerange += 2
+        elif card.id == 'fmj': # FMJ Upgrade, adds one point to the current firepower
+            self.firepower += 1
+        elif card.id == 'rally': # Rally, adds extra movement to a ship for a single turn
+            self.remaining_tiles += 1
+        elif card.id == 'sab': # Sabotage, bouncing an attack back to the attacker
+            self.sabotage = True
+        elif card.id == 'son': # Smokescreen, dismissing an attack.
+            self.applied_smokescreen = True
 
         print(card.id)
 
@@ -151,6 +176,8 @@ class Ship:
         self.fmj_upgrade = False
         self.rifling = False
         self.better_rifling = False
+
+        # We do not flag `sabotage` and `applied_smokescreen` here as these last until they are activated.
 
         # Reset all of the stats back to its original state
         self.reset_firepower()

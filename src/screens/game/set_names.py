@@ -38,14 +38,14 @@ class SetNamesScreen:
         self.p1_name.on_event(event)
         self.p2_name.on_event(event)
 
-    # TODO
+    # Initializes a new game session.
     def start_game(self, x, y, cursor):
         grid = play.grid.Grid(27, 21)
         session = play.session.Session(self.canvas.language, grid, self.p1_name.text, self.p2_name.text)
 
         self.canvas.set_screen(screens.game.game.GameScreen(self.canvas, session))
 
-    # TODO
+    # Returns to the main menu screen.
     def return_to_main(self, x, y, cursor):
         self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))
 

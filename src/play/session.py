@@ -3,7 +3,7 @@ import play.ship
 import play.mine
 import play.grid
 import play.randomcard
-import play.crd as crd
+import play.card as crd
 import screens.sound as sound
 
 import pygame
@@ -28,6 +28,7 @@ class Session:
         self.selected_ship = None
 
         self.selected_card = None
+        self.amt_played_cards = 0
 
         self.draw_type = NoRangeDrawing
         self.add_initial_entities()
@@ -86,9 +87,9 @@ class Session:
                             if tile.ship.health == 0:
                                 continue
 
-                            print(self.selected_card)
                             if not self.selected_card is None and tile.ship.owner == self.current_turn:
-                                self.apply_selected_card_effect(tile.ship)
+                                tile.ship.apply_card_effect(self.selected_card)
+                                self.mark_card_as_played()
 
                                 return
 
@@ -106,7 +107,7 @@ class Session:
         if self.draw_type == DrawFireRange:
             r = self.selected_ship.firerange
         elif self.draw_type == DrawMoveRange:
-            r = self.selected_ship.remaining_tiles
+            r = self.selected_ship.get_moverange()
 
         tiles = self.compute_range(self.selected_ship, r)
         for tile in tiles:
@@ -180,14 +181,11 @@ class Session:
         self.reset_ship_selection()
         self.reset_card_selection()
 
-    # Applies the card effect of the currently selected card onto the specified ship. Raises an
-    # `Exception` if no card is currently selected.
-    def apply_selected_card_effect(self, ship):
-        if self.selected_card is None:
-            raise Exception("Cannot apply a non existing card effect on the specified ship")
-
-        print("applying card effect")
-        ship.apply_card_effect(self.selected_card)
+    # Marks the currently selected card as played, incrementing the card play count, removing
+    # the card from the player's deck and resetting any selected card.
+    def mark_card_as_played(self):
+        self.amt_played_cards += 1
+        self.current_turn.remove_card(self.selected_card)
 
         # Trash current selected card
         self.current_turn.cards.remove(self.selected_card)
@@ -205,7 +203,7 @@ class Session:
 
     # Draws the move range of a ship
     def set_move_range_drawing(self):
-        tiles = self.compute_range(self.selected_ship, self.selected_ship.remaining_tiles)
+        tiles = self.compute_range(self.selected_ship, self.selected_ship.get_moverange())
         for tile in tiles:
             tile.with_fire_range = False
             tile.with_move_range = True
@@ -380,7 +378,7 @@ class Session:
 
     # Resets the state of all of the tiles in the grid.
     def reset_tiles(self):
-        self.grid.forEachTile(lambda tile: tile.reset())
+        self.grid.foreach_tile(lambda tile: tile.reset())
 
     # Changes the current turn to that of the specified player.
     def change_turn(self, p):
@@ -393,6 +391,9 @@ class Session:
         # Reset the fire and move counts
         p.foreach_ship(lambda ship: ship.reset_counts())
         p.fire_count = 0
+
+        # Reset the amount of played cards
+        self.amt_played_cards = 0
 
         # Change current turn
         self.current_turn = p
@@ -420,7 +421,7 @@ class Session:
             if click_tile_x < self.grid.grid_width and click_tile_y < self.grid.grid_height:
                 self.reset_tiles()
 
-                self.grid.forEachTile(lambda tile: tile.reset())
+                self.grid.foreach_tile(lambda tile: tile.reset())
 
                 if self.selected_ship is None:
                     self.select_ship_if_present(click_tile_x, click_tile_y)
@@ -430,7 +431,7 @@ class Session:
                 self.reset_card_selection()
 
         if not self.selected_ship is None:
-            self.grid.forEachTile(lambda tile: tile.reset())
+            self.grid.foreach_tile(lambda tile: tile.reset())
 
             if self.draw_type == DrawFireRange:
                 self.set_fire_range_drawing()

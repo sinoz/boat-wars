@@ -37,10 +37,11 @@ class GameScreen:
 
         self.font = pygame.font.SysFont("monospace", 20, 1)
 
-    # TODO
+    # Returns to the main menu screen.
     def return_to_main_menu(self, x, y, cursor):
         self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))
 
+    # Returns to the settings screen.
     def return_to_settings(self, x, y, cursor):
         self.canvas.set_screen(screens.settings.SettingsScreen(self.canvas, self))
 
@@ -134,7 +135,10 @@ class GameScreen:
 
     # Reacts to the user pressing on the 'cards' button
     def display_cards(self, x, y, cursor):
-        self.session.selected_ship = None
+        self.session.reset_card_selection()
+        self.session.reset_ship_selection()
+        self.session.reset_tiles()
+
         self.canvas.set_screen(screens.game.cards.CardScreen(self.canvas, self.session, self))
 
         sound.Plopperdeplop.tune(self, 'card_flip')
