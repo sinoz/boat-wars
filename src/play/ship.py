@@ -160,6 +160,8 @@ class Ship:
             self.firerange += 2
         elif card.id == 'fmj': # FMJ Upgrade, adds one point to the current firepower
             self.firepower += 1
+        elif card.id == 'rally': # Rally, adds extra movement to a ship for a single turn
+            self.remaining_tiles += 1
         elif card.id == 'sab': # Sabotage, bouncing an attack back to the attacker
             self.sabotage = True
         elif card.id == 'son': # Smokescreen, dismissing an attack.

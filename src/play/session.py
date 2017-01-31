@@ -362,7 +362,7 @@ class Session:
 
     # Resets the state of all of the tiles in the grid.
     def reset_tiles(self):
-        self.grid.forEachTile(lambda tile: tile.reset())
+        self.grid.foreach_tile(lambda tile: tile.reset())
 
     # Changes the current turn to that of the specified player.
     def change_turn(self, p):
@@ -405,7 +405,7 @@ class Session:
             if click_tile_x < self.grid.grid_width and click_tile_y < self.grid.grid_height:
                 self.reset_tiles()
 
-                self.grid.forEachTile(lambda tile: tile.reset())
+                self.grid.foreach_tile(lambda tile: tile.reset())
 
                 if self.selected_ship is None:
                     self.select_ship_if_present(click_tile_x, click_tile_y)
@@ -415,7 +415,7 @@ class Session:
                 self.reset_card_selection()
 
         if not self.selected_ship is None:
-            self.grid.forEachTile(lambda tile: tile.reset())
+            self.grid.foreach_tile(lambda tile: tile.reset())
 
             if self.draw_type == DrawFireRange:
                 self.set_fire_range_drawing()
