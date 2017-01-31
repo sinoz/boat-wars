@@ -30,8 +30,6 @@ class GameScreen:
         self.vic_main_menu_button = widget.button.Button((333,365), (317,79), self.return_to_main_menu)
         self.settings_button = widget.button.Button((341, 301), (317, 65), self.return_to_settings)
 
-        self.session.winner = None
-
         self.draw_exit = False
         self.draw_victory = False
 
