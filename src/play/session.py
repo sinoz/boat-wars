@@ -177,8 +177,9 @@ class Session:
 
         print("applying card effect")
         ship.apply_card_effect(self.selected_card)
-        # TODO trash current selected card
-        # TODO refresh card screen or something?
+        # Trash current selected card
+        self.current_turn.cards.remove(self.selected_card)
+        self.deck.trash_card(self.selected_card.id)
 
         self.reset_card_selection()
 
