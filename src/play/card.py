@@ -1,5 +1,5 @@
 import pygame
-import db.db_service
+# import db.db_service
 import screens.game.cards
 
 class Card:
