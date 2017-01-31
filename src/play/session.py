@@ -160,6 +160,17 @@ class Session:
                         tile = self.grid.get(pos[0], pos[1])
                         tile.set_ship(self.selected_ship)
 
+                        # Check if ship should receive special card
+                        if not self.selected_ship.received_special_card:
+                            if self.current_turn == self.p1 and tile.y == 20:
+                                print('Been there, done that.')
+                                self.current_turn.add_card(crd.Card(self.deck.pick_special(), 'Special', self.language))
+                                self.selected_ship.received_special_card = True
+                            elif self.current_turn == self.p2 and tile.y == 0:
+                                print('Been there, done that.')
+                                self.current_turn.add_card(crd.Card(self.deck.pick_special(), 'Special', self.language))
+                                self.selected_ship.received_special_card = True
+
                     break
                 elif self.draw_type == DrawFireRange and not self.selected_ship.reached_fire_limit() and not self.selected_ship.remaining_tiles == 0 and not self.current_turn.reached_fire_limit():
                     tile = self.grid.get(click_tile_x, click_tile_y)
@@ -177,9 +188,11 @@ class Session:
 
         print("applying card effect")
         ship.apply_card_effect(self.selected_card)
+
         # Trash current selected card
         self.current_turn.cards.remove(self.selected_card)
-        self.deck.trash_card(self.selected_card.id)
+        if self.selected_card.type == 'Normal':
+            self.deck.trash_card(self.selected_card.id)
 
         self.reset_card_selection()
 

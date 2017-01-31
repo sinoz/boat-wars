@@ -27,6 +27,8 @@ class Ship:
         self.rect = pygame.rect.Rect(self.x * self.tile.width, self.y * self.tile.height, self.tile.width, self.tile.height)
 
         self.owner = owner
+        self.received_special_card = False
+
         self.tile.set_ship(self)
 
         self.fire_count = 0
