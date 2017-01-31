@@ -148,6 +148,7 @@ class Ship:
 
     # Apply card effects
     def apply_card_effect(self, card):
+        # Normal cards
         if card.id == 'refh': # Refinement Hull, adds a health point to the ship
             self.health += 1
         elif card.id == 'fuel': # Fuel, adds one extra tile to your movement capacity
@@ -169,6 +170,12 @@ class Ship:
         elif card.id == 'son': # Smokescreen, dismissing an attack.
             self.applied_smokescreen = True
 
+        # Special cards
+        elif card.id == 'rep': # Repairs the ship
+            self.restore_health()
+        elif card.id == 'alu': # Aluminium Hall, increasing the current moverange
+            self.moverange *= 2
+
         print(card.id)
 
     # Resets all of the card flags of attack related effects that only last for a single attack.
@@ -183,6 +190,10 @@ class Ship:
         self.reset_firepower()
         self.reset_firerange()
         self.reset_moverange()
+
+    # Restores this ship's health
+    def restore_health(self):
+        self.health = self.type[3]
 
     # Resets the moverange back to its original state
     def reset_moverange(self):

@@ -188,7 +188,6 @@ class Session:
         self.current_turn.remove_card(self.selected_card)
 
         # Trash current selected card
-        self.current_turn.cards.remove(self.selected_card)
         if self.selected_card.type == 'Normal':
             self.deck.trash_card(self.selected_card.id)
 
