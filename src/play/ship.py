@@ -148,18 +148,22 @@ class Ship:
     def apply_card_effect(self, card):
         if card.id == 'refh': # Refinement Hull, adds a health point to the ship
             self.health += 1
-        if card.id == 'fuel': # Fuel, adds one extra tile to your movement capacity
+        elif card.id == 'fuel': # Fuel, adds one extra tile to your movement capacity
             self.remaining_tiles += 1
-        if card.id == 'fue2': # Extra fuel, adds two extra tiles to your movement capacity
+        elif card.id == 'fue2': # Extra fuel, adds two extra tiles to your movement capacity
             self.remaining_tiles += 2
-        if card.id == 'adr': # Adrenaline Rush, adds a second chance to move the ship around
+        elif card.id == 'adr': # Adrenaline Rush, adds a second chance to move the ship around
             self.remaining_tiles += self.moverange
-        if card.id == 'rif': # Normal rifling, increases firerange by 1
+        elif card.id == 'rif': # Normal rifling, increases firerange by 1
             self.firerange += 1
-        if card.id == 'arif': # Advanced rifling, increases firerange by 2
+        elif card.id == 'arif': # Advanced rifling, increases firerange by 2
             self.firerange += 2
-        if card.id == 'fmj': # FMJ Upgrade, adds one point to the current firepower
+        elif card.id == 'fmj': # FMJ Upgrade, adds one point to the current firepower
             self.firepower += 1
+        elif card.id == 'sab': # Sabotage, bouncing an attack back to the attacker
+            self.sabotage = True
+        elif card.id == 'son': # Smokescreen, dismissing an attack.
+            self.applied_smokescreen = True
 
         print(card.id)
 
@@ -168,8 +172,8 @@ class Ship:
         self.fmj_upgrade = False
         self.rifling = False
         self.better_rifling = False
-        self.sabotage = False
-        self.applied_smokescreen = False
+
+        # We do not flag `sabotage` and `applied_smokescreen` here as these last until they are activated.
 
         # Reset all of the stats back to its original state
         self.reset_firepower()
