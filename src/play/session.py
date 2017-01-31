@@ -164,11 +164,9 @@ class Session:
                         # Check if ship should receive special card
                         if not self.selected_ship.received_special_card:
                             if self.current_turn == self.p1 and tile.y == 20:
-                                print('Been there, done that.')
                                 self.current_turn.add_card(crd.Card(self.deck.pick_special(), 'Special', self.language))
                                 self.selected_ship.received_special_card = True
                             elif self.current_turn == self.p2 and tile.y == 0:
-                                print('Been there, done that.')
                                 self.current_turn.add_card(crd.Card(self.deck.pick_special(), 'Special', self.language))
                                 self.selected_ship.received_special_card = True
 
