@@ -56,7 +56,7 @@ class Session:
         self.p1.foreach_ship(lambda ship: ship.transform(180))
 
         # Add 9 mines to the playing field
-        self.mine1 = play.mine.Mine(self.grid.get(14, 11))
+        self.mine1 = play.mine.Mine(self.grid.get(14, 10))
 
     # Switches between the fire range and move range drawing types, if applicable.
     def switch_draw_type(self):
