@@ -88,7 +88,8 @@ class Session:
                                 continue
 
                             if not self.selected_card is None and tile.ship.owner == self.current_turn:
-                                self.apply_selected_card_effect(tile.ship)
+                                tile.ship.apply_card_effect(self.selected_card)
+                                self.mark_card_as_played()
 
                                 return
 
@@ -169,14 +170,9 @@ class Session:
         self.reset_ship_selection()
         self.reset_card_selection()
 
-    # Applies the card effect of the currently selected card onto the specified ship. Raises an
-    # `Exception` if no card is currently selected.
-    def apply_selected_card_effect(self, ship):
-        if self.selected_card is None:
-            raise Exception("Cannot apply a non existing card effect on the specified ship")
-
-        ship.apply_card_effect(self.selected_card)
-
+    # Marks the currently selected card as played, incrementing the card play count, removing
+    # the card from the player's deck and resetting any selected card.
+    def mark_card_as_played(self):
         self.amt_played_cards += 1
         self.current_turn.remove_card(self.selected_card)
 

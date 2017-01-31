@@ -47,7 +47,7 @@ class Ship:
         self.firelimit = 1
 
         # Card effects
-        self.fmj_upgrade = True
+        self.fmj_upgrade = False
         self.rifling = False
         self.better_rifling = False
         self.reinforced_hull = False
@@ -168,6 +168,8 @@ class Ship:
         self.fmj_upgrade = False
         self.rifling = False
         self.better_rifling = False
+        self.sabotage = False
+        self.applied_smokescreen = False
 
         # Reset all of the stats back to its original state
         self.reset_firepower()

@@ -1,5 +1,11 @@
 import pygame
 
+Red = (255, 0, 0)
+Green = (0, 255, 0)
+Blue = (0, 0, 255)
+Yellow = (255, 255, 0)
+Black = (0, 0, 0)
+
 class Tile:
     def __init__(self, x, y, width, height):
         self.x = x
@@ -35,26 +41,21 @@ class Tile:
     # Draws this tile.
     def draw(self, surface):
         if not self.ship is None and not self.ship.owner.session.selected_card is None:
-            card = self.ship.owner.session.selected_card
-
-            # These are cards that are instantly activated once picked out and do not
-            # require some kind of special tile marking
-            if card.id == 'rally' or card.id == 'back':
-                return
-
+            # We mark the ships of the player whose turn it is as green and the opponent as red
             if self.ship.owner == self.ship.owner.session.current_turn:
-                pygame.draw.rect(surface, (0, 255, 0), self.rect)
+                self.draw_rect(surface, Green)
             else:
-                pygame.draw.rect(surface, (255, 0, 0), self.rect)
+                self.draw_rect(surface, Red)
         else:
             if self.marked:
-                pygame.draw.rect(surface, (0, 255, 0), self.rect)
-            if self.with_move_range:
-                pygame.draw.rect(surface, (255, 255, 0), self.rect)
-            if self.with_fire_range:
-                pygame.draw.rect(surface, (255, 0, 0), self.rect, 1)
+                self.draw_rect(surface, Green)
+            elif self.with_move_range:
+                self.draw_rect(surface, Yellow)
+            elif self.with_fire_range:
+                self.draw_rect(surface, Red)
             else:
-                pygame.draw.rect(surface, (0, 0, 0), self.rect, 1)
+                self.draw_rect(surface, Black)
 
-    def __str__(self):
-        return str(self.x) + "_" + str(self.y)
+    # Draws a coloured rectangle on the specified surface
+    def draw_rect(self, surface, color):
+        pygame.draw.rect(surface, color, self.rect, 1)

@@ -1,5 +1,6 @@
 import pygame
 
+import play.card
 import widget.button
 
 CardPositions = [(39, 46), (319, 47), (604, 46), (37, 330), (319, 329), (602, 326)]
@@ -27,7 +28,24 @@ class CardScreen:
     # Handles the user selecting a card to use
     def on_card(self, x, y, cursor, id):
         if self.session.amt_played_cards < 2:
-            self.session.selected_card = self.session.current_turn.cards[id]
+            player = self.session.current_turn
+            card = player.cards[id]
+
+            self.session.selected_card = card
+            if card.id == 'rally':
+                for ship in player.ships:
+                    ship.apply_card_effect(card)
+
+                self.session.mark_card_as_played()
+            elif card.id == 'back':
+                # We first mark the card as played so we can make extra room for the player's card stack
+                # incase the player only has room left for a single card before this card is stashed
+                self.session.mark_card_as_played()
+
+                # Now we add two cards to the player's stack
+                for i in range(0, 2):
+                    player.add_card(play.card.Card(self.session.deck.pick_currentdeck(), 'Normal', self.session.language))
+
             self.canvas.set_screen(self.prev)
 
     # Updates this `cards` screen
