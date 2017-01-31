@@ -27,6 +27,7 @@ class Session:
         self.selected_ship = None
 
         self.selected_card = None
+        self.amt_played_cards = 0
 
         self.draw_type = NoRangeDrawing
         self.add_initial_entities()
@@ -82,7 +83,6 @@ class Session:
                             if tile.ship.health == 0:
                                 continue
 
-                            print(self.selected_card)
                             if not self.selected_card is None and tile.ship.owner == self.current_turn:
                                 self.apply_selected_card_effect(tile.ship)
 
@@ -172,8 +172,9 @@ class Session:
             raise Exception("Cannot apply a non existing card effect on the specified ship")
 
         ship.apply_card_effect(self.selected_card)
-        # TODO trash current selected card
-        # TODO refresh card screen or something?
+
+        self.amt_played_cards += 1
+        self.current_turn.remove_card(self.selected_card)
 
         self.reset_card_selection()
 
@@ -374,6 +375,9 @@ class Session:
         # Reset the fire and move counts
         p.foreach_ship(lambda ship: ship.reset_counts())
         p.fire_count = 0
+
+        # Reset the amount of played cards
+        self.amt_played_cards = 0
 
         # Change current turn
         self.current_turn = p

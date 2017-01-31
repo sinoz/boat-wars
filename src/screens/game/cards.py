@@ -26,8 +26,9 @@ class CardScreen:
 
     # Handles the user selecting a card to use
     def on_card(self, x, y, cursor, id):
-        self.session.selected_card = self.session.current_turn.cards[id]
-        self.canvas.set_screen(self.prev)
+        if self.session.amt_played_cards < 2:
+            self.session.selected_card = self.session.current_turn.cards[id]
+            self.canvas.set_screen(self.prev)
 
     # Updates this `cards` screen
     def update(self):

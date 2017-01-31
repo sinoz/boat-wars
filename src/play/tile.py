@@ -30,6 +30,13 @@ class Tile:
     # Draws this tile.
     def draw(self, surface):
         if not self.ship is None and not self.ship.owner.session.selected_card is None:
+            card = self.ship.owner.session.selected_card
+
+            # These are cards that are instantly activated once picked out and do not
+            # require some kind of special tile marking
+            if card.id == 'rally' or card.id == 'back':
+                return
+
             if self.ship.owner == self.ship.owner.session.current_turn:
                 pygame.draw.rect(surface, (0, 255, 0), self.rect)
             else:
