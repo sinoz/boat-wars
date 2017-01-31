@@ -14,7 +14,7 @@ class Card:
         # Lang = self.language
         #
         # db.db_service.execute("INSERT INTO Cards (CName, CType, CLang) VALUES (" + str(Name) + "," + str(Type) + "," + str(Lang) + ");")
-
+        #
         # lang = English / Dutch
 
     # Draws this card on the given surface
