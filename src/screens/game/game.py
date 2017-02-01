@@ -35,6 +35,7 @@ class GameScreen:
 
         self.draw_exit = False
         self.draw_victory = False
+        self.settings_changed = False
 
         self.font = pygame.font.SysFont("monospace", 20, 1)
 
@@ -50,10 +51,19 @@ class GameScreen:
     # Returns to the settings screen.
     def return_to_settings(self, x, y, cursor):
         self.canvas.set_screen(screens.settings.SettingsScreen(self.canvas, self))
+        self.settings_changed = True
 
     # Returns to the exit screen.
     def return_to_exit(self, x, y, cursor):
         self.canvas.set_screen(screens.termination.ExitScreen(self.canvas, self))
+
+    # Reloads some images
+    def reload_language(self, canvas):
+        self.session.language = self.canvas.language
+        self.image = pygame.image.load('resources/screens/' + canvas.language + '/game/game.png')
+        self.exit_image = pygame.image.load('resources/screens/' + canvas.language + '/game/ingame_exit.jpg')
+        self.victory_image = pygame.image.load('resources/screens/' + canvas.language + '/game/victory.png')
+        self.settings_changed = False
 
     # Updates this 'game' screen.
     def update(self):
@@ -62,6 +72,8 @@ class GameScreen:
             self.draw_victory = True
             if sound.current_song != 'victory':
                 sound.Plopperdeplop.music(self, 'victory')
+        if self.settings_changed:
+            self.reload_language(self.canvas)
 
     # Handles an event.
     def on_event(self, event):
