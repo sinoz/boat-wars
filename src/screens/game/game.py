@@ -1,5 +1,6 @@
 import pygame
 
+import db.update_db as update_db
 import screens.game.cards
 import screens.settings
 import screens.sound as sound
@@ -30,7 +31,7 @@ class GameScreen:
         self.settings_button = widget.button.Button((341, 301), (317, 65), self.return_to_settings)
         self.exit_game_button = widget.button.Button((340, 395), (318, 65), self.return_to_exit)
 
-        self.vic_main_menu_button = widget.button.Button((333, 365), (317, 79), self.return_to_main_menu)
+        self.vic_main_menu_button = widget.button.Button((333, 365), (317, 79), self.vic_return_to_main_menu)
 
         self.draw_exit = False
         self.draw_victory = False
@@ -39,6 +40,11 @@ class GameScreen:
 
     # Returns to the main menu screen.
     def return_to_main_menu(self, x, y, cursor):
+        self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))
+
+    # Returns to the main menu screen and updates highscores
+    def vic_return_to_main_menu(self, x, y, cursor):
+        update_db.update_highscores(self.session.p1, self.session.p2, self.session.winner)
         self.canvas.set_screen(screens.main_menu.MainScreen(self.canvas))
 
     # Returns to the settings screen.

@@ -1,7 +1,7 @@
 import psycopg2
 
 # The url for each connection
-url = "host='localhost' dbname='boat_wars' user='postgres' password=''"
+url = "host='localhost' dbname='boat_wars' user='postgres' password='sqlpass'"
 
 # Establishes a new connection to execute the given query. Returns nothing.
 def execute(query):
