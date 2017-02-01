@@ -19,7 +19,7 @@ class Plopperdeplop:
             Snd = pygame.mixer.Sound('resources/mp3/Change_mode.ogg')
 
         pygame.mixer.Sound.play(Snd)
-        Snd.set_volume(0.3)
+        Snd.set_volume(0.8)
 
     def music(self, song):
         if song == 'intro':
