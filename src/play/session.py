@@ -57,10 +57,6 @@ class Session:
         # Give 2 cards to player 1 and 2
         self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
-
-        self.p1.add_card(crd.Card('emp', 'Normal', self.language))
-        self.p2.add_card(crd.Card('emp', 'Normal', self.language))
-
         self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
 
