@@ -226,7 +226,27 @@ class Session:
                         self.mines.remove(mine)
 
                         # TODO: play explosion animation
-                        # TODO: call damage strike on every ship in this mine's vicinity
+
+                        target_ships = []
+                        positions = tile.mine.get_surrounding_pos(3)
+                        for pos in positions:
+                            x = pos[0]
+                            y = pos[1]
+
+                            if x < 0 or y < 0 or x >= self.grid.grid_width or y >= self.grid.grid_height:
+                                continue
+
+                            tile = self.grid.get(x, y)
+                            if not tile.ship is None and not tile.ship in target_ships:
+                                target_ships.append(tile.ship)
+
+                        for ship in target_ships:
+                            ship.health -= 2
+
+                            if ship.health <= 0:
+                                sound.Plopperdeplop.tune(self, 'explosion_ship')
+                                ship.wreck()
+                                ship.health = 0
 
                     self.mark_mine_card_as_played()
 
@@ -404,7 +424,6 @@ class Session:
 
             self.fire(opponent, attacker)
 
-        print("emp: " + str(attacker.emp))
         if attacker.emp:
             opponent.disabled = True
 
