@@ -114,7 +114,7 @@ class Session:
                                 return
 
                             self.selected_ship = tile.ship
-                            self.draw_type = DrawFireRange
+                            self.draw_type = DrawMoveRange
                         tile.selected = True
 
     # Updates the state of a currently selected ship. Raises an `Exception` if no ship was selected
