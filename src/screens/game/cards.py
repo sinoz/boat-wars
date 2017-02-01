@@ -41,13 +41,27 @@ class CardScreen:
 
                     self.session.mark_ship_card_as_played()
                 elif card.id == 'back':
-                    # We first mark the card as played so we can make extra room for the player's card stack
+                    # We first mark the card as played so we can make extra room for the player's card deck
                     # incase the player only has room left for a single card before this card is stashed
                     self.session.mark_ship_card_as_played()
 
-                    # Now we add two cards to the player's stack
+                    # Now we add two cards to the player's deck
                     for i in range(0, 2):
                         player.add_card(play.card.Card(self.session.deck.pick_currentdeck(), 'Normal', self.session.language))
+
+                elif card.id == 'hack': #TODO drawing 3 cards and choosing 1
+                    self.session.mark_ship_card_as_played()
+                    # Marking the card als played
+
+                    # Now we add 1 special card to the player's deck
+                    for i in range(0, 1):
+                        player.add_card(play.card.Card(self.session.deck.pick_currentdeck(),'Special', self.session.language))
+
+                elif card.id == 'pir': #TODO
+                    self.session.mark_ship_card_as_played()
+                    # Marking the card as played
+                    pass
+
 
             self.canvas.set_screen(self.prev)
 

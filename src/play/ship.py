@@ -178,8 +178,8 @@ class Ship:
         elif card.id == 'alu': # Aluminium Hall, increasing the current moverange
             self.moverange *= 2 # TODO instead make the ship able to move twice?
             self.remaining_tiles = self.moverange
-        elif card.id == 'far:': # Far sight, increasing the current moverange
-            self.moverange *= 2
+        elif card.id == 'far:': # Far sight, increasing the current firerange
+            self.firerange += 2
         elif card.id == 'flak': # Mine armor, invulnerable against mines
             self.mine_armor = True
 
