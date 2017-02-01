@@ -31,20 +31,23 @@ class CardScreen:
             player = self.session.current_turn
             card = player.cards[id]
 
-            self.session.selected_card = card
-            if card.id == 'rally':
-                for ship in player.ships:
-                    ship.apply_card_effect(card)
+            if card.id == 'son':
+                self.session.selected_mine_card = card
+            else:
+                self.session.selected_ship_card = card
+                if card.id == 'rally':
+                    for ship in player.ships:
+                        ship.apply_card_effect(card)
 
-                self.session.mark_card_as_played()
-            elif card.id == 'back':
-                # We first mark the card as played so we can make extra room for the player's card stack
-                # incase the player only has room left for a single card before this card is stashed
-                self.session.mark_card_as_played()
+                    self.session.mark_card_as_played()
+                elif card.id == 'back':
+                    # We first mark the card as played so we can make extra room for the player's card stack
+                    # incase the player only has room left for a single card before this card is stashed
+                    self.session.mark_card_as_played()
 
-                # Now we add two cards to the player's stack
-                for i in range(0, 2):
-                    player.add_card(play.card.Card(self.session.deck.pick_currentdeck(), 'Normal', self.session.language))
+                    # Now we add two cards to the player's stack
+                    for i in range(0, 2):
+                        player.add_card(play.card.Card(self.session.deck.pick_currentdeck(), 'Normal', self.session.language))
 
             self.canvas.set_screen(self.prev)
 

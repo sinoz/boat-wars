@@ -1,4 +1,5 @@
 import pygame
+
 import db.db_service
 
 DefenseMode = 0
@@ -167,7 +168,7 @@ class Ship:
             self.remaining_tiles += 1
         elif card.id == 'sab': # Sabotage, bouncing an attack back to the attacker
             self.sabotage = True
-        elif card.id == 'son': # Smokescreen, dismissing an attack.
+        elif card.id == 'smok': # Smokescreen, dismissing an attack.
             self.applied_smokescreen = True
 
         # Special cards

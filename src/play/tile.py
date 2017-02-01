@@ -40,12 +40,14 @@ class Tile:
 
     # Draws this tile.
     def draw(self, surface):
-        if not self.ship is None and not self.ship.owner.session.selected_card is None:
+        if not self.ship is None and not self.ship.owner.session.selected_ship_card is None:
             # We mark the ships of the player whose turn it is as green and the opponent as red
             if self.ship.owner == self.ship.owner.session.current_turn:
                 self.draw_rect(surface, Green)
             else:
                 self.draw_rect(surface, Red)
+        elif not self.mine is None and not self.mine.session.selected_mine_card is None:
+            self.draw_rect(surface, Green)
         else:
             if self.marked:
                 self.draw_rect(surface, Green)
