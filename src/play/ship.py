@@ -152,9 +152,14 @@ class Ship:
         self.remaining_tiles = self.moverange
         self.fire_count = 0
 
-    # TODO
+    # Resets the deactivation of this ship
     def reset_deactivation(self):
         self.disabled = False
+
+    # Turns the image of this ship into a wreck.
+    def wreck(self):
+        self.image = pygame.image.load('resources/ships/3.png')
+        self.size = 1
 
     # Apply card effects
     def apply_card_effect(self, card):

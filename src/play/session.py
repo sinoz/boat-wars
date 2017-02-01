@@ -410,6 +410,7 @@ class Session:
 
         if opponent.health <= 0:
             sound.Plopperdeplop.tune(self, 'explosion_ship')
+            opponent.wreck()
             opponent.health = 0
 
         attacker.fire_count += 1 # Every ship can attack at most once
