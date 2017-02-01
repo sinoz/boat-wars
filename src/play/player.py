@@ -64,6 +64,11 @@ class Player:
             f(card, x)
             x += 1
 
+    # Update language for each card
+    def update_card_lang(self, lang):
+        for card in self.cards:
+            card.reload_language(lang)
+
     # Updates the state of this player.
     def update(self):
         self.foreach_ship(lambda ship: ship.update())

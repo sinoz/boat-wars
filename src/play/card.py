@@ -9,6 +9,11 @@ class Card:
         self.language = lang
         self.image = pygame.image.load('resources/cards/' + type + '/' + self.language + '/' + id + '.jpg')
 
+    # Reloads language for this card
+    def reload_language(self, lang):
+        self.language = lang
+        self.image = pygame.image.load('resources/cards/' + self.type + '/' + self.language + '/' + self.id + '.jpg')
+
         # Name = self.id
         # Type = self.type
         # Lang = self.language

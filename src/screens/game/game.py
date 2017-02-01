@@ -57,12 +57,14 @@ class GameScreen:
     def return_to_exit(self, x, y, cursor):
         self.canvas.set_screen(screens.termination.ExitScreen(self.canvas, self))
 
-    # Reloads some images
+    # Reloads language of game elements
     def reload_language(self, canvas):
         self.session.language = self.canvas.language
         self.image = pygame.image.load('resources/screens/' + canvas.language + '/game/game.png')
         self.exit_image = pygame.image.load('resources/screens/' + canvas.language + '/game/ingame_exit.jpg')
         self.victory_image = pygame.image.load('resources/screens/' + canvas.language + '/game/victory.png')
+        self.session.p1.update_card_lang(self.canvas.language)
+        self.session.p2.update_card_lang(self.canvas.language)
         self.settings_changed = False
 
     # Updates this 'game' screen.
