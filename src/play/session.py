@@ -25,6 +25,7 @@ class Session:
 
         self.current_turn = self.p1
 
+        self.turn_count = 0
         self.winner = None
 
         self.selected_ship = None
@@ -56,6 +57,10 @@ class Session:
         # Give 2 cards to player 1 and 2
         self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
+
+        for i in range(0, 4):
+            self.p2.add_card(crd.Card(self.deck.pick_special(), 'Special', self.language))
+
         self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
 
@@ -179,14 +184,22 @@ class Session:
                         tile = self.grid.get(pos[0], pos[1])
                         tile.set_ship(self.selected_ship)
 
+                        # We take the last time a player has been awarded a special card and the current turn
+                        last = self.selected_ship.last_special_card_turn
+                        current = self.turn_count
+
+                        # Now we calculate the delta between the current and last turn to decide whether to award the player
+                        # with a special card.
+                        turn_delta = int(math.fabs(current - last))
+
                         # Check if ship should receive special card
-                        if len(self.current_turn.cards) < 6 and not self.selected_ship.received_special_card:
+                        if len(self.current_turn.cards) < 6 and turn_delta > 3:
                             if self.current_turn == self.p1 and tile.y == 20:
                                 self.current_turn.add_card(crd.Card(self.deck.pick_special(), 'Special', self.language))
-                                self.selected_ship.received_special_card = True
+                                self.selected_ship.last_special_card_turn = self.turn_count
                             elif self.current_turn == self.p2 and tile.y == 0:
                                 self.current_turn.add_card(crd.Card(self.deck.pick_special(), 'Special', self.language))
-                                self.selected_ship.received_special_card = True
+                                self.selected_ship.last_special_card_turn = self.turn_count
 
                     break
                 elif self.draw_type == DrawFireRange and not self.selected_ship.reached_fire_limit() and not self.selected_ship.remaining_tiles == 0 and not self.current_turn.reached_fire_limit():
@@ -441,6 +454,9 @@ class Session:
 
         # Reset the amount of played cards
         self.amt_played_cards = 0
+
+        # Increment the turn count every time someone ends their turn
+        self.turn_count += 1
 
         # Change current turn
         self.current_turn = p

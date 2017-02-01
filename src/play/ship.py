@@ -28,7 +28,7 @@ class Ship:
         self.rect = pygame.rect.Rect(self.x * self.tile.width, self.y * self.tile.height, self.tile.width, self.tile.height)
 
         self.owner = owner
-        self.received_special_card = False
+        self.last_special_card_turn = 0
 
         self.tile.set_ship(self)
 
@@ -177,6 +177,7 @@ class Ship:
             self.restore_health()
         elif card.id == 'alu': # Aluminium Hall, increasing the current moverange
             self.moverange *= 2 # TODO instead make the ship able to move twice?
+            self.remaining_tiles = self.moverange
         elif card.id == 'far:': # Far sight, increasing the current moverange
             self.moverange *= 2
         elif card.id == 'flak': # Mine armor, invulnerable against mines
@@ -195,15 +196,10 @@ class Ship:
         # Reset all of the stats back to its original state
         self.reset_firepower()
         self.reset_firerange()
-        self.reset_moverange()
 
     # Restores this ship's health
     def restore_health(self):
         self.health = self.type[3]
-
-    # Resets the moverange back to its original state
-    def reset_moverange(self):
-        self.moverange = self.type[2]
 
     # Resets the firerange back to its original state
     def reset_firerange(self):
