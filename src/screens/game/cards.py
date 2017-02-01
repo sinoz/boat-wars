@@ -50,7 +50,7 @@ class CardScreen:
                         player.add_card(play.card.Card(self.session.deck.pick_currentdeck(), 'Normal', self.session.language))
 
                 elif card.id == 'hack': #TODO drawing 3 cards and choosing 1
-                    self.session.mark_card_as_played()
+                    self.session.mark_ship_card_as_played()
                     # Marking the card als played
 
                     # Now we add 1 special card to the player's deck
@@ -58,7 +58,7 @@ class CardScreen:
                         player.add_card(play.card.Card(self.session.deck.pick_currentdeck(),'Special', self.session.language))
 
                 elif card.id == 'pir': #TODO
-                    self.session.mark_card_as_played()
+                    self.session.mark_ship_card_as_played()
                     # Marking the card as played
                     pass
 
