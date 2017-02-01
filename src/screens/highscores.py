@@ -5,7 +5,7 @@ import screens.sound as sound
 
 import widget.button
 
-HighscoresFetchQuery = "SELECT name, wins, losses, trim(from to_char(CAST(wins AS float) / CAST(losses AS float), \'99.00\')) AS ratio FROM players GROUP BY name, wins, losses ORDER BY ratio DESC LIMIT 10;"
+HighscoresFetchQuery = "SELECT name, wins, losses, trim(from to_char(CAST(wins AS float) / CAST(wins + losses AS float), \'0.00\')) AS ratio FROM players GROUP BY name, wins, losses ORDER BY ratio DESC LIMIT 10;"
 class HighscoresScreen: # TODO this needs optimization
     def __init__(self, canvas, prev=None):
         self.image = pygame.image.load('resources/screens/' + canvas.language + '/highscores.jpg')

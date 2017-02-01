@@ -24,7 +24,7 @@ class Session:
 
         self.current_turn = self.p1
 
-        self.winner = self.p1
+        self.winner = None
         self.selected_ship = None
 
         self.selected_card = None

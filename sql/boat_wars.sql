@@ -6,14 +6,6 @@ CREATE TABLE players(
 	losses integer DEFAULT 0
 );
 
-INSERT INTO players (name, wins, losses) VALUES ('Mathijs', 21, 20);
-INSERT INTO players (name, wins, losses) VALUES ('Ryan', 10, 11);
-INSERT INTO players (name, wins, losses) VALUES ('Johan', 7, 7);
-INSERT INTO players (name, wins, losses) VALUES ('Sam', 15, 18);
-INSERT INTO players (name, wins, losses) VALUES ('Xin', 8, 6);
-INSERT INTO players (name, wins, losses) VALUES ('Maurice', 24, 30);
-
-
 DROP TABLE IF EXISTS Boats;
 CREATE TABLE Boats(
     XPos integer,
