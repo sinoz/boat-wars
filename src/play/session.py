@@ -180,7 +180,7 @@ class Session:
                         tile.set_ship(self.selected_ship)
 
                         # Check if ship should receive special card
-                        if not self.selected_ship.received_special_card:
+                        if len(self.current_turn.cards) < 6 and not self.selected_ship.received_special_card:
                             if self.current_turn == self.p1 and tile.y == 20:
                                 self.current_turn.add_card(crd.Card(self.deck.pick_special(), 'Special', self.language))
                                 self.selected_ship.received_special_card = True

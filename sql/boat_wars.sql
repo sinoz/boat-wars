@@ -2,14 +2,9 @@
 CREATE TABLE players(
 	players_id serial UNIQUE PRIMARY KEY,
 	name character varying NOT NULL,
-	score integer DEFAULT 0
+	wins integer DEFAULT 0,
+	losses integer DEFAULT 0
 );
-
-ALTER TABLE players
-RENAME COLUMN score to wins;
-
-ALTER TABLE players
-ADD losses integer;
 
 INSERT INTO players (name, wins, losses) VALUES ('Mathijs', 21, 20);
 INSERT INTO players (name, wins, losses) VALUES ('Ryan', 10, 11);

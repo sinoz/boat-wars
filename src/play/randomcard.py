@@ -30,7 +30,7 @@ class Cards:
 
     # Take a card from currentdeck
     def pick_currentdeck(self):
-        card = self.normaldeck1.pop()
+        card = self.currentdeck.pop()
         self.check_currentdeck()
         return card
 

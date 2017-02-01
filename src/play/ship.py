@@ -79,6 +79,7 @@ class Ship:
         sabotage = self.sabotage
         remaining_tiles = self.remaining_tiles
 
+        # db.db_service.execute("TRUNCATE TABLE boats;")
         db.db_service.execute("INSERT INTO Boats (XPos, YPos, HP, BID, State, BRange, Attack, ShotDef, MineDef, ReflDef, BoatMovementLeft) VALUES (" + str(x) + "," + str(y) + "," + str(health) + "," + str(BID) + "," + str(mode) + "," + str(firerange) + "," + str(firepower) + "," + str(applied_smokescreen) + "," + str(mine_armor) + "," + str(sabotage) + "," + str(remaining_tiles) + ");")
 
     # Updates the grid and pixel coordinates of this ship

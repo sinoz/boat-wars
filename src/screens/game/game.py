@@ -27,10 +27,10 @@ class GameScreen:
         self.end_turn_button = widget.button.Button((885, 608), (126, 79), self.end_turn)
 
         self.main_menu_button = widget.button.Button((338, 221), (318, 67), self.return_to_main_menu)
-        self.vic_main_menu_button = widget.button.Button((333,365), (317,79), self.return_to_main_menu)
         self.settings_button = widget.button.Button((341, 301), (317, 65), self.return_to_settings)
+        self.exit_game_button = widget.button.Button((340, 395), (318, 65), self.return_to_exit)
 
-        self.session.winner = None
+        self.vic_main_menu_button = widget.button.Button((333, 365), (317, 79), self.return_to_main_menu)
 
         self.draw_exit = False
         self.draw_victory = False
@@ -45,6 +45,10 @@ class GameScreen:
     def return_to_settings(self, x, y, cursor):
         self.canvas.set_screen(screens.settings.SettingsScreen(self.canvas, self))
 
+    # Returns to the exit screen.
+    def return_to_exit(self, x, y, cursor):
+        self.canvas.set_screen(screens.termination.ExitScreen(self.canvas, self))
+
     # Updates this 'game' screen.
     def update(self):
         self.session.update()
@@ -58,6 +62,7 @@ class GameScreen:
         if self.draw_exit:
             self.main_menu_button.on_event(event)
             self.settings_button.on_event(event)
+            self.exit_game_button.on_event(event)
 
         if self.draw_victory:
             self.vic_main_menu_button.on_event(event)
