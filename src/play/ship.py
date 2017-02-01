@@ -43,6 +43,9 @@ class Ship:
         self.firepower = type[5]
         self.cannon_sound = type[6]
 
+        # Whether this ship is disabled for a turn
+        self.disabled = False
+
         # The amount of tiles the ship has left to move over
         self.remaining_tiles = self.moverange
 
@@ -52,6 +55,7 @@ class Ship:
         # Card effects
         self.fmj_upgrade = False
         self.rifling = False
+        self.emp = False
         self.better_rifling = False
         self.reinforced_hull = False
         self.applied_smokescreen = False
@@ -148,6 +152,10 @@ class Ship:
         self.remaining_tiles = self.moverange
         self.fire_count = 0
 
+    # TODO
+    def reset_deactivation(self):
+        self.disabled = False
+
     # Apply card effects
     def apply_card_effect(self, card):
         # Normal cards
@@ -169,6 +177,8 @@ class Ship:
             self.remaining_tiles += 1
         elif card.id == 'sab': # Sabotage, bouncing an attack back to the attacker
             self.sabotage = True
+        elif card.id == 'emp': # EMP Upgrade, deactivating an opponent ship for one turn
+            self.emp = True
         elif card.id == 'smok': # Smokescreen, dismissing an attack.
             self.applied_smokescreen = True
 

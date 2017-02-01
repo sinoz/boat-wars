@@ -58,8 +58,8 @@ class Session:
         self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         self.p1.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
 
-        for i in range(0, 4):
-            self.p2.add_card(crd.Card(self.deck.pick_special(), 'Special', self.language))
+        self.p1.add_card(crd.Card('emp', 'Normal', self.language))
+        self.p2.add_card(crd.Card('emp', 'Normal', self.language))
 
         self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
@@ -107,7 +107,8 @@ class Session:
 
                         tile = self.grid.get(pos[0], pos[1])
                         if not tile.ship is None:
-                            if tile.ship.health == 0:
+                            print("ship is disabled: " + str(tile.ship.disabled))
+                            if tile.ship.health == 0 or tile.ship.disabled:
                                 continue
 
                             if not self.selected_ship_card is None and tile.ship.owner == self.current_turn:
@@ -403,6 +404,10 @@ class Session:
 
             self.fire(opponent, attacker)
 
+        print("emp: " + str(attacker.emp))
+        if attacker.emp:
+            opponent.disabled = True
+
         if opponent.health <= 0:
             sound.Plopperdeplop.tune(self, 'explosion_ship')
             opponent.health = 0
@@ -451,6 +456,9 @@ class Session:
         # Reset the fire and move counts
         p.foreach_ship(lambda ship: ship.reset_counts())
         p.fire_count = 0
+
+        # Activates ships again if they had been disabled
+        self.current_turn.foreach_ship(lambda ship: ship.reset_deactivation())
 
         # Reset the amount of played cards
         self.amt_played_cards = 0
