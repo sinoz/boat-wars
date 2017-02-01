@@ -65,8 +65,8 @@ class Session:
         # Add 9 mines to the playing field
         # Add 9 mines to the playing field at random locations on the grid.
         while len(self.mines) < 9:
-            x = random.randint(0, self.grid.grid_width - 1)
-            y = random.randint(0, self.grid.grid_height - 1)
+            x = random.randint(0, self.grid.grid_width - 3)
+            y = random.randint(3, self.grid.grid_height - 3)
 
             tile = self.grid.get(x, y)
 
@@ -107,7 +107,7 @@ class Session:
 
                             if not self.selected_ship_card is None and tile.ship.owner == self.current_turn:
                                 tile.ship.apply_card_effect(self.selected_ship_card)
-                                self.mark_card_as_played()
+                                self.mark_ship_card_as_played()
 
                                 return
 
@@ -201,20 +201,42 @@ class Session:
     def select_mine_if_present(self, x, y):
         for mine in self.mines:
             tile = self.grid.get(x, y)
-            if not tile.mine is None:
-                pass # TODO: check if a card is selected, if so do something ok
+            if not tile.mine is None and x == mine.x and y == mine.y:
+                if not self.selected_mine_card is None:
+                    id = self.selected_mine_card.id
+                    if id == 'son':
+                        # Sonar deactivates a mine, we might as well remove it then
+                        self.mines.remove(mine)
+                    elif id == 'navm':
+                        # Remove the mine
+                        self.mines.remove(mine)
 
-        self.reset_card_selection()
+                        # TODO: play explosion animation
+                        # TODO: call damage strike on every ship in this mine's vicinity
 
-    # Marks the currently selected card as played, incrementing the card play count, removing
+                    self.mark_mine_card_as_played()
+
+    # Marks the currently selected ship related card as played, incrementing the card play count, removing
     # the card from the player's deck and resetting any selected card.
-    def mark_card_as_played(self):
+    def mark_ship_card_as_played(self):
         self.amt_played_cards += 1
         self.current_turn.remove_card(self.selected_ship_card)
 
         # Trash current selected card
         if self.selected_ship_card.type == 'Normal':
             self.deck.trash_card(self.selected_ship_card.id)
+
+        self.reset_card_selection()
+
+    # Marks the currently selected mine related card as played, incrementing the card play count, removing
+    # the card from the player's deck and resetting any selected card.
+    def mark_mine_card_as_played(self):
+        self.amt_played_cards += 1
+        self.current_turn.remove_card(self.selected_mine_card)
+
+        # Trash current selected card
+        if self.selected_mine_card.type == 'Normal':
+            self.deck.trash_card(self.selected_mine_card.id)
 
         self.reset_card_selection()
 

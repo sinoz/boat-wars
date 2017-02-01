@@ -31,7 +31,7 @@ class CardScreen:
             player = self.session.current_turn
             card = player.cards[id]
 
-            if card.id == 'son':
+            if card.id == 'son' or card.id == 'navm':
                 self.session.selected_mine_card = card
             else:
                 self.session.selected_ship_card = card
@@ -39,11 +39,11 @@ class CardScreen:
                     for ship in player.ships:
                         ship.apply_card_effect(card)
 
-                    self.session.mark_card_as_played()
+                    self.session.mark_ship_card_as_played()
                 elif card.id == 'back':
                     # We first mark the card as played so we can make extra room for the player's card stack
                     # incase the player only has room left for a single card before this card is stashed
-                    self.session.mark_card_as_played()
+                    self.session.mark_ship_card_as_played()
 
                     # Now we add two cards to the player's stack
                     for i in range(0, 2):
