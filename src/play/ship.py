@@ -177,8 +177,8 @@ class Ship:
             self.restore_health()
         elif card.id == 'alu': # Aluminium Hall, increasing the current moverange
             self.moverange *= 2 # TODO instead make the ship able to move twice?
-        elif card.id == 'far:': # Far sight, increasing the current moverange
-            self.moverange *= 2
+        elif card.id == 'far:': # Far sight, increasing the current firerange
+            self.firerange += 2
         elif card.id == 'flak': # Mine armor, invulnerable against mines
             self.mine_armor = True
 
