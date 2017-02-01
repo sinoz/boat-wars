@@ -31,20 +31,37 @@ class CardScreen:
             player = self.session.current_turn
             card = player.cards[id]
 
-            self.session.selected_card = card
-            if card.id == 'rally':
-                for ship in player.ships:
-                    ship.apply_card_effect(card)
+            if card.id == 'son' or card.id == 'navm':
+                self.session.selected_mine_card = card
+            else:
+                self.session.selected_ship_card = card
+                if card.id == 'rally':
+                    for ship in player.ships:
+                        ship.apply_card_effect(card)
 
-                self.session.mark_card_as_played()
-            elif card.id == 'back':
-                # We first mark the card as played so we can make extra room for the player's card stack
-                # incase the player only has room left for a single card before this card is stashed
-                self.session.mark_card_as_played()
+                    self.session.mark_ship_card_as_played()
+                elif card.id == 'back':
+                    # We first mark the card as played so we can make extra room for the player's card deck
+                    # incase the player only has room left for a single card before this card is stashed
+                    self.session.mark_ship_card_as_played()
 
-                # Now we add two cards to the player's stack
-                for i in range(0, 2):
-                    player.add_card(play.card.Card(self.session.deck.pick_currentdeck(), 'Normal', self.session.language))
+                    # Now we add two cards to the player's deck
+                    for i in range(0, 2):
+                        player.add_card(play.card.Card(self.session.deck.pick_currentdeck(), 'Normal', self.session.language))
+
+                elif card.id == 'hack': #TODO drawing 3 cards and choosing 1
+                    self.session.mark_ship_card_as_played()
+                    # Marking the card als played
+
+                    # Now we add 1 special card to the player's deck
+                    for i in range(0, 1):
+                        player.add_card(play.card.Card(self.session.deck.pick_currentdeck(),'Special', self.session.language))
+
+                elif card.id == 'pir': #TODO
+                    self.session.mark_ship_card_as_played()
+                    # Marking the card as played
+                    pass
+
 
             self.canvas.set_screen(self.prev)
 

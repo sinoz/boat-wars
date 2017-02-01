@@ -1,4 +1,5 @@
 import pygame
+
 import db.db_service
 
 DefenseMode = 0
@@ -27,7 +28,7 @@ class Ship:
         self.rect = pygame.rect.Rect(self.x * self.tile.width, self.y * self.tile.height, self.tile.width, self.tile.height)
 
         self.owner = owner
-        self.received_special_card = False
+        self.last_special_card_turn = 0
 
         self.tile.set_ship(self)
 
@@ -42,6 +43,9 @@ class Ship:
         self.firepower = type[5]
         self.cannon_sound = type[6]
 
+        # Whether this ship is disabled for a turn
+        self.disabled = False
+
         # The amount of tiles the ship has left to move over
         self.remaining_tiles = self.moverange
 
@@ -51,6 +55,7 @@ class Ship:
         # Card effects
         self.fmj_upgrade = False
         self.rifling = False
+        self.emp = False
         self.better_rifling = False
         self.reinforced_hull = False
         self.applied_smokescreen = False
@@ -147,6 +152,15 @@ class Ship:
         self.remaining_tiles = self.moverange
         self.fire_count = 0
 
+    # Resets the deactivation of this ship
+    def reset_deactivation(self):
+        self.disabled = False
+
+    # Turns the image of this ship into a wreck.
+    def wreck(self):
+        self.image = pygame.image.load('resources/ships/3.png')
+        self.size = 1
+
     # Apply card effects
     def apply_card_effect(self, card):
         # Normal cards
@@ -168,14 +182,21 @@ class Ship:
             self.remaining_tiles += 1
         elif card.id == 'sab': # Sabotage, bouncing an attack back to the attacker
             self.sabotage = True
-        elif card.id == 'son': # Smokescreen, dismissing an attack.
+        elif card.id == 'emp': # EMP Upgrade, deactivating an opponent ship for one turn
+            self.emp = True
+        elif card.id == 'smok': # Smokescreen, dismissing an attack.
             self.applied_smokescreen = True
 
         # Special cards
         elif card.id == 'rep': # Repairs the ship
             self.restore_health()
         elif card.id == 'alu': # Aluminium Hall, increasing the current moverange
-            self.moverange *= 2
+            self.moverange *= 2 # TODO instead make the ship able to move twice?
+            self.remaining_tiles = self.moverange
+        elif card.id == 'far:': # Far sight, increasing the current firerange
+            self.firerange += 2
+        elif card.id == 'flak': # Mine armor, invulnerable against mines
+            self.mine_armor = True
 
         print(card.id)
 
@@ -190,15 +211,10 @@ class Ship:
         # Reset all of the stats back to its original state
         self.reset_firepower()
         self.reset_firerange()
-        self.reset_moverange()
 
     # Restores this ship's health
     def restore_health(self):
         self.health = self.type[3]
-
-    # Resets the moverange back to its original state
-    def reset_moverange(self):
-        self.moverange = self.type[2]
 
     # Resets the firerange back to its original state
     def reset_firerange(self):
