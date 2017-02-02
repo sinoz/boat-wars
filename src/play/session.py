@@ -417,7 +417,7 @@ class Session:
                 sound.Plopperdeplop.tune(self, attacker.cannon_sound)
                 opponent.health -= attacker.firepower
             else:
-                sound.Plopperdeplop.tune(self, 'smoke')
+                sound.Plopperdeplop.tune(self, 'smoke', volume=8.0)
                 opponent.applied_smokescreen = False
         else:
             # Do this before we call fire(), else we end up an infinite recursion

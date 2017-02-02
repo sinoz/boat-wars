@@ -2,7 +2,7 @@ import pygame
 current_song = ''
 
 class Plopperdeplop:
-    def tune(self, sound):
+    def tune(self, sound, volume=0.8):
         if sound == 'click':
             Snd = pygame.mixer.Sound('resources/mp3/Click.ogg')
         elif sound == 'cannon_big':
@@ -21,7 +21,7 @@ class Plopperdeplop:
             Snd = pygame.mixer.Sound('resources/mp3/Smoke_effect.ogg')
 
         pygame.mixer.Sound.play(Snd)
-        Snd.set_volume(0.8)
+        Snd.set_volume(volume)
 
     def music(self, song):
         if song == 'intro':
