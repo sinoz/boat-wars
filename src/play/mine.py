@@ -33,6 +33,7 @@ class Mine:
                 ship.wreck()
                 ship.health = 0
 
+        sound.Plopperdeplop.tune(self, 'explosion_ship')
         self.clear()
 
     # Updates the state of this mine per frame
