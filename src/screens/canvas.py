@@ -14,7 +14,7 @@ class Canvas:
         self.running = running
         self.screen = None
         self.language = English
-        self.volume = 0 # TODO move
+        self.volume = 50 # TODO move
         self.activeTextField = None
 
         # NOTE: if you're working on a separate screen (such as hiscores, you can simply
