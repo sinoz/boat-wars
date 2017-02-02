@@ -239,6 +239,11 @@ class Session:
                                 target_ships.append(tile.ship)
 
                         mine.explode(target_ships)
+                        # If the mine exploded the last ship of a player declare a winner
+                        if not self.p1.has_remaining_ships():
+                            self.winner = self.p2
+                        elif not self.p2.has_remaining_ships():
+                            self.winner = self.p1
 
                     self.mark_mine_card_as_played()
 
