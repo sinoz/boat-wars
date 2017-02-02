@@ -60,9 +60,6 @@ class Session:
         self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
 
-        self.p1.add_card(crd.Card('smok', 'Normal', self.language))
-
-
         # Rotate the ships of player one to face the boats of player two
         self.p1.foreach_ship(lambda ship: ship.transform(180))
 
