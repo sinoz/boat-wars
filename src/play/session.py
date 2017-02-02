@@ -103,7 +103,6 @@ class Session:
 
                         tile = self.grid.get(pos[0], pos[1])
                         if not tile.ship is None:
-                            print("ship is disabled: " + str(tile.ship.disabled))
                             if tile.ship.health == 0 or tile.ship.disabled:
                                 continue
 
@@ -114,7 +113,11 @@ class Session:
                                 return
 
                             self.selected_ship = tile.ship
-                            self.draw_type = DrawMoveRange
+
+                            if self.selected_ship.in_attack_mode():
+                                self.draw_type = DrawMoveRange
+                            else:
+                                self.draw_type = DrawFireRange
                         tile.selected = True
 
     # Updates the state of a currently selected ship. Raises an `Exception` if no ship was selected
@@ -207,7 +210,7 @@ class Session:
         self.reset_ship_selection()
         self.reset_card_selection()
 
-    # TODO
+    # Attempts to select a mine that is possibly located at the specified coordinates.
     def select_mine_if_present(self, x, y):
         for mine in self.mines:
             tile = self.grid.get(x, y)
@@ -217,6 +220,7 @@ class Session:
                     if id == 'son':
                         # Sonar deactivates a mine, we might as well remove it then
                         self.mines.remove(mine)
+                        mine.clear()
                     elif id == 'navm':
                         # Remove the mine
                         self.mines.remove(mine)
@@ -236,13 +240,7 @@ class Session:
                             if not tile.ship is None and not tile.ship in target_ships:
                                 target_ships.append(tile.ship)
 
-                        for ship in target_ships:
-                            ship.health -= 2
-
-                            if ship.health <= 0:
-                                sound.Plopperdeplop.tune(self, 'explosion_ship')
-                                ship.wreck()
-                                ship.health = 0
+                        mine.explode(target_ships)
 
                     self.mark_mine_card_as_played()
 

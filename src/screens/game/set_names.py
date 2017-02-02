@@ -20,8 +20,8 @@ class SetNamesScreen:
         self.return_button = widget.button.Button((16, 600), (93, 77), self.return_to_main)
 
         # The username text fields
-        self.p1_name = widget.text_field.TextField(canvas, (105, 380), (250, 250), (0, 0, 0), 30, 12, "Player #1")
-        self.p2_name = widget.text_field.TextField(canvas, (683, 378), (250, 250), (0, 0, 0), 30, 12, "Player #2")
+        self.p1_name = widget.text_field.TextField(canvas, (105, 380), (250, 250), (0, 0, 0), 30, 12, "P#1")
+        self.p2_name = widget.text_field.TextField(canvas, (683, 378), (250, 250), (0, 0, 0), 30, 12, "P#2")
 
         self.canvas.apply_keyboard_focus(self.p1_name)
 
@@ -40,10 +40,11 @@ class SetNamesScreen:
 
     # Initializes a new game session.
     def start_game(self, x, y, cursor):
-        grid = play.grid.Grid(27, 21)
-        session = play.session.Session(self.canvas.language, grid, self.p1_name.text, self.p2_name.text)
+        if not self.p1_name.text is self.p2_name.text:
+            grid = play.grid.Grid(27, 21)
+            session = play.session.Session(self.canvas.language, grid, self.p1_name.text, self.p2_name.text)
 
-        self.canvas.set_screen(screens.game.game.GameScreen(self.canvas, session))
+            self.canvas.set_screen(screens.game.game.GameScreen(self.canvas, session))
 
     # Returns to the main menu screen.
     def return_to_main(self, x, y, cursor):

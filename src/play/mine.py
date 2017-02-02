@@ -1,4 +1,5 @@
 import pygame
+import screens.sound as sound
 
 class Mine:
     def __init__(self, session, tile):
@@ -17,6 +18,22 @@ class Mine:
             for x in range(self.x - delta, self.x + delta):
                 positions.append((x, y))
         return positions
+
+    # Clears this mine from the field.
+    def clear(self):
+        self.tile.set_mine(None)
+
+    # Explodes this mine, damaging all of the specified ships that are in the vicinity.
+    def explode(self, ships):
+        for ship in ships:
+            ship.health -= 2
+
+            if ship.health <= 0:
+                sound.Plopperdeplop.tune(self, 'explosion_ship')
+                ship.wreck()
+                ship.health = 0
+
+        self.clear()
 
     # Updates the state of this mine per frame
     def update(self):
