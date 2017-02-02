@@ -60,6 +60,9 @@ class Session:
         self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
         self.p2.add_card(crd.Card(self.deck.pick_currentdeck(), 'Normal', self.language))
 
+        self.p1.add_card(crd.Card('smok', 'Normal', self.language))
+
+
         # Rotate the ships of player one to face the boats of player two
         self.p1.foreach_ship(lambda ship: ship.transform(180))
 
@@ -224,8 +227,6 @@ class Session:
                     elif id == 'navm':
                         # Remove the mine
                         self.mines.remove(mine)
-
-                        # TODO: play explosion animation
 
                         target_ships = []
                         positions = tile.mine.get_surrounding_pos(3)
@@ -416,7 +417,7 @@ class Session:
                 sound.Plopperdeplop.tune(self, attacker.cannon_sound)
                 opponent.health -= attacker.firepower
             else:
-                # TODO play smokescreen animation/sound
+                sound.Plopperdeplop.tune(self, 'smoke')
                 opponent.applied_smokescreen = False
         else:
             # Do this before we call fire(), else we end up an infinite recursion
