@@ -111,9 +111,9 @@ class GameScreen:
     # Sets a boat to attack mode
     def set_attack_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
-            # Look up the positions this ship would occupy if it were set in attack mode
-            pos_in_atk_mode = self.session.selected_ship.occupied_tile_pos(True)
-            for pos in pos_in_atk_mode:
+            # We reset all of the tiles that the ship currently occupies
+            pos_in_def_mode = self.session.selected_ship.occupied_tile_pos(False)
+            for pos in pos_in_def_mode:
                 sound.Plopperdeplop.tune(self, 'change_mode')
                 # If the ship is standing on the last tiles on the x axis, the ship would be
                 # able to fall off the grid, hence the `return` to prevent switching to defense mode
@@ -130,14 +130,37 @@ class GameScreen:
                 if not tile.ship is None and not tile.ship is self.session.selected_ship:
                     return
 
+                tile.set_ship(None)
+
+            # Look up the positions this ship would occupy if it were set in attack mode
+            pos_in_def_mode = self.session.selected_ship.occupied_tile_pos(True)
+            for pos in pos_in_def_mode:
+                sound.Plopperdeplop.tune(self, 'change_mode')
+                # If the ship is standing on the last tiles on the x axis, the ship would be
+                # able to fall off the grid, hence the `return` to prevent switching to defense mode
+                if self.session.out_of_bounds(pos[0], pos[1]):
+                    return
+
+                # Ignore our current exact position
+                if pos[0] == self.session.selected_ship.x and pos[1] == self.session.selected_ship.y:
+                    continue
+
+                tile = self.session.grid.get(pos[0], pos[1])
+
+                # If we're colliding with ANOTHER ship, we do not switch to defense mode
+                if not tile.ship is None and not tile.ship is self.session.selected_ship:
+                    return
+
+                tile.set_ship(self.session.selected_ship)
+
             self.session.selected_ship.switch_attack_mode()
 
     # Sets a boat to defense mode
     def set_defense_mode(self, x, y, cursor):
         if not self.session.selected_ship is None:
-            # Look up the positions this ship would occupy if it were set in defense mode
-            pos_in_atk_mode = self.session.selected_ship.occupied_tile_pos(False)
-            for pos in pos_in_atk_mode:
+            # Look up the positions this ship would occupy if it were set in true mode
+            pos_in_def_mode = self.session.selected_ship.occupied_tile_pos(True)
+            for pos in pos_in_def_mode:
                 sound.Plopperdeplop.tune(self, 'change_mode')
                 # If the ship is standing on the last tiles on the x axis, the ship would be
                 # able to fall off the grid, hence the `return` to prevent switching to defense mode
@@ -154,8 +177,32 @@ class GameScreen:
                 if not tile.ship is None and not tile.ship is self.session.selected_ship:
                     return
 
+                tile.set_ship(None)
+
+            # Look up the positions this ship would occupy if it were set in defense mode
+            pos_in_def_mode = self.session.selected_ship.occupied_tile_pos(False)
+            for pos in pos_in_def_mode:
+                sound.Plopperdeplop.tune(self, 'change_mode')
+                # If the ship is standing on the last tiles on the x axis, the ship would be
+                # able to fall off the grid, hence the `return` to prevent switching to defense mode
+                if self.session.out_of_bounds(pos[0], pos[1]):
+                    return
+
+                # Ignore our current exact position
+                if pos[0] == self.session.selected_ship.x and pos[1] == self.session.selected_ship.y:
+                    continue
+
+                tile = self.session.grid.get(pos[0], pos[1])
+
+                # If we're colliding with ANOTHER ship, we do not switch to attack mode
+                if not tile.ship is None and not tile.ship is self.session.selected_ship:
+                    return
+
+                tile.set_ship(self.session.selected_ship)
+
             if not self.session.selected_ship.reached_fire_limit():
                 self.session.draw_type = play.session.DrawFireRange
+
             self.session.selected_ship.switch_defense_mode()
 
     # Reacts to the user pressing on the 'cards' button

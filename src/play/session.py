@@ -348,11 +348,13 @@ class Session:
                     if ship.rect.colliderect(tile.ship.rect):
                         continue
 
+                    # To prevent players from attacking ships that are already wrecked
                     if self.draw_type == DrawFireRange and tile.ship.health == 0:
                         x += 1
                         continue
 
-                    if self.draw_type == DrawFireRange and tile.ship.owner == self.current_turn:
+                    # To prevent ships from attacking their own ships
+                    if self.draw_type == DrawFireRange and tile.ship.owner == self.current_turn and not tile.ship is ship:
                         x += 1
                         continue
 
@@ -383,17 +385,21 @@ class Session:
                 if self.out_of_bounds(x, y):
                     continue
 
+                # To not mark tiles that the ship is occupying in either mode
+                if y == ship.y and (x >= ship.x and x <= (ship.x + ship.size)):
+                    continue
+
                 tile = self.grid.get(x, y)
                 if not tile.ship is None:
-                    if ship.rect.colliderect(tile.ship.rect):
-                        continue
-
+                    # To prevent players from attacking ships that are already wrecked
                     if self.draw_type == DrawFireRange and tile.ship.health == 0:
                         continue
 
-                    if self.draw_type == DrawFireRange and tile.ship.owner == self.current_turn:
+                    # To prevent ships from attacking their own ships
+                    if self.draw_type == DrawFireRange and tile.ship.owner == self.current_turn and not tile.ship is ship:
                         continue
 
+                    # Cannot draw a move range in defense mode
                     elif self.draw_type == DrawMoveRange:
                         continue
 
