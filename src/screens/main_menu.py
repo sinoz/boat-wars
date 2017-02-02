@@ -6,6 +6,7 @@ import screens.settings as settings
 import screens.experience as exp
 import screens.instructions as instructions
 import screens.sound as sound
+import screens.termination as termination
 
 class MainScreen:
     def __init__(self, canvas):
@@ -27,6 +28,8 @@ class MainScreen:
             x = mouse_pos[0]
             y = mouse_pos[1]
 
+            print(x, y)
+
             if x >= 350 and y >= 140 and x <= 670 and y <= 214:
                 sound.Plopperdeplop.tune(self, 'click')
                 self.canvas.set_screen(exp.ExperienceScreen(self.canvas))
@@ -42,6 +45,9 @@ class MainScreen:
             elif x >= 914 and y >= 603 and x <= 1001 and y <= 679:
                 sound.Plopperdeplop.tune(self, 'click')
                 self.canvas.set_screen(credits.CreditsScreen(self.canvas))
+            elif x >= 20 and y >= 603 and x <= 108 and y <= 675:
+                sound.Plopperdeplop.tune(self, 'click')
+                self.canvas.set_screen(termination.ExitScreen(self.canvas))
 
     # Updates this main menu screen.
     def update(self):
