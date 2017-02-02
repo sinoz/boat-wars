@@ -47,7 +47,7 @@ class MainScreen:
                 self.canvas.set_screen(credits.CreditsScreen(self.canvas))
             elif x >= 20 and y >= 603 and x <= 108 and y <= 675:
                 sound.Plopperdeplop.tune(self, 'click')
-                self.canvas.set_screen(termination.ExitScreen(self.canvas))
+                self.canvas.set_screen(termination.ExitScreen(self.canvas, self))
 
     # Updates this main menu screen.
     def update(self):
